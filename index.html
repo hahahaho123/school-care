@@ -294,9 +294,9 @@ function fillDatalist(){const cur=regions();
  document.getElementById('rgList').innerHTML=all.map(r=>`<option value="${esc(r)}">`).join('')}
 /* 점검 항목: 플랫폼의 유지보수 현황과 동일 구성 */
 const ITEMS=[{k:'p1',n:'1차 정기점검',c:'p'},{k:'p2',n:'2차 정기점검',c:'p'},{k:'re',n:'재교육',c:'r'}];
-const blank=()=>({p1:false,p1Date:'',p2:false,p2Date:'',re:false,reDate:'',special:0,issue:false,who:'',note:''});
+const blank=()=>({p1:false,p1Date:'',p2:false,p2Date:'',re:false,reDate:'',special:0,issue:false,who:'',note:'',mt:0});
 const fresh=()=>({schools:SEED.map((s,i)=>Object.assign({id:'s'+(i+1),order:i+1,name:s[0],region:s[1]},blank())),
- history:[],cycle:{p:6,r:12},v:3});
+ history:[],cycle:{p:6,r:12},tomb:{},v:3});
 
 const LS=(()=>{const K='hrCheck.v3';let mem=null;
  const can=(()=>{try{localStorage.setItem('__t','1');localStorage.removeItem('__t');return 1}catch(e){return 0}})();
@@ -304,19 +304,16 @@ const LS=(()=>{const K='hrCheck.v3';let mem=null;
  set(d){mem=d;if(!can)return;try{localStorage.setItem(K,JSON.stringify(d))}catch(e){}},on:can}})();
 
 let DB=LS.get()||fresh();
-if(!DB.history)DB.history=[]; if(!DB.cycle)DB.cycle={p:6,r:12};
+if(!DB.history)DB.history=[]; if(!DB.cycle)DB.cycle={p:6,r:12}; if(!DB.tomb)DB.tomb={};
 DB.schools.forEach(s=>{const b=blank();for(const k in b)if(s[k]===undefined)s[k]=b[k]});
 
 /* ============== 동기화 설정 ==============
-   1) GOOGLE_CLIENT_ID 에 클라이언트 ID를 붙여넣으면 자동 동기화가 켜집니다.
-   2) DRIVE_FILE 은 이 앱 전용 파일명입니다.
-      PC 플랫폼이 쓰는 파일(data.json)과 이름이 달라 서로 건드리지 않습니다.
-      ※ 이 값을 절대 'data.json' 으로 바꾸지 마세요. */
-const GOOGLE_CLIENT_ID = '1003808853488-mfbeuhn3met808eapmddv22ed482tdup.apps.googleusercontent.com';
-const DRIVE_FILE = 'school-care.json';
-const POLL_SEC = 60;
+   구글 시트(Apps Script 웹 앱) 주소를 SYNC_URL 에 넣으면 자동 동기화가 켜집니다.
+   직원은 구글 로그인을 하지 않습니다. */
+const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
+const SYNC_KEY = 'hr-school-care-2026';   // 시트 코드의 SECRET 과 같아야 합니다
+const POLL_SEC = 60;                      // 몇 초마다 최신 확인
 /* ======================================== */
-if(DRIVE_FILE==='data.json') throw new Error('DRIVE_FILE 이름이 PC 플랫폼과 충돌합니다');
 
 const T=new Date();T.setHours(0,0,0,0);
 const p2s=n=>String(n).padStart(2,'0');
@@ -332,7 +329,10 @@ const cyOf=c=>c==='r'?DB.cycle.r:DB.cycle.p;
 const doneAll=s=>s.p1&&s.p2&&s.re;
 
 let curRg='전체';
-function save(){DB.updatedAt=Date.now();LS.set(DB);queuePush()}
+function save(id){const now=Date.now();
+ if(id){const s=S(id);if(s)s.mt=now}
+ DB.updatedAt=now;LS.set(DB);queuePush()}
+function touchAll(){const n=Date.now();DB.schools.forEach(s=>s.mt=n)}
 const S=id=>DB.schools.find(x=>x.id===id);
 
 function rgrid(){document.getElementById('rgrid').innerHTML=regions().map(r=>{
@@ -392,26 +392,26 @@ function rd(){
        </div></div>
    </div></div>`}).join('')}
 
-function tog(id,k,v){const s=S(id);s[k]=v;if(v&&!s[k+'Date'])s[k+'Date']=iso(T);save();rd()}
+function tog(id,k,v){const s=S(id);s[k]=v;if(v&&!s[k+'Date'])s[k+'Date']=iso(T);save(id);rd()}
 function setD(id,k,v){const s=S(id);const old=s[k+'Date'];
  if(old&&old!==v)DB.history.push({id:'h'+Date.now()+Math.random().toString(36).slice(2,5),
    schoolId:id,type:k,date:old,who:s.who,note:s.note});
- s[k+'Date']=v;s[k]=!!v;save();rd()}
-function setF(id,k,v){S(id)[k]=v.trim();save()}
-function setI(id,v){S(id).issue=v;save();chips();rd()}
-function spc(id,d){const s=S(id);s.special=Math.max(0,(s.special||0)+d);save();rd()}
+ s[k+'Date']=v;s[k]=!!v;save(id);rd()}
+function setF(id,k,v){S(id)[k]=v.trim();save(id)}
+function setI(id,v){S(id).issue=v;save(id);chips();rd()}
+function spc(id,d){const s=S(id);s.special=Math.max(0,(s.special||0)+d);save(id);rd()}
 function addSchool(){const n=document.getElementById('nName').value.trim();
  if(!n)return ts('학교명을 입력하세요');
  if(DB.schools.some(s=>s.name===n))return ts('이미 등록된 학교입니다');
  const rg=document.getElementById('nRg').value.trim()||'기타';
  DB.schools.push(Object.assign({id:'s'+Date.now()+Math.random().toString(36).slice(2,5),
-  order:DB.schools.reduce((a,s)=>Math.max(a,s.order),0)+1,name:n,region:rg},blank()));
+  order:DB.schools.reduce((a,s)=>Math.max(a,s.order),0)+1,name:n,region:rg,mt:Date.now()},blank()));
  document.getElementById('nName').value='';save();chips();rd();ts(n+' 추가 완료 ('+rg+')')}
 function setRegion(id,v){const s=S(id);const r=v.trim();if(!r)return;
- s.region=r;save();chips();rd();openH(id);ts('지역을 '+r+'(으)로 변경했습니다')}
+ s.region=r;save(id);chips();rd();openH(id);ts('지역을 '+r+'(으)로 변경했습니다')}
 function renameSchool(id,v){const s=S(id);const n=v.trim();if(!n)return;
  if(DB.schools.some(x=>x.id!==id&&x.name===n))return ts('같은 이름의 학교가 있습니다');
- s.name=n;save();rd();document.getElementById('hTt').textContent=n;ts('학교명을 변경했습니다')}
+ s.name=n;save(id);rd();document.getElementById('hTt').textContent=n;ts('학교명을 변경했습니다')}
 
 function openH(id){const s=S(id);
  const hs=DB.history.filter(h=>h.schoolId===id).sort((a,b)=>b.date.localeCompare(a.date));
@@ -439,6 +439,7 @@ function openH(id){const s=S(id);
   <div style="height:14px"></div>`;
  op('ovH')}
 function delSchool(id){const s=S(id);if(!confirm(s.name+'을(를) 삭제할까요?'))return;
+ DB.tomb=DB.tomb||{};DB.tomb[id]=Date.now();
  DB.schools=DB.schools.filter(x=>x.id!==id);DB.history=DB.history.filter(h=>h.schoolId!==id);
  save();cl('ovH');chips();rd();ts('삭제했습니다')}
 
@@ -524,6 +525,7 @@ function doDel(){
  const hist=DB.history.filter(h=>delSel.has(h.schoolId)).length;
  const list=names.slice(0,6).join('\n· ')+(names.length>6?`\n외 ${names.length-6}개교`:'');
  if(!confirm(`아래 ${names.length}개 학교를 삭제합니다.\n\n· ${list}\n\n체크 내용과 지난 기록 ${hist}건도 함께 삭제되며 되돌릴 수 없습니다.\n계속할까요?`))return;
+ DB.tomb=DB.tomb||{};const now=Date.now();delSel.forEach(id=>DB.tomb[id]=now);
  DB.schools=DB.schools.filter(s=>!delSel.has(s.id));
  DB.history=DB.history.filter(h=>!delSel.has(h.schoolId));
  delSel.clear();save();cl('ovD');chips();rd();ts(names.length+'개 학교를 삭제했습니다')}
@@ -552,107 +554,82 @@ if(!LS.on)document.getElementById('modePill').textContent='임시 저장 모드'
  l.href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/manifest+json'}));
  document.head.appendChild(l)})();
 
-/* ======= Google Drive(앱 전용 폴더) 자동 동기화 =======
-   · 이 앱은 오직 DRIVE_FILE 한 개만 읽고 씁니다.
-   · 다른 파일은 조회조차 하지 않으므로 PC 플랫폼 데이터에 영향이 없습니다. */
-let gTok=null,gFile=null,tokenClient=null,busy=false,pushT=null,pollT=null,errN=0;
+/* =========== 구글 시트 자동 동기화 ===========
+   · 직원은 구글 로그인을 하지 않습니다.
+   · 학교 단위로 병합되어 서로 다른 학교를 동시에 수정해도 모두 보존됩니다. */
+let busy=false,pushT=null,pollT=null,errN=0,applying=false;
 const $=i=>document.getElementById(i);
 function sst(k,txt,desc){$('sDot').className='dot '+k;$('sTxt').textContent=txt;
  if(desc!==undefined)$('sDesc').textContent=desc;
- $('modePill').textContent = k==='g'?'동기화 켜짐':(k==='y'?'동기화 중…':(k==='r'?'로그인 필요':'기기 저장'))}
+ $('modePill').textContent = k==='g'?'동기화 켜짐':(k==='y'?'동기화 중…':(k==='r'?'동기화 오류':'기기 저장'))}
 function stamp(t){if(!t)return'-';const d=new Date(t);
  return p2s(d.getMonth()+1)+'.'+p2s(d.getDate())+' '+p2s(d.getHours())+':'+p2s(d.getMinutes())}
 
-function startSync(){
- if(!GOOGLE_CLIENT_ID){
-  $('gBtn').classList.add('o');$('gBtn').textContent='설정 방법 보기';$('gBtn').onclick=guide;
-  sst('','기기 저장 모드','설정하면 앱을 켤 때마다 자동으로 동기화됩니다. 지금은 이 기기에만 저장됩니다.');
-  return}
- $('gBtn').innerHTML='<svg viewBox="0 0 24 24"><path fill="currentColor" d="M21.35 11.1H12v2.98h5.35c-.23 1.4-1.7 4.1-5.35 4.1-3.22 0-5.85-2.66-5.85-5.94S8.78 6.3 12 6.3c1.83 0 3.06.78 3.76 1.45l2.56-2.47C16.7 3.75 14.53 2.8 12 2.8 6.98 2.8 2.9 6.88 2.9 11.9S6.98 21 12 21c5.5 0 9.15-3.87 9.15-9.32 0-.63-.07-1.1-.16-1.58z"/></svg>Google 로그인';
- $('gBtn').onclick=gAuth;
- sst('y','자동 로그인 시도 중','잠시만 기다려 주세요.');
- const sc=document.createElement('script');sc.src='https://accounts.google.com/gsi/client';sc.async=true;
- sc.onload=()=>{
-  tokenClient=google.accounts.oauth2.initTokenClient({client_id:GOOGLE_CLIENT_ID,
-   scope:'https://www.googleapis.com/auth/drive.appdata',
-   callback:res=>{
-    if(res.error){sst('r','로그인 필요','아래 버튼을 눌러 구글 계정으로 로그인해 주세요.');return}
-    gTok=res.access_token;try{sessionStorage.setItem('hrTok',gTok)}catch(e){}
-    pull(false)}});
-  const c=(()=>{try{return sessionStorage.getItem('hrTok')}catch(e){return null}})();
-  if(c){gTok=c;pull(false)} else tokenClient.requestAccessToken({prompt:''});
-  clearInterval(pollT);
-  pollT=setInterval(()=>{if(!document.hidden&&gTok&&!busy)pull(true)},Math.max(20,POLL_SEC)*1000);
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&gTok&&!busy)pull(true)});
-  window.addEventListener('online',()=>{if(gTok)pull(true)});
- };
- sc.onerror=()=>sst('r','네트워크 오류','인터넷 연결을 확인해 주세요.');
- document.head.appendChild(sc)}
+function adopt(d){
+ if(!d||!d.schools)return false;
+ applying=true;
+ DB=d; if(!DB.history)DB.history=[]; if(!DB.cycle)DB.cycle={p:6,r:12}; if(!DB.tomb)DB.tomb={};
+ DB.schools.forEach(x=>{const b=blank();for(const k in b)if(x[k]===undefined)x[k]=b[k]});
+ LS.set(DB); chips(); rd(); applying=false; return true}
 
-function gAuth(){if(!GOOGLE_CLIENT_ID)return guide();
- if(!tokenClient)return ts('로그인 모듈을 불러오는 중입니다');
- tokenClient.requestAccessToken({prompt:gTok?'':'consent'})}
-function guide(){alert('자동 동기화 켜는 법\n\n'
- +'1) PC 플랫폼에서 쓰고 있는 구글 클라이언트 ID를 찾습니다\n'
- +'   (…apps.googleusercontent.com 형태)\n\n'
- +'2) Google Cloud 콘솔 → 사용자 인증 정보 → 해당 OAuth 클라이언트\n'
- +'   → 승인된 JavaScript 원본에 아래 주소 추가\n'
- +'   https://hahahaho123.github.io\n\n'
- +'3) 클라이언트 ID를 이 파일의 GOOGLE_CLIENT_ID 에 붙여넣기\n\n'
- +'이 앱은 드라이브 앱 전용 폴더의 "'+DRIVE_FILE+'" 파일 하나만\n'
- +'읽고 씁니다. PC 플랫폼 파일에는 접근하지 않습니다.')}
-
-async function api(u,o){o=o||{};o.headers=Object.assign({Authorization:'Bearer '+gTok},o.headers||{});
- const r=await fetch(u,o);
- if(r.status===401||r.status===403){gTok=null;try{sessionStorage.removeItem('hrTok')}catch(e){}throw new Error('auth')}
- if(!r.ok)throw new Error('HTTP '+r.status);return r}
-
-async function findFile(){
- const q=encodeURIComponent("name='"+DRIVE_FILE+"'");
- const j=await(await api('https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q='+q+'&fields=files(id,name)')).json();
- const hit=(j.files||[]).filter(f=>f.name===DRIVE_FILE);   // 이름이 정확히 같은 것만
- return hit.length?hit[0].id:null}
+async function call(method,payload){
+ const u=SYNC_URL+(SYNC_URL.indexOf('?')<0?'?':'&')+'key='+encodeURIComponent(SYNC_KEY)+'&t='+Date.now();
+ const r=await fetch(u, method==='POST'?{method:'POST',body:JSON.stringify(payload)}:{method:'GET'});
+ if(!r.ok)throw new Error('HTTP '+r.status);
+ const j=await r.json();
+ if(j.error)throw new Error(j.error);
+ return j}
 
 async function pull(silent){
- if(!gTok||busy)return;busy=true;if(!silent)sst('y','불러오는 중');
+ if(!SYNC_URL||busy)return; busy=true; if(!silent)sst('y','불러오는 중');
  try{
-  gFile=await findFile();
-  if(gFile){
-   const rem=await(await api('https://www.googleapis.com/drive/v3/files/'+gFile+'?alt=media')).json();
-   const rt=(rem&&rem.updatedAt)||0, lt=DB.updatedAt||0;
-   if(rem&&rem.schools&&rt>lt){
-    DB=rem;if(!DB.history)DB.history=[];if(!DB.cycle)DB.cycle={p:6,r:12};
-    DB.schools.forEach(x=>{const b=blank();for(const k in b)if(x[k]===undefined)x[k]=b[k]});
-    LS.set(DB);chips();rd();if(!silent)ts('최신 데이터를 불러왔습니다')}
-   else if(lt>rt){busy=false;return push()}
-  }else{busy=false;return push()}
-  busy=false;errN=0;
-  sst('g','자동 동기화 켜짐','마지막 저장 '+stamp(DB.updatedAt)+' · '+DRIVE_FILE);
- }catch(e){busy=false;
-  if(e.message==='auth')sst('r','로그인 필요','아래 버튼을 눌러 다시 로그인해 주세요.');
-  else{errN++;sst('r','동기화 오류','입력 내용은 기기에 저장되어 있습니다. 연결되면 자동으로 올라갑니다.')}}}
+  const j=await call('GET');
+  const rt=(j.data&&j.data.updatedAt)||0, lt=DB.updatedAt||0;
+  if(j.data&&j.data.schools&&rt>lt){adopt(j.data); if(!silent)ts('최신 데이터를 불러왔습니다')}
+  else if(lt>rt){busy=false; return push()}
+  busy=false; errN=0;
+  sst('g','자동 동기화 켜짐','마지막 저장 '+stamp(DB.updatedAt)+' · 구글 시트');
+ }catch(e){busy=false;errN++;
+  sst('r','동기화 오류', errN>2?'시트 주소를 확인해 주세요. 입력 내용은 기기에 남아 있습니다.'
+                             :'연결 확인 중… 입력 내용은 기기에 저장되어 있습니다.')}}
 
-function queuePush(){if(!gTok)return;sst('y','저장 중');clearTimeout(pushT);pushT=setTimeout(push,900)}
+function queuePush(){ if(!SYNC_URL||applying)return; sst('y','저장 중');
+ clearTimeout(pushT); pushT=setTimeout(push,900) }
+
 async function push(){
- if(!gTok)return;
+ if(!SYNC_URL)return;
  try{
-  const meta={name:DRIVE_FILE,mimeType:'application/json'};
-  if(!gFile)meta.parents=['appDataFolder'];
-  const fd=new FormData();
-  fd.append('metadata',new Blob([JSON.stringify(meta)],{type:'application/json'}));
-  fd.append('file',new Blob([JSON.stringify(DB)],{type:'application/json'}));
-  const u=gFile?'https://www.googleapis.com/upload/drive/v3/files/'+gFile+'?uploadType=multipart'
-               :'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
-  const j=await(await api(u,{method:gFile?'PATCH':'POST',body:fd})).json();
-  gFile=j.id||gFile;errN=0;
-  sst('g','자동 동기화 켜짐','마지막 저장 '+stamp(DB.updatedAt)+' · '+DRIVE_FILE);
- }catch(e){
-  if(e.message==='auth')sst('r','로그인 필요','아래 버튼을 눌러 다시 로그인해 주세요.');
-  else{errN++;sst('r','저장 실패','연결되면 자동으로 다시 시도합니다.');
-   clearTimeout(pushT);pushT=setTimeout(push,Math.min(30000,3000*errN))}}}
+  const j=await call('POST',{key:SYNC_KEY,data:DB});
+  if(j.data&&j.data.schools&&(j.data.updatedAt||0)>=(DB.updatedAt||0))adopt(j.data);
+  errN=0; sst('g','자동 동기화 켜짐','마지막 저장 '+stamp(DB.updatedAt)+' · 구글 시트');
+ }catch(e){errN++;
+  sst('r','저장 대기','연결되면 자동으로 다시 시도합니다. 입력 내용은 기기에 있습니다.');
+  clearTimeout(pushT); pushT=setTimeout(push,Math.min(30000,3000*errN))}}
+
+function startSync(){
+ if(!SYNC_URL){
+  $('gBtn').classList.add('o'); $('gBtn').textContent='설정 방법 보기'; $('gBtn').onclick=guide;
+  sst('','기기 저장 모드','설정하면 앱을 켤 때마다 자동으로 동기화됩니다. 지금은 이 기기에만 저장됩니다.');
+  return}
+ $('gBtn').textContent='지금 동기화'; $('gBtn').onclick=()=>pull(false);
+ pull(false);
+ clearInterval(pollT);
+ pollT=setInterval(()=>{if(!document.hidden)pull(true)},Math.max(15,POLL_SEC)*1000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull(true)});
+ window.addEventListener('online',()=>pull(true))}
+function gAuth(){ SYNC_URL?pull(false):guide() }
+function guide(){alert('자동 동기화 켜는 법 (약 10분)\n\n'
+ +'1) 구글 스프레드시트에서 빈 시트를 하나 만듭니다\n'
+ +'2) 상단 [확장 프로그램] → [Apps Script]\n'
+ +'3) 전달받은 코드를 붙여넣고 저장\n'
+ +'4) [배포] → [새 배포] → 유형 [웹 앱]\n'
+ +'   · 액세스 권한: 모든 사용자\n'
+ +'   · 실행 계정: 나\n'
+ +'5) 나온 웹 앱 주소를 알려주시면 앱에 넣어 드립니다\n\n'
+ +'직원분들은 구글 로그인을 하지 않습니다.')}
 
 startSync();
-document.getElementById('ver').textContent='빌드 B3 · 저장 '+DRIVE_FILE+' · 동기화 '+(GOOGLE_CLIENT_ID?'설정됨':'미설정');
+document.getElementById('ver').textContent='빌드 C3 · 구글 시트 연동 · 동기화 '+(SYNC_URL?'설정됨':'미설정');
 chips();rd();
 </script>
 </body>
