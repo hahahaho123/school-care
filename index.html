@@ -190,7 +190,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
  min-width:15px;height:15px;border-radius:8px;display:grid;place-items:center;padding:0 3px}
 .sub{display:flex;align-items:center;gap:7px;padding:0 2px 8px;margin-top:-1px}
 .sub .el,.sub .wl{align-self:center}
-.el{font-size:10.5px;font-weight:700;color:var(--ink3);flex:0 0 auto;max-width:38%;
+.el{font-size:10.5px;font-weight:700;color:#B4720C;flex:0 0 auto;max-width:38%;
  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .wl{flex:0 0 auto;margin-left:auto;font-size:10.5px;font-weight:700;color:var(--ink3)}
 .win{flex:1;min-width:0;padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:#fff;
@@ -199,6 +199,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .win:focus{border-color:var(--blue)}
 .win::placeholder{font-weight:600;color:#B6BEC9}
 .wi{font-style:normal;font-size:11px;font-weight:700;color:var(--ink3)}
+.wi.ag{color:#B4720C}
 .mm{margin-top:9px;padding-top:10px;border-top:1px dashed var(--line)}
 .mrow{display:grid;grid-template-columns:96px 1fr;gap:7px;margin-bottom:7px}
 .mrow input{padding:9px 11px;font-size:13.5px}
@@ -221,15 +222,21 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .nd2{width:6px;height:6px;border-radius:50%;background:#FF6B5E;display:none;
  position:absolute;top:3px;right:4px}
 .nd2.on{display:block}
-.pcard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px 13px;margin-bottom:9px}
+.plist{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start}
+@media(min-width:760px){.plist{grid-template-columns:repeat(3,1fr)}}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:11px 12px}
 .pcard.iss{border-color:#F0C4C0;background:#FFFCFC}
-.ptop{display:flex;align-items:center;gap:8px;min-width:0}
-.pnm2{flex:1;min-width:0;font-size:14.5px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pcnt{flex:0 0 auto;font-size:11px;font-weight:800;color:var(--blue);background:var(--tint);
- border-radius:6px;padding:3px 8px}
+.ptop{display:flex;align-items:flex-start;gap:7px;min-width:0}
+.ptop .no{margin-top:1px}
+.pnm2{flex:1;min-width:0;font-size:13.5px;font-weight:800;line-height:1.35;
+ display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pmeta{display:flex;align-items:center;gap:5px;margin-top:7px;flex-wrap:wrap}
+.pissue{font-size:10px;font-weight:800;color:#fff;background:var(--bad);border-radius:5px;padding:2px 6px}
+.pcnt{margin-left:auto;flex:0 0 auto;font-size:10.5px;font-weight:800;color:var(--blue);background:var(--tint);
+ border-radius:6px;padding:3px 7px}
 .pcnt.no{color:var(--ink3);background:var(--bg);font-weight:700}
-.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
-@media(min-width:560px){.pgrid{grid-template-columns:repeat(5,1fr)}}
+.pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin-top:9px}
+@media(min-width:560px){.pgrid{grid-template-columns:repeat(3,1fr)}}
 .pth{aspect-ratio:1;border-radius:9px;overflow:hidden;background:var(--bg);border:1px solid var(--line);
  display:block;padding:0}
 .pth img{width:100%;height:100%;object-fit:cover;display:block}
@@ -731,7 +738,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'N3';
+const BUILD = 'N4';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1678,8 +1685,9 @@ function rdSum(){
    SUMF[s.id]=[flat];
    return `<div class="pcard ${y.issue?'iss':''}">
      <div class="ptop"><span class="no num">${s.order}</span>
-       <span class="pnm2">${hl(s.name,sumQ)}</span>
-       <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
+       <span class="pnm2">${hl(s.name,sumQ)}</span></div>
+     <div class="pmeta"><span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
+       ${y.issue?'<span class="pissue">이슈</span>':''}
        <span class="pcnt ${total?'':'no'}">${total?total+'장':'자료 없음'}</span></div>
      ${total?`<div class="pgrid">${flat.map((fl,fi)=>`
        <button class="pth" onclick="openView(SUMF['${s.id}'][0],${fi})">
@@ -1703,7 +1711,7 @@ function rdSum(){
   const rows=ITEMS.map(i=>{const d=y[i.k+'Date'],n=(y.files[i.k]||[]).length;
    const w=y[i.k+'Who'];
    return `<div class="k">${i.n}</div>
-     <div class="v ${d?'':'off'}">${d?d.replace(/-/g,'.')+' <i class="wi">'+ago(dAgo(d))+'</i>':'미실시'}${w?' <i class="wi">· '+esc(w)+'</i>':''}</div>
+     <div class="v ${d?'':'off'}">${d?d.replace(/-/g,'.')+' <i class="wi ag">'+ago(dAgo(d))+'</i>':'미실시'}${w?' <i class="wi">· '+esc(w)+'</i>':''}</div>
      <div class="fc ${n?'':'no'}">자료 ${n}</div>`}).join('');
   return `<div class="sumcard ${y.issue?'iss':(doneAll(s)?'done':'')}">${head}
     <div class="sumtab" style="margin-top:8px">${rows}
@@ -1726,7 +1734,7 @@ function rdSum(){
    </div>`;
  document.getElementById('sumBd').innerHTML=
   `<div class="sumchips">${chips}</div>${modes}${finder}${stats}
-   ${N?body:'<div class="blank">해당하는 학교가 없습니다.</div>'}
+   ${N?(sumMode==='files'?`<div class="plist">${body}</div>`:body):'<div class="blank">해당하는 학교가 없습니다.</div>'}
    <div style="height:14px"></div>`;
  const el=document.getElementById('sumQi');
  if(sumQ&&el&&sumFocus){el.focus();el.setSelectionRange(sumQ.length,sumQ.length)}
@@ -1907,7 +1915,9 @@ function delUser(id){
 
 /* ============== 업데이트 내역 ============== */
 const CHANGES=[
- {v:'N2',d:'2026-07-31',t:'이번 업데이트',n:[
+ {v:'N4',d:'2026-07-31',t:'이번 업데이트',n:[
+  '전체 요약의 <b>자료 보기가 한 줄에 두 학교씩</b> 나오도록 바꿨습니다 — 한 화면에 두 배로 보입니다',
+  '<b>경과 기간</b>(6개월 경과)을 주황색으로 표시해 눈에 잘 띄도록 했습니다',
   '점검 항목 오른쪽 자료 버튼을 <b>카메라 모양</b>으로 바꿨습니다 — 기기마다 다르게 보이던 문제도 해결됩니다',
   '<b>미해결 이슈 → 이슈 전체보기</b> 로 이름을 바꿨습니다 (건수는 있을 때만 표시)',
   '학교 카드의 미해결 이슈 옆에 <b>추후 조치가 필요하면 체크해주세요</b> 안내를 넣었습니다',
