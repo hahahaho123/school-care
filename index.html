@@ -80,6 +80,16 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .gbtn{flex:0 0 auto;background:var(--navy);color:#fff;border-radius:8px;padding:8px 13px;font-size:12px;font-weight:700;white-space:nowrap}
 .gbtn.o{background:#fff;color:var(--ink2);border:1px solid var(--line)}
 
+.loginbar{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
+ border-radius:11px;margin:8px 16px 0;padding:9px 13px;width:calc(100% - 32px);text-align:left}
+.loginbar .lk{font-size:11px;font-weight:700;color:var(--ink3);flex:0 0 auto}
+.loginbar .lv{font-size:12.5px;font-weight:700;color:var(--ink);flex:1;min-width:0;
+ overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.loginbar .lg{font-size:11px;font-weight:700;color:var(--blue);flex:0 0 auto}
+.onm{position:relative;padding-left:12px}
+.onm::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+ width:6px;height:6px;border-radius:50%;background:#12A150}
+.ondot{color:var(--ink3);margin:0 6px}
 .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:9px;margin:12px 16px 0}
 .rbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 12px;text-align:left}
 .rbox.on{border-color:var(--navy);box-shadow:0 0 0 1.5px var(--navy) inset}
@@ -231,6 +241,16 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 .bigth .cap{display:block;font-size:10.5px;color:var(--ink2);font-weight:600;padding:6px 8px;
  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nofile{text-align:center;padding:22px;color:var(--ink3);font-size:12.5px;background:var(--line2);border-radius:10px;margin-top:10px}
+.lgday{font-size:11px;font-weight:800;color:var(--ink3);margin:14px 2px 7px}
+.lgday:first-child{margin-top:0}
+.lgrow{display:grid;grid-template-columns:42px 74px 1fr;gap:8px;align-items:baseline;
+ background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin-bottom:6px}
+.lgt{font-size:11px;font-weight:700;color:var(--ink3);font-variant-numeric:tabular-nums}
+.lgu{font-size:11.5px;font-weight:800;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lgm{font-size:12.5px;color:var(--ink2);line-height:1.5;word-break:break-word}
+.lgm b{color:var(--ink);font-weight:800}
+.lgm i{font-style:normal;font-size:10px;font-weight:700;color:var(--ink3);background:var(--line2);
+ padding:1px 6px;border-radius:4px;margin-left:5px}
 .dtop{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 13px;margin-bottom:9px}
 .drow{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:7px;cursor:pointer}
 .drow.on{border-color:#F0C4C0;background:#FFF9F9}
@@ -257,6 +277,14 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 .lbox .inp:focus{border-color:var(--navy)}
 .lerr{font-size:12px;font-weight:700;color:var(--bad);margin-top:9px;min-height:16px}
 .lbtn{width:100%;padding:14px;border-radius:10px;background:var(--navy);color:#fff;font-size:15px;font-weight:800}
+.lhelp{margin-top:22px;padding-top:16px;border-top:1px solid var(--line2);text-align:center;
+ font-size:11.5px;font-weight:700;color:var(--ink3);line-height:1.9}
+.lhelp a{color:var(--navy);text-decoration:none;font-weight:800;font-size:12px}
+.llink{width:100%;padding:12px;margin-top:9px;font-size:13px;font-weight:700;color:var(--ink2);
+ background:#fff;border:1px solid var(--line);border-radius:10px}
+.idrow{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:9px;background:#fff;overflow:hidden}
+.idrow .inp{border:none;border-radius:0;flex:1;min-width:0}
+.idrow .dom{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--ink3);padding:0 11px;white-space:nowrap}
 .lsave{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink2);margin:14px 0 4px}
 .lsave input{width:18px;height:18px;accent-color:var(--navy);margin:0}
 .man h4{margin:20px 0 8px;font-size:13.5px;font-weight:800;display:flex;align-items:flex-start;gap:7px;line-height:1.45}
@@ -336,6 +364,12 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 </div>
 
 <div class="pastbar" id="pastBar" style="display:none">선택한 연도: <span id="pastY"></span><button onclick="setYear(Y0())">올해로</button></div>
+<button class="loginbar" id="loginBar" onclick="openLogins()">
+  <span class="lk">최근 로그인</span>
+  <span class="lv" id="loginNow">-</span>
+  <span class="lg">전체 ›</span>
+</button>
+
 <div class="rgrid" id="rgrid"></div>
 <div class="chips" id="chips"></div>
 
@@ -370,9 +404,33 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
   <input class="inp" type="text" id="lName" autocomplete="off" autocapitalize="off" spellcheck="false">
   <label class="fl" style="margin-top:13px">접속 비밀번호</label>
   <input class="inp" type="password" id="lPw" autocomplete="off">
-  <label class="lsave"><input type="checkbox" id="lKeep" checked> 아이디 자동 저장</label>
+  <label class="lsave"><input type="checkbox" id="lKeep" checked> 아이디 저장</label>
   <div class="lerr" id="lErr"></div>
   <button class="lbtn" onclick="doLogin()">시작하기</button>
+  <div class="two" style="gap:7px;margin-top:9px">
+    <button class="llink" style="margin:0" onclick="showJoin()">회원가입</button>
+    <button class="llink" style="margin:0" onclick="showReset()">비밀번호 찾기</button>
+  </div>
+  <div class="lhelp">계정 발급 · 비밀번호 문의<br>
+    <a href="mailto:dhdprtm12@hankook-robotics.com">안성용 &nbsp;dhdprtm12@hankook-robotics.com</a></div>
+</div></div>
+
+<div class="lock off" id="join"><div class="lbox">
+  <img class="llogo" id="jLogo" src="" alt="한국로보틱스">
+  <div class="lt">회원가입</div><div class="ls">관리자 승인 후 이용할 수 있습니다</div>
+  <label class="fl" style="margin-top:20px">아이디</label>
+  <div class="idrow"><input class="inp" type="text" id="jId" autocomplete="off" autocapitalize="off" spellcheck="false"><span class="dom">@hankook-robotics.com</span></div>
+  <label class="fl" style="margin-top:12px">이름</label>
+  <input class="inp" type="text" id="jName" autocomplete="off">
+  <label class="fl" style="margin-top:12px">비밀번호</label>
+  <input class="inp" type="password" id="jPw" autocomplete="off">
+  <label class="fl" style="margin-top:12px">비밀번호 확인</label>
+  <input class="inp" type="password" id="jPw2" autocomplete="off">
+  <div class="lerr" id="jErr"></div>
+  <button class="lbtn" onclick="doJoin()">가입 신청</button>
+  <button class="llink" onclick="hideJoin()">로그인으로 돌아가기</button>
+  <div class="lhelp">계정 발급 · 비밀번호 문의<br>
+    <a href="mailto:dhdprtm12@hankook-robotics.com">안성용 &nbsp;dhdprtm12@hankook-robotics.com</a></div>
 </div></div>
 
 <div class="ov" id="ovM" onclick="if(event.target===this)cl('ovM')"><div class="sheet">
@@ -412,6 +470,41 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 <div class="ov" id="ovSum" onclick="if(event.target===this)cl('ovSum')"><div class="sheet" style="max-width:640px">
   <div class="shd"><h3>학교 전체 요약</h3><span id="sumCnt" style="font-size:12px;font-weight:700;color:var(--ink3)"></span><button class="cls" onclick="cl('ovSum')">✕</button></div>
   <div class="sbd" id="sumBd"></div></div></div>
+
+<div class="lock off" id="rst"><div class="lbox">
+  <img class="llogo" id="rLogo" src="" alt="한국로보틱스">
+  <div class="lt">비밀번호 찾기</div><div class="ls" id="rSub">가입한 메일로 인증번호를 보내드립니다</div>
+
+  <div id="rStep1">
+    <label class="fl" style="margin-top:20px">아이디</label>
+    <div class="idrow"><input class="inp" type="text" id="rId" autocomplete="off" autocapitalize="off" spellcheck="false"><span class="dom">@hankook-robotics.com</span></div>
+    <div class="lerr" id="rErr"></div>
+    <button class="lbtn" onclick="sendReset()">인증번호 받기</button>
+  </div>
+
+  <div id="rStep2" style="display:none">
+    <label class="fl" style="margin-top:20px">인증번호 6자리</label>
+    <input class="inp" type="text" id="rCode" inputmode="numeric" maxlength="6" autocomplete="off">
+    <label class="fl" style="margin-top:12px">새 비밀번호</label>
+    <input class="inp" type="password" id="rPw" autocomplete="off">
+    <label class="fl" style="margin-top:12px">새 비밀번호 확인</label>
+    <input class="inp" type="password" id="rPw2" autocomplete="off">
+    <div class="lerr" id="rErr2"></div>
+    <button class="lbtn" onclick="confirmReset()">비밀번호 변경</button>
+  </div>
+
+  <button class="llink" onclick="hideReset()">로그인으로 돌아가기</button>
+  <div class="lhelp">계정 발급 · 비밀번호 문의<br>
+    <a href="mailto:dhdprtm12@hankook-robotics.com">안성용 &nbsp;dhdprtm12@hankook-robotics.com</a></div>
+</div></div>
+
+<div class="ov" id="ovLgi" onclick="if(event.target===this)cl('ovLgi')"><div class="sheet" style="max-width:480px">
+  <div class="shd"><h3>접속 현황</h3><span id="lgiCnt" style="font-size:12px;font-weight:700;color:var(--ink3)"></span><button class="cls" onclick="cl('ovLgi')">✕</button></div>
+  <div class="sbd" id="lgiBd"></div></div></div>
+
+<div class="ov" id="ovL" onclick="if(event.target===this)cl('ovL')"><div class="sheet" style="max-width:560px">
+  <div class="shd"><h3>변경 이력</h3><span id="lgCnt" style="font-size:12px;font-weight:700;color:var(--ink3)"></span><button class="cls" onclick="cl('ovL')">✕</button></div>
+  <div class="sbd" id="lgBd"></div></div></div>
 
 <div class="ov" id="ovU" onclick="if(event.target===this)cl('ovU')"><div class="sheet">
   <div class="shd"><h3>계정 관리</h3><button class="cls" onclick="cl('ovU')">✕</button></div>
@@ -453,7 +546,10 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'H8';
+const BUILD = 'J9';
+const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
+const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
+const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
 /* ================================== */
 
 const SEED=[['숭곡중학교','서울'],['인화여자중학교','인천'],['내곡중학교','서울'],['서울고일초등학교','서울'],
@@ -483,7 +579,8 @@ function yearList(){const set=new Set([Y0(),YEAR]);
 const DEFAULT_USERS=()=>[
  {id:'admin',pw:'admin',name:'관리자',role:'admin',mt:0},
  {id:'HR01', pw:'0000', name:'',      role:'user', mt:0}];
-const fresh=()=>({schools:SEED.map((s,i)=>Object.assign({id:'s'+(i+1),order:i+1,name:s[0],region:s[1]},blank(),{years:{[Y0()]:yrec()}})),
+const LOGCAP=3000, LOGINCAP=300;
+const fresh=()=>({logs:[],logins:[],presence:{},schools:SEED.map((s,i)=>Object.assign({id:'s'+(i+1),order:i+1,name:s[0],region:s[1]},blank(),{years:{[Y0()]:yrec()}})),
  history:[],users:DEFAULT_USERS(),utomb:{},cycle:{p:6,r:12},tomb:{},v:5});
 
 const LS=(()=>{const K='hrCheck.v4';let mem=null;
@@ -495,6 +592,10 @@ let DB=LS.get()||fresh();
 function normalize(){
  if(!DB.history)DB.history=[]; if(!DB.cycle)DB.cycle={p:6,r:12}; if(!DB.tomb)DB.tomb={};
  if(!DB.utomb)DB.utomb={};
+ if(!Array.isArray(DB.logs))DB.logs=[];
+ if(!Array.isArray(DB.logins))DB.logins=[];
+ if(!DB.presence||typeof DB.presence!=='object')DB.presence={};
+ DB.logins.forEach(g=>{if(!g.id)g.id='i'+String(g.t||0).toString(36)+String(g.ui||'').slice(0,6)});
  if(!Array.isArray(DB.users)||!DB.users.length)DB.users=DEFAULT_USERS();
  DEFAULT_USERS().forEach(d=>{if(!DB.users.some(u=>u.id===d.id)&&!DB.utomb[d.id])DB.users.push(d)});
  if((DB.usersV||1)<2){const u=DB.users.find(x=>String(x.id).toLowerCase()==='hr01');
@@ -534,7 +635,8 @@ function lvl(date,cy){if(!date)return'';const n=dAgo(date);if(n===null||n<0)retu
  const L=cy*30.44;return n>L?'bad':(n>L*.8?'warn':'ok')}
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const cyOf=c=>c==='r'?DB.cycle.r:DB.cycle.p;
-const doneAll=s=>ITEMS.every(i=>Y(s)[i.k]);
+const OK=(y,k)=>!!(y[k]&&y[k+'Date']);
+const doneAll=s=>{const y=Y(s);return ITEMS.every(i=>OK(y,i.k))};
 const S=id=>DB.schools.find(x=>x.id===id);
 function regions(){const seen=[];DB.schools.forEach(s=>{if(s.region&&seen.indexOf(s.region)<0)seen.push(s.region)});
  return seen.sort((a,b)=>{const ia=RG_PRESET.indexOf(a),ib=RG_PRESET.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib)||a.localeCompare(b,'ko')})}
@@ -553,19 +655,141 @@ function setYear(y){
  document.getElementById('pastBar').style.display=past?'flex':'none';
  document.getElementById('pastY').textContent=YEAR+'년';
  fillYears();chips();rd();ts(YEAR+'년 기록입니다')}
+function LOG(schoolId,msg){
+ const s=schoolId?S(schoolId):null;
+ DB.logs=DB.logs||[];
+ DB.logs.push({id:'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+  t:Date.now(), u:(ME?(ME.name||ME.id):'-'), ui:(ME?ME.id:''),
+  s:schoolId||'', n:s?s.name:'', y:YEAR, m:msg});
+ if(DB.logs.length>LOGCAP)DB.logs=DB.logs.slice(-LOGCAP)}
 function save(id){const now=Date.now();if(id){const s=S(id);if(s)s.mt=now}
  DB.updatedAt=now;LS.set(DB);queuePush()}
 
 /* ============== 접속 ============== */
 const UKEY='hrUser.v1',NKEY='hrName.v1';let ME=null;
-try{ME=JSON.parse(localStorage.getItem(UKEY)||'null')}catch(e){}
-if(!ME){try{ME=JSON.parse(sessionStorage.getItem(UKEY)||'null')}catch(e){}}
+/* 로그인 세션은 세션 저장소에만 둡니다.
+   앱을 완전히 종료하면 비워져서 다음 실행 때 비밀번호를 다시 입력합니다. */
+try{ME=JSON.parse(sessionStorage.getItem(UKEY)||'null')}catch(e){}
+try{localStorage.removeItem(UKEY)}catch(e){}
+/* ===== 미사용 자동 로그아웃 ===== */
+const AKEY='hrAct.v1';
+let lastAct=Date.now(), actT=null, idleT=null;
+function readAct(){try{return +(localStorage.getItem(AKEY)||0)}catch(e){return 0}}
+function beat(force){
+ if(!ME)return;
+ DB.presence=DB.presence||{};
+ const now=Date.now(), cur=DB.presence[ME.id];
+ if(!force && cur && now-cur.t < (BEAT_MIN-1)*60*1000) return;
+ DB.presence[ME.id]={u:ME.name||ME.id,t:now};
+ DB.updatedAt=now;LS.set(DB);queuePush();rdLoginBar()}
+function dropBeat(){
+ if(!ME||!DB.presence)return;
+ delete DB.presence[ME.id];
+ DB.updatedAt=Date.now();LS.set(DB);queuePush()}
+function onlineList(){
+ const now=Date.now(), out=[];
+ Object.keys(DB.presence||{}).forEach(k=>{const p=DB.presence[k];
+  if(p&&now-p.t<ONLINE_MIN*60*1000)out.push({id:k,u:p.u,t:p.t})});
+ return out.sort((a,b)=>b.t-a.t)}
+function markAct(){
+ lastAct=Date.now();beat(false);
+ clearTimeout(actT);
+ actT=setTimeout(()=>{try{localStorage.setItem(AKEY,String(lastAct))}catch(e){}},1000)}
+function idleLock(){
+ if(!ME)return;
+dropBeat();
+ try{sessionStorage.removeItem(UKEY)}catch(e){}
+ ME=null;
+ ['ovM','ovH','ovI','ovSp','ovF','ovN','ovD','ovS','ovU','ovL','ovLgi','ovSum'].forEach(cl);
+ closeView();
+ rdActs();showLock();
+ ts(IDLE_MIN+'분간 사용하지 않아 로그아웃되었습니다');}
+function checkIdle(){
+ if(!ME)return;
+ const t=Math.max(lastAct, readAct());
+ if(Date.now()-t > IDLE_MIN*60*1000) idleLock()}
+['pointerdown','keydown','touchstart','wheel','input','change'].forEach(ev=>
+ document.addEventListener(ev,markAct,{passive:true,capture:true}));
+document.addEventListener('visibilitychange',()=>{
+ if(document.hidden){markAct()} else {checkIdle(); if(ME)markAct()}});
+idleT=setInterval(()=>{checkIdle();beat(false)},20000);
+
 function showLock(){
  let last='';try{last=localStorage.getItem(NKEY)||''}catch(e){}
- if(last)document.getElementById('lName').value=last;
+ if(last){document.getElementById('lName').value=last.replace(DOMAIN,'');
+   document.getElementById('lKeep').checked=true}
+ else document.getElementById('lKeep').checked=true;
  document.getElementById('lock').classList.remove('off');
  setTimeout(()=>document.getElementById(last?'lPw':'lName').focus(),200)}
-function findUser(id){return (DB.users||[]).find(u=>String(u.id).toLowerCase()===String(id).toLowerCase())}
+const DOMAIN='@hankook-robotics.com';
+function findUser(id){id=String(id).trim().toLowerCase();
+ const us=DB.users||[];
+ return us.find(u=>String(u.id).toLowerCase()===id)
+     || us.find(u=>String(u.id).toLowerCase()===id+DOMAIN)}
+let rTarget='';
+function showReset(){rTarget='';
+ ['rId','rCode','rPw','rPw2'].forEach(k=>document.getElementById(k).value='');
+ document.getElementById('rErr').textContent='';document.getElementById('rErr2').textContent='';
+ document.getElementById('rStep1').style.display='';document.getElementById('rStep2').style.display='none';
+ document.getElementById('rSub').textContent='가입한 메일로 인증번호를 보내드립니다';
+ document.getElementById('rst').classList.remove('off');
+ setTimeout(()=>document.getElementById('rId').focus(),150)}
+function hideReset(){document.getElementById('rst').classList.add('off')}
+async function sendReset(){
+ const err=document.getElementById('rErr');
+ const local=document.getElementById('rId').value.trim().toLowerCase();
+ if(!local)return err.textContent='아이디를 입력해 주세요';
+ if(!SYNC_URL)return err.textContent='동기화가 설정되지 않아 사용할 수 없습니다';
+ const id=local.indexOf('@')>=0?local:local+DOMAIN;
+ err.textContent='';ts('인증번호를 보내는 중입니다…');
+ try{
+  await call('POST',{key:SYNC_KEY,action:'reset',id});
+  rTarget=id;
+  document.getElementById('rStep1').style.display='none';
+  document.getElementById('rStep2').style.display='';
+  document.getElementById('rSub').textContent=id+' 로 인증번호를 보냈습니다';
+  setTimeout(()=>document.getElementById('rCode').focus(),150);
+  ts('메일을 확인해 주세요')
+ }catch(e){err.textContent=String(e.message||e).slice(0,60)}}
+async function confirmReset(){
+ const err=document.getElementById('rErr2');
+ const code=document.getElementById('rCode').value.trim();
+ const pw=document.getElementById('rPw').value, pw2=document.getElementById('rPw2').value;
+ if(!/^\d{6}$/.test(code))return err.textContent='인증번호 6자리를 입력해 주세요';
+ if(pw.length<4)return err.textContent='비밀번호는 4자 이상 입력해 주세요';
+ if(pw!==pw2)return err.textContent='비밀번호가 서로 다릅니다';
+ err.textContent='';ts('변경하는 중입니다…');
+ try{
+  await call('POST',{key:SYNC_KEY,action:'resetOk',id:rTarget,code,pw});
+  await pull(true);
+  hideReset();
+  document.getElementById('lName').value=rTarget.replace(DOMAIN,'');
+  document.getElementById('lPw').value='';
+  ts('비밀번호가 변경되었습니다. 새 비밀번호로 로그인해 주세요')
+ }catch(e){err.textContent=String(e.message||e).slice(0,60)}}
+function showJoin(){document.getElementById('jErr').textContent='';
+ ['jId','jName','jPw','jPw2'].forEach(k=>document.getElementById(k).value='');
+ document.getElementById('join').classList.remove('off');
+ setTimeout(()=>document.getElementById('jId').focus(),150)}
+function hideJoin(){document.getElementById('join').classList.add('off')}
+function doJoin(){
+ const err=document.getElementById('jErr');
+ const local=document.getElementById('jId').value.trim().toLowerCase();
+ const nm=document.getElementById('jName').value.trim();
+ const pw=document.getElementById('jPw').value, pw2=document.getElementById('jPw2').value;
+ if(!/^[a-z0-9._-]{2,}$/.test(local))return err.textContent='아이디는 영문·숫자로 2자 이상 입력해 주세요';
+ if(!nm)return err.textContent='이름을 입력해 주세요';
+ if(pw.length<4)return err.textContent='비밀번호는 4자 이상 입력해 주세요';
+ if(pw!==pw2)return err.textContent='비밀번호가 서로 다릅니다';
+ const id=local+DOMAIN;
+ if(findUser(id))return err.textContent='이미 등록된 아이디입니다';
+ DB.users.push({id,pw,name:nm,role:'user',status:'pending',mt:Date.now()});
+ if(DB.utomb)delete DB.utomb[id];
+ DB.updatedAt=Date.now();LS.set(DB);queuePush();
+ hideJoin();
+ document.getElementById('lName').value=local;
+ document.getElementById('lErr').textContent='';
+ ts('가입 신청이 접수되었습니다. 관리자 승인 후 로그인하실 수 있습니다.')}
 function doLogin(){const n=document.getElementById('lName').value.trim();
  const p=document.getElementById('lPw').value,err=document.getElementById('lErr');
  const keep=document.getElementById('lKeep').checked;
@@ -573,19 +797,37 @@ function doLogin(){const n=document.getElementById('lName').value.trim();
  const u=findUser(n);
  if(!u||String(u.pw)!==String(p)){err.textContent='아이디 또는 비밀번호가 올바르지 않습니다';
    document.getElementById('lPw').value='';return}
+ if(u.status==='pending'){err.textContent='관리자 승인 대기 중입니다';
+   document.getElementById('lPw').value='';return}
  ME={id:u.id,name:u.name||u.id,role:u.role||'user',at:Date.now()};
- try{ if(keep){localStorage.setItem(UKEY,JSON.stringify(ME));localStorage.setItem(NKEY,u.id)}
-      else{sessionStorage.setItem(UKEY,JSON.stringify(ME));localStorage.removeItem(UKEY)} }catch(e){}
+ try{ sessionStorage.setItem(UKEY,JSON.stringify(ME));
+      if(keep)localStorage.setItem(NKEY,u.id); else localStorage.removeItem(NKEY); }catch(e){}
  err.textContent='';document.getElementById('lPw').value='';
- document.getElementById('lock').classList.add('off');rdActs();ts((ME.name||ME.id)+'님, 반갑습니다')}
+ document.getElementById('lock').classList.add('off');
+ markAct();try{localStorage.setItem(AKEY,String(Date.now()))}catch(e){}
+ beat(true);touchLogin(true);
+ rdActs();rdLoginBar();ts((ME.name||ME.id)+'님, 반갑습니다')}
+/* 앱을 켤 때마다 접속 기록. 30분 안에 재실행하면 시각만 갱신 */
+function touchLogin(force){
+ if(!ME)return;
+ DB.logins=DB.logins||[];
+ const now=Date.now();
+ let last=null;
+ DB.logins.forEach(g=>{if(g.ui===ME.id&&(!last||g.t>last.t))last=g});
+ if(!force&&last&&now-last.t<30*60*1000){last.t=now;last.u=ME.name||ME.id}
+ else DB.logins.push({id:'i'+now.toString(36)+Math.random().toString(36).slice(2,6),
+   u:ME.name||ME.id,ui:ME.id,t:now});
+ if(DB.logins.length>LOGINCAP)DB.logins=DB.logins.slice(-LOGINCAP);
+ DB.updatedAt=now;LS.set(DB);queuePush();rdLoginBar()}
 function logout(){if(!confirm('로그아웃할까요?'))return;
- try{localStorage.removeItem(UKEY);sessionStorage.removeItem(UKEY)}catch(e){}
+ dropBeat();
+ try{sessionStorage.removeItem(UKEY);localStorage.removeItem(UKEY)}catch(e){}
  ME=null;cl('ovM');rdActs();document.getElementById('lPw').value='';showLock()}
 
 /* ============== 렌더 ============== */
 function hstats(){
  const N=DB.schools.length;
- const cells=ITEMS.map(i=>{const c=DB.schools.filter(s=>Y(s)[i.k]).length;
+ const cells=ITEMS.map(i=>{const c=DB.schools.filter(s=>OK(Y(s),i.k)).length;
   return `<button class="hs" onclick="setFlag('${i.k}')"><div class="t">${i.n}</div>
    <div class="v num">${c}<i>/${N}</i></div><div class="bar"><i style="width:${N?c/N*100:0}%"></i></div></button>`}).join('');
  const ci=DB.schools.filter(s=>Y(s).issue).length;
@@ -625,14 +867,14 @@ const setRg=r=>{curRg=curRg===r&&r!=='전체'?'전체':r;rgrid();chips();rd()};
 function vis(){const q=document.getElementById('q').value.trim();
  let a=DB.schools.slice().sort((x,y)=>x.order-y.order);
  if(curRg!=='전체')a=a.filter(s=>s.region===curRg);
- if(flagK)a=a.filter(s=>!Y(s)[flagK]);
+ if(flagK)a=a.filter(s=>!OK(Y(s),flagK));
  if(q)a=a.filter(s=>s.name.includes(q));return a}
 
 function setRing(n,pc){document.getElementById('pct'+n).textContent=pc+'%';
  document.getElementById('arc'+n).setAttribute('stroke-dashoffset',188.5-188.5*pc/100)}
 function rd(){
  const N=DB.schools.length;
- const c=k=>DB.schools.filter(s=>Y(s)[k]).length;
+ const c=k=>DB.schools.filter(s=>OK(Y(s),k)).length;
  setRing(1,N?Math.round((c('p1')+c('e1'))/(N*2)*100):0);
  setRing(2,N?Math.round((c('p2')+c('e2'))/(N*2)*100):0);
  setRing(3,N?Math.round(DB.schools.filter(s=>Y(s).specials.length).length/N*100):0);
@@ -665,15 +907,16 @@ function rd(){
      </div>
      <label class="isw"><input type="checkbox" ${y.issue?'checked':''} onchange="setI('${s.id}',this.checked)"> 미해결 이슈</label>
    </div></div>`}).join('');
- document.querySelectorAll('.ta').forEach(grow);rdActs()}
+ document.querySelectorAll('.ta').forEach(grow);rdActs();rdLoginBar()}
 function rdActs(){
  const admin=ME&&ME.role==='admin';
  document.getElementById('acts').innerHTML=
-  `<button class="act" onclick="exCSV()">엑셀(CSV) 내보내기</button>`
+  `<button class="act" onclick="openLog()">변경 이력</button>
+   <button class="act" onclick="exCSV()">엑셀(CSV) 내보내기</button>`
   +(admin?`<button class="act" onclick="exJSON()">백업 저장</button>
    <button class="act" onclick="document.getElementById('imp').click()">백업 불러오기</button>
    <button class="act" onclick="openSet()">점검 주기 설정</button>
-   <button class="act" onclick="openUsers()">계정 관리</button>`:'')
+   <button class="act" onclick="openUsers()">계정 관리${(DB.users||[]).filter(u=>u.status==='pending').length?' <b style="color:var(--bad)">'+(DB.users||[]).filter(u=>u.status==='pending').length+'</b>':''}</button>`:'')
   +`<button class="act d" onclick="openDel()">학교 삭제</button>
     <button class="act" onclick="logout()">로그아웃</button>`;
  document.getElementById('whoNow').textContent=ME?((ME.name||ME.id)+' · '+ME.id+(ME.role==='admin'?' (관리자)':'')):''}
@@ -681,13 +924,19 @@ function grow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeigh
 
 /* ============== 편집 ============== */
 function tog(id,k,v){const y=Y(S(id));y[k]=v;if(v&&!y[k+'Date'])y[k+'Date']=iso(T);
- if(v&&!y.who&&ME)y.who=ME.name||ME.id;save(id);rd()}
+ if(v&&!y.who&&ME)y.who=ME.name||ME.id;
+ LOG(id,(NM[k]||k)+(v?' 완료 체크':' 체크 해제'));save(id);rd()}
 function setD(id,k,v){const y=Y(S(id));const old=y[k+'Date'];
+ if(old===v)return;
  if(old&&old!==v)DB.history.push({id:'h'+Date.now()+Math.random().toString(36).slice(2,5),
    schoolId:id,type:k,date:old,who:y.who,note:y.note,year:YEAR});
- y[k+'Date']=v;y[k]=!!v;save(id);rd()}
-function setF(id,k,v){Y(S(id))[k]=v.trim();save(id);if(k==='note')rd()}
-function setI(id,v){Y(S(id)).issue=v;save(id);chips();rd()}
+ y[k+'Date']=v;y[k]=!!v;
+ LOG(id,(NM[k]||k)+' 날짜 '+(old||'없음')+' → '+(v||'없음'));save(id);rd()}
+function setF(id,k,v){const y=Y(S(id));const before=y[k]||'';v=v.trim();
+ if(before===v)return; y[k]=v;
+ LOG(id,(k==='who'?'담당자':'특이사항')+' 수정'+(k==='who'?': '+(before||'없음')+' → '+(v||'없음'):''));
+ save(id);if(k==='note')rd()}
+function setI(id,v){Y(S(id)).issue=v;LOG(id,v?'미해결 이슈 표시':'미해결 이슈 해제');save(id);chips();rd()}
 function addSchool(){const n=document.getElementById('nName').value.trim();
  if(!n)return ts('학교명을 입력하세요');
  if(DB.schools.some(s=>s.name===n))return ts('이미 등록된 학교입니다');
@@ -695,12 +944,12 @@ function addSchool(){const n=document.getElementById('nName').value.trim();
  if(!rg||rg==='__custom')return ts('지역을 선택하세요');
  const ns=Object.assign({id:'s'+Date.now()+Math.random().toString(36).slice(2,5),
   order:DB.schools.reduce((a,s)=>Math.max(a,s.order),0)+1,name:n,region:rg},blank(),{mt:Date.now()});
- Y(ns); DB.schools.push(ns);
+ Y(ns); DB.schools.push(ns); LOG(ns.id,'학교 등록 ('+rg+')');
  document.getElementById('nName').value='';resetRg();save();chips();rd();ts(n+' 추가 완료 ('+rg+')')}
-function setRegion(id,v){const s=S(id),r=v.trim();if(!r)return;s.region=r;save(id);chips();rd();openH(id);ts('지역 변경: '+r)}
+function setRegion(id,v){const s=S(id),r=v.trim();if(!r)return;const b0=s.region;s.region=r;LOG(id,'지역 변경: '+b0+' → '+r);save(id);chips();rd();openH(id);ts('지역 변경: '+r)}
 function renameSchool(id,v){const s=S(id),n=v.trim();if(!n)return;
  if(DB.schools.some(x=>x.id!==id&&x.name===n))return ts('같은 이름의 학교가 있습니다');
- s.name=n;save(id);rd();document.getElementById('hTt').textContent=n;ts('학교명을 변경했습니다')}
+ const o0=s.name;s.name=n;LOG(id,'학교명 변경: '+o0+' → '+n);save(id);rd();document.getElementById('hTt').textContent=n;ts('학교명을 변경했습니다')}
 
 /* ============== 특이사항 크게 보기 ============== */
 let bigId=null;
@@ -750,9 +999,11 @@ function addSpecial(){const s=S(spId),yy=Y(s);
   issue:document.getElementById('spIssue').checked,files:[]};
  yy.specials.push(rec);
  if(rec.issue)yy.issue=true;
+ LOG(spId,'특별점검 추가 ('+rec.date+')');
  save(spId);rdSpecial();chips();rd();ts('특별점검을 추가했습니다')}
 function delSpecial(xid){if(!confirm('이 특별점검 기록을 삭제할까요?'))return;
- const yy=Y(S(spId));yy.specials=yy.specials.filter(x=>x.id!==xid);save(spId);rdSpecial();rd();ts('삭제했습니다')}
+ const yy=Y(S(spId));const d=(yy.specials.find(x=>x.id===xid)||{}).date||'';
+ yy.specials=yy.specials.filter(x=>x.id!==xid);LOG(spId,'특별점검 삭제'+(d?' ('+d+')':''));save(spId);rdSpecial();rd();ts('삭제했습니다')}
 
 /* ============== 점검 자료 ============== */
 let fCtx={id:null,kind:''},FILF=[];
@@ -792,6 +1043,7 @@ function delFile(kind,fid){
  if(kind.indexOf('sp:')===0){const x=y.specials.find(z=>z.id===kind.slice(3));
    if(x)x.files=(x.files||[]).filter(f=>f.id!==fid)}
  else y.files[kind]=(y.files[kind]||[]).filter(f=>f.id!==fid);
+ LOG(fCtx.id,'자료 목록에서 삭제');
  save(fCtx.id);rdFiles();rd();ts('목록에서 지웠습니다')}
 
 let pickTarget=null;
@@ -821,6 +1073,7 @@ document.getElementById('fpick').addEventListener('change',async function(){
    else{ cy.files[kind]=cy.files[kind]||[]; cy.files[kind].push(rec);
      if(!cy[kind]){cy[kind]=true; if(!cy[kind+'Date'])cy[kind+'Date']=iso(T);
        if(!cy.who&&ME)cy.who=ME.name||ME.id} }
+   LOG(id,(NM[kind]||(kind.indexOf('sp:')===0?'특별점검':kind))+' 자료 업로드: '+name);
    cur.mt=Date.now(); DB.updatedAt=Date.now(); LS.set(DB);
    done++;
    if(document.getElementById('ovF').classList.contains('on'))rdFiles();
@@ -860,7 +1113,7 @@ function prep(file){
 /* ============== 이슈 ============== */
 const issueList=()=>DB.schools.filter(s=>Y(s).issue).sort((a,b)=>a.order-b.order);
 function openIssues(){const a=issueList();
- const pend=s=>ITEMS.filter(i=>!Y(s)[i.k]).map(i=>i.n);
+ const pend=s=>ITEMS.filter(i=>!OK(Y(s),i.k)).map(i=>i.n);
  document.getElementById('iBd').innerHTML=a.length?a.map(s=>{const p=pend(s),y=Y(s);
   return `<div class="box" style="border-color:#F0C4C0;background:#FFFCFC">
    <div style="display:flex;align-items:center;gap:7px">
@@ -880,7 +1133,7 @@ function openIssues(){const a=issueList();
 function resolveIssue(id){const y=Y(S(id));
  if(y.note)DB.history.push({id:'h'+Date.now()+Math.random().toString(36).slice(2,5),
   schoolId:id,type:'issue',date:iso(T),who:y.who,note:'[해결] '+y.note,year:YEAR});
- y.issue=false;save(id);chips();rd();openIssues();ts('해결 처리했습니다')}
+ y.issue=false;LOG(id,'이슈 해결 처리');save(id);chips();rd();openIssues();ts('해결 처리했습니다')}
 
 /* ============== 학교 상세 ============== */
 function openH(id){const s=S(id),y=Y(s);
@@ -900,6 +1153,10 @@ function openH(id){const s=S(id),y=Y(s);
     const n=ITEMS.filter(i=>r[i.k]).length,fn=ITEMS.reduce((t,i)=>t+((r.files&&r.files[i.k]||[]).length),0);
     return `<div class="m"><b>${yy}년</b> · 완료 ${n}/${ITEMS.length} · 특별점검 ${(r.specials||[]).length}회 · 자료 ${fn}개
      ${yy!==YEAR?`<button class="act" style="padding:3px 8px;font-size:11px;margin-left:6px" onclick="cl('ovH');setYear('${yy}')">보기</button>`:''}</div>`}).join('')}</div>`:''}
+  ${(()=>{const lg=(DB.logs||[]).filter(g=>g.s===id).sort((a,b)=>b.t-a.t).slice(0,6);
+    return lg.length?`<div class="hd2">최근 변경</div><div class="box">${lg.map(g=>
+      `<div class="m"><b>${fmtT(g.t)}</b> · ${esc(g.u)} · ${esc(g.m)}</div>`).join('')}
+      <button class="act" style="width:100%;margin-top:9px" onclick="cl('ovH');openLog()">전체 변경 이력</button></div>`:''})()}
   <div class="hd2">지난 기록${hs.length?' · '+hs.length+'건':''}</div>
   ${hs.length?hs.map(h=>`<div class="box"><div class="d">${h.date}<span class="tg">${NM[h.type]||h.type}</span>${h.year?`<span class="tg">${h.year}년</span>`:''}</div>
     <div class="m">담당자 ${esc(h.who)||'미기록'}${h.note?' · '+esc(h.note):''}</div></div>`).join('')
@@ -913,6 +1170,7 @@ function openH(id){const s=S(id),y=Y(s);
   <div style="height:14px"></div>`;
  op('ovH')}
 function delSchool(id){const s=S(id);if(!confirm(s.name+'을(를) 삭제할까요?'))return;
+ LOG(id,'학교 삭제');
  DB.tomb=DB.tomb||{};DB.tomb[id]=Date.now();
  DB.schools=DB.schools.filter(x=>x.id!==id);DB.history=DB.history.filter(h=>h.schoolId!==id);
  save();cl('ovH');chips();rd();ts('삭제했습니다')}
@@ -967,8 +1225,8 @@ function rdSum(){
     .concat(y.specials.map(x=>({label:'특별점검 '+(x.date||'').replace(/-/g,'.'),list:x.files||[]})));
   const gl=groups.filter(g=>g.list.length); SUMF[s.id]=gl.map(g=>g.list);
   const total=groups.reduce((t,g)=>t+g.list.length,0);
-  const statline=ITEMS.map(i=>{const d=y[i.k+'Date'],L=lvl(d,cyOf(i.c));
-    return `<span class="st1 ${d?L:'off'}">${i.n} ${d?d.slice(5).replace('-','.'):'미실시'}</span>`}).join('')
+  const statline=ITEMS.map(i=>{const d=y[i.k+'Date'],done=OK(y,i.k),L=lvl(d,cyOf(i.c));
+    return `<span class="st1 ${done?L:'off'}">${i.n} ${done?d.slice(5).replace('-','.'):'미완료'}</span>`}).join('')
     +`<span class="st1 ${y.specials.length?'sp':'off'}">특별 ${y.specials.length}회</span>`;
   const head=`<div class="sumtop"><span class="no num">${s.order}</span><span class="nm">${esc(s.name)}</span>
      <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
@@ -1000,7 +1258,7 @@ function rdSum(){
     :'<div class="nofile">올린 자료가 없습니다</div>'}
    ${meta}</div>`}).join('');
 
- const N=a.length,c=k=>a.filter(s=>Y(s)[k]).length;
+ const N=a.length,c=k=>a.filter(s=>OK(Y(s),k)).length;
  document.getElementById('sumBd').innerHTML=
   `<div class="sumchips">${chips}</div>${modes}
    <div class="box" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
@@ -1016,12 +1274,84 @@ function rdSum(){
    ${N?body:'<div class="blank">해당하는 학교가 없습니다.</div>'}
    <div style="height:14px"></div>`}
 
+/* ============== 로그인 기록 ============== */
+function fmtFull(t){const d=new Date(t);
+ return d.getFullYear()+'-'+p2s(d.getMonth()+1)+'-'+p2s(d.getDate())+' '+p2s(d.getHours())+':'+p2s(d.getMinutes())}
+function rdLoginBar(){
+ const on=onlineList(), el=document.getElementById('loginNow');
+ const lk=document.querySelector('#loginBar .lk');
+ if(on.length){
+  lk.textContent='접속 중 '+on.length+'명';
+  el.innerHTML=on.map(o=>`<span class="onm">${esc(o.u)}</span>`).join('<span class="ondot">·</span>')}
+ else{
+  lk.textContent='최근 로그인';
+  const a=(DB.logins||[]).slice().sort((x,y)=>y.t-x.t);
+  el.textContent=a.length?a[0].u+' , '+fmtFull(a[0].t):'기록 없음'}}
+function openLogins(){
+ const a=(DB.logins||[]).slice().sort((x,y)=>y.t-x.t).slice(0,200);
+ document.getElementById('lgiCnt').textContent=(DB.logins||[]).length?(DB.logins||[]).length+'건':'';
+ let last='';
+ const on=onlineList();
+ const onHtml=on.length?`<div class="hd2" style="color:var(--ok)">접속 중 · ${on.length}명</div>`
+  +on.map(o=>`<div class="lgrow" style="grid-template-columns:auto 1fr auto;border-color:#BFE3D3;background:#FBFEFD">
+     <span style="width:7px;height:7px;border-radius:50%;background:#12A150;align-self:center"></span>
+     <span class="lgu" style="font-size:13px">${esc(o.u)}</span>
+     <span class="lgm" style="text-align:right;font-size:11px;color:var(--ink3)">${fmtT(o.t)} 활동</span></div>`).join('')
+  +`<div class="hd2">로그인 기록</div>`:'';
+ document.getElementById('lgiBd').innerHTML=onHtml+(a.length?a.map(g=>{
+  const d=new Date(g.t), day=d.getFullYear()+'.'+p2s(d.getMonth()+1)+'.'+p2s(d.getDate());
+  const head=day!==last?`<div class="lgday">${day}</div>`:''; last=day;
+  return head+`<div class="lgrow" style="grid-template-columns:52px 1fr auto">
+    <span class="lgt">${p2s(d.getHours())}:${p2s(d.getMinutes())}</span>
+    <span class="lgu" style="font-size:13px">${esc(g.u)}</span>
+    <span class="lgm" style="text-align:right;font-size:11px;color:var(--ink3)">${esc(g.ui||'')}</span></div>`}).join('')
+  :'<div class="blank">로그인 기록이 없습니다.</div>');
+ op('ovLgi')}
+
+/* ============== 변경 이력 ============== */
+function fmtT(t){const d=new Date(t);
+ return p2s(d.getMonth()+1)+'.'+p2s(d.getDate())+' '+p2s(d.getHours())+':'+p2s(d.getMinutes())}
+function openLog(){rdLog();op('ovL')}
+function rdLog(){
+ const q=(document.getElementById('lgQ')?document.getElementById('lgQ').value:'').trim();
+ let a=(DB.logs||[]).slice().sort((x,y)=>y.t-x.t);
+ if(q)a=a.filter(g=>[g.u,g.n,g.m,g.y].join(' ').includes(q));
+ const total=(DB.logs||[]).length;
+ document.getElementById('lgCnt').textContent=total?total+'건':'';
+ const show=a.slice(0,300);
+ let last='';
+ const rows=show.map(g=>{
+  const d=new Date(g.t), day=d.getFullYear()+'.'+p2s(d.getMonth()+1)+'.'+p2s(d.getDate());
+  const head=day!==last?`<div class="lgday">${day}</div>`:''; last=day;
+  return head+`<div class="lgrow">
+    <span class="lgt">${p2s(d.getHours())}:${p2s(d.getMinutes())}</span>
+    <span class="lgu">${esc(g.u)}</span>
+    <span class="lgm">${g.n?`<b>${esc(g.n)}</b> `:''}${esc(g.m)}${g.y?`<i>${g.y}</i>`:''}</span></div>`}).join('');
+ document.getElementById('lgBd').innerHTML=
+  `<div class="srch" style="margin-bottom:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+     <input type="text" id="lgQ" placeholder="이름 · 학교 · 내용 검색" value="${esc(q)}" oninput="rdLog()" autocomplete="off"></div>
+   ${show.length?rows:'<div class="blank">기록이 없습니다.</div>'}
+   ${a.length>300?`<div style="text-align:center;font-size:11.5px;color:var(--ink3);font-weight:700;padding:14px 0">최근 300건만 표시 · 전체 ${a.length}건</div>`:''}
+   <div style="height:12px"></div>`;
+ const el=document.getElementById('lgQ'); if(q&&el){el.focus();el.setSelectionRange(q.length,q.length)}}
+
 /* ============== 계정 관리 (관리자) ============== */
 function isAdmin(){return ME&&ME.role==='admin'}
 function openUsers(){if(!isAdmin())return ts('관리자만 사용할 수 있습니다');rdUsers();op('ovU')}
 function rdUsers(){
- const list=(DB.users||[]).slice().sort((a,b)=>(a.role==='admin'?-1:1)-(b.role==='admin'?-1:1)||String(a.id).localeCompare(String(b.id)));
+ const all=(DB.users||[]).slice();
+ const pend=all.filter(u=>u.status==='pending');
+ const list=all.filter(u=>u.status!=='pending')
+  .sort((a,b)=>(a.role==='admin'?-1:1)-(b.role==='admin'?-1:1)||String(a.id).localeCompare(String(b.id)));
  document.getElementById('uBd').innerHTML=`
+  ${pend.length?`<div class="hd2" style="color:var(--bad)">승인 대기 · ${pend.length}건</div>
+   ${pend.map(u=>`<div class="box" style="border-color:#F0C4C0;background:#FFFCFC">
+     <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+       <span class="d">${esc(u.name||'-')}</span><span class="tg">${esc(u.id)}</span></div>
+     <div class="two" style="margin-top:10px">
+       <button class="act" style="background:var(--okbg);color:var(--ok);border-color:#BFE3D3" onclick="approveUser('${esc(u.id)}')">승인</button>
+       <button class="act d" onclick="delUser('${esc(u.id)}')">거절</button></div></div>`).join('')}`:''}
+  `+`
   <div class="box">
     <div class="d" style="margin-bottom:10px">계정 추가</div>
     <div class="two"><div><label class="fl">아이디</label><input class="inp" id="uId" autocapitalize="off" spellcheck="false"></div>
@@ -1049,15 +1379,19 @@ function rdUsers(){
   </div>`).join('')}
   <div style="height:14px"></div>`}
 function saveUsers(){DB.updatedAt=Date.now();LS.set(DB);queuePush()}
+function approveUser(id){const u=findUser(id);if(!u)return;
+ delete u.status;u.mt=Date.now();LOG('','계정 승인: '+(u.name||'')+' ('+u.id+')');saveUsers();rdUsers();ts((u.name||u.id)+' 계정을 승인했습니다')}
 function addUser(){
- const id=document.getElementById('uId').value.trim();
+ let id=document.getElementById('uId').value.trim();
  const pw=document.getElementById('uPw').value.trim();
  if(!id)return ts('아이디를 입력하세요');
  if(!pw)return ts('비밀번호를 입력하세요');
+ if(id.indexOf('@')<0)id=id.toLowerCase()+DOMAIN;
  if(findUser(id))return ts('이미 있는 아이디입니다');
  DB.users.push({id,pw,name:document.getElementById('uNm').value.trim(),
   role:document.getElementById('uRole').value,mt:Date.now()});
  if(DB.utomb)delete DB.utomb[id];
+ LOG('','계정 추가: '+id);
  ['uId','uPw','uNm'].forEach(k=>document.getElementById(k).value='');
  saveUsers();rdUsers();ts(id+' 계정을 추가했습니다')}
 function editUser(id,k,v){const u=findUser(id);if(!u)return;
@@ -1071,6 +1405,7 @@ function delUser(id){
  if(id==='admin')return ts('관리자 계정은 삭제할 수 없습니다');
  if(ME&&ME.id===id)return ts('접속 중인 계정은 삭제할 수 없습니다');
  if(!confirm(id+' 계정을 삭제할까요?'))return;
+ LOG('','계정 삭제: '+id);
  DB.users=DB.users.filter(u=>u.id!==id);
  DB.utomb=DB.utomb||{};DB.utomb[id]=Date.now();
  saveUsers();rdUsers();ts('삭제했습니다')}
@@ -1107,10 +1442,18 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
  <h4><i>7</i>전체 요약</h4>
  <p>상단 <span class="k">전체 요약</span> 에서 모든 학교의 진행 상황과 업로드한 자료를 한 화면에서 확인합니다.
     사진을 누르면 크게 열리며 좌우로 넘겨볼 수 있습니다.</p>
- <h4><i>8</i>학교 추가 · 삭제</h4>
+ <h4><i>8</i>자동 로그아웃</h4>
+ <p>보안을 위해 <b>${IDLE_MIN}분간 앱을 사용하지 않으면 자동으로 로그아웃</b>됩니다.
+    화면을 만지거나 앱을 다시 열면 시간이 초기화됩니다. 입력한 내용은 그대로 보관되며,
+    다시 로그인하면 이어서 사용할 수 있습니다.</p>
+ <h4><i>9</i>학교 추가 · 삭제</h4>
  <p>상단 <span class="k">새 학교</span> 칸에 학교명과 지역을 입력하고 <span class="k">추가</span> 를 누릅니다.
     지역은 목록에서 선택하거나 직접 입력할 수 있습니다.
     삭제는 하단 <span class="k">학교 삭제</span> 에서 대상을 선택해 진행합니다.</p>
+ <div class="who" style="display:block;text-align:center">
+   <b style="font-size:12.5px;color:var(--ink3)">계정 발급 · 비밀번호 문의</b>
+   <a href="mailto:dhdprtm12@hankook-robotics.com" style="display:block;margin-top:4px;color:var(--navy);
+     text-decoration:none;font-weight:800;font-size:13px">안성용 &nbsp;dhdprtm12@hankook-robotics.com</a></div>
  <div style="height:12px"></div></div>`;op('ovM')}
 
 /* ============== 삭제 시트 ============== */
@@ -1132,6 +1475,7 @@ function doDel(){if(!delSel.size)return;
  const names=DB.schools.filter(s=>delSel.has(s.id)).map(s=>s.name);
  const list=names.slice(0,6).join('\n· ')+(names.length>6?`\n외 ${names.length-6}개교`:'');
  if(!confirm(`아래 ${names.length}개 학교를 삭제합니다.\n\n· ${list}\n\n기록도 함께 삭제되며 되돌릴 수 없습니다.\n계속할까요?`))return;
+ delSel.forEach(id=>LOG(id,'학교 삭제'));
  DB.tomb=DB.tomb||{};const now=Date.now();delSel.forEach(id=>DB.tomb[id]=now);
  DB.schools=DB.schools.filter(s=>!delSel.has(s.id));
  DB.history=DB.history.filter(h=>!delSel.has(h.schoolId));
@@ -1230,7 +1574,11 @@ document.getElementById('nName').addEventListener('keydown',e=>{if(e.key==='Ente
  l.href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/manifest+json'}));document.head.appendChild(l)})();
 
 document.getElementById('lLogo').src=document.querySelector('.hlogo img').src;
-if(!ME)showLock(); else document.getElementById('lock').classList.add('off');
+document.getElementById('jLogo').src=document.querySelector('.hlogo img').src;
+document.getElementById('rLogo').src=document.querySelector('.hlogo img').src;
+if(ME && Date.now()-readAct() > IDLE_MIN*60*1000){
+ try{sessionStorage.removeItem(UKEY)}catch(e){} ME=null}
+if(!ME)showLock(); else {document.getElementById('lock').classList.add('off');markAct();setTimeout(()=>{touchLogin(false);beat(true)},300)}
 document.getElementById('ver').textContent='빌드 '+BUILD+' · 구글 시트 연동 · 동기화 '+(SYNC_URL?'설정됨':'미설정');
 fillYears();chips();rd();startSync();
 
