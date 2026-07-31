@@ -168,6 +168,30 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 .prog.on{display:block}
 .prog i{display:block;height:100%;width:40%;background:var(--blue);border-radius:2px;animation:sl 1s infinite}
 @keyframes sl{0%{margin-left:-40%}100%{margin-left:100%}}
+.sumchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.sumchip{padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:700;color:var(--ink2)}
+.sumchip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.sumcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:9px}
+.sumcard.done{border-color:#BFE3D3}
+.sumcard.iss{border-color:#F0C4C0}
+.sumtop{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.sumtop .no{font-size:10.5px;font-weight:700;color:var(--ink3);min-width:18px}
+.sumtop .nm{font-size:15px;font-weight:800;letter-spacing:-.4px}
+.sumtab{display:grid;grid-template-columns:64px 1fr auto;gap:4px 8px;align-items:center;font-size:12.5px}
+.sumtab .k{color:var(--ink3);font-weight:700;font-size:11.5px}
+.sumtab .v{font-weight:700;letter-spacing:-.2px}
+.sumtab .v.off{color:var(--ink3);font-weight:600}
+.sumtab .fc{font-size:10.5px;font-weight:700;color:var(--blue);background:var(--tint);padding:2px 7px;border-radius:4px}
+.sumtab .fc.no{color:var(--ink3);background:var(--line2)}
+.sumfoot{margin-top:10px;padding-top:9px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink2)}
+.sumfoot b{color:var(--ink)}
+.sumnote{margin-top:6px;background:var(--line2);border-radius:8px;padding:8px 10px;font-size:12.5px;
+ color:var(--ink2);white-space:pre-wrap;word-break:break-word;line-height:1.6}
+.sumthumbs{display:flex;gap:6px;overflow-x:auto;margin-top:9px;padding-bottom:2px}
+.sumthumbs::-webkit-scrollbar{display:none}
+.sumth{flex:0 0 auto;width:58px;border:1px solid var(--line);border-radius:8px;overflow:hidden;display:block;background:#fff}
+.sumth img{width:100%;height:48px;object-fit:cover;display:block;background:var(--line2)}
+.sumth .d{height:48px;display:grid;place-items:center;font-size:18px;background:var(--tint)}
 .dtop{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 13px;margin-bottom:9px}
 .drow{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:7px;cursor:pointer}
 .drow.on{border-color:#F0C4C0;background:#FFF9F9}
@@ -271,6 +295,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 <div class="grid" id="grid"></div>
 
 <div class="acts">
+  <button class="act" style="border-color:var(--navy);color:var(--navy)" onclick="openSum()">학교 전체 요약</button>
   <button class="act" onclick="exCSV()">엑셀(CSV) 내보내기</button>
   <button class="act" onclick="exJSON()">백업 저장</button>
   <button class="act" onclick="document.getElementById('imp').click()">백업 불러오기</button>
@@ -329,6 +354,10 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
   <div class="dfoot"><button class="bdel off" id="dBtn" disabled onclick="doDel()">삭제할 학교를 선택하세요</button></div>
 </div></div>
 
+<div class="ov" id="ovSum" onclick="if(event.target===this)cl('ovSum')"><div class="sheet" style="max-width:640px">
+  <div class="shd"><h3>학교 전체 요약</h3><span id="sumCnt" style="font-size:12px;font-weight:700;color:var(--ink3)"></span><button class="cls" onclick="cl('ovSum')">✕</button></div>
+  <div class="sbd" id="sumBd"></div></div></div>
+
 <div class="ov" id="ovU" onclick="if(event.target===this)cl('ovU')"><div class="sheet">
   <div class="shd"><h3>계정 관리</h3><button class="cls" onclick="cl('ovU')">✕</button></div>
   <div class="sbd" id="uBd"></div></div></div>
@@ -352,7 +381,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'G1';
+const BUILD = 'G2';
 /* ================================== */
 
 const SEED=[['숭곡중학교','서울'],['인화여자중학교','인천'],['내곡중학교','서울'],['서울고일초등학교','서울'],
@@ -735,6 +764,56 @@ function delSchool(id){const s=S(id);if(!confirm(s.name+'을(를) 삭제할까�
  DB.tomb=DB.tomb||{};DB.tomb[id]=Date.now();
  DB.schools=DB.schools.filter(x=>x.id!==id);DB.history=DB.history.filter(h=>h.schoolId!==id);
  save();cl('ovH');chips();rd();ts('삭제했습니다')}
+
+/* ============== 학교 전체 요약 ============== */
+let sumRg='전체';
+function openSum(){rdSum();op('ovSum')}
+function setSumRg(r){sumRg=r;rdSum()}
+function rdSum(){
+ let a=DB.schools.slice().sort((x,y)=>x.order-y.order);
+ if(sumRg!=='전체')a=a.filter(s=>s.region===sumRg);
+ document.getElementById('sumCnt').textContent=a.length+'개교';
+ const chips=['전체',...regions()].map(r=>
+  `<button class="sumchip ${sumRg===r?'on':''}" onclick="setSumRg('${esc(r)}')">${esc(r)}</button>`).join('');
+ const body=a.map(s=>{
+  const rows=ITEMS.map(i=>{const d=s[i.k+'Date'],L=lvl(d,cyOf(i.c)),n=(s.files[i.k]||[]).length;
+   return `<div class="k">${i.n}</div>
+     <div class="v ${d?'':'off'}">${d?d.replace(/-/g,'.')+' <span class="pill p-'+L+'">'+(L==='bad'?'초과':L==='warn'?'임박':'정상')+'</span>':'미실시'}</div>
+     <div class="fc ${n?'':'no'}">자료 ${n}</div>`}).join('');
+  const sp=(s.specials||[]).slice().sort((x,y)=>String(y.date).localeCompare(String(x.date)));
+  const allf=ITEMS.flatMap(i=>s.files[i.k]||[]).concat(sp.flatMap(x=>x.files||[]));
+  return `<div class="sumcard ${s.issue?'iss':(doneAll(s)?'done':'')}">
+   <div class="sumtop"><span class="no num">${s.order}</span><span class="nm">${esc(s.name)}</span>
+     <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
+     ${s.issue?'<span class="badge">이슈</span>':''}
+     <button class="act" style="margin-left:auto;padding:5px 10px;font-size:11px" onclick="cl('ovSum');openH('${s.id}')">상세</button></div>
+   <div class="sumtab">${rows}
+     <div class="k">특별점검</div>
+     <div class="v ${sp.length?'':'off'}">${sp.length?sp.length+'회 · 최근 '+(sp[0].date||'').replace(/-/g,'.'):'없음'}</div>
+     <div class="fc ${sp.reduce((t,x)=>t+((x.files||[]).length),0)?'':'no'}">자료 ${sp.reduce((t,x)=>t+((x.files||[]).length),0)}</div>
+   </div>
+   <div class="sumfoot">점검 담당자 <b>${esc(s.who)||'미기록'}</b>
+     ${s.note?`<div class="sumnote">${esc(s.note)}</div>`:''}</div>
+   ${allf.length?`<div class="sumthumbs">${allf.slice(0,20).map(f=>
+     `<a class="sumth" href="${f.url}" target="_blank" rel="noopener">
+       ${/image/.test(f.mime||'')?`<img src="${f.thumb}" alt="" loading="lazy">`:'<div class="d">📄</div>'}</a>`).join('')}
+     ${allf.length>20?`<span style="align-self:center;font-size:11px;color:var(--ink3);font-weight:700;padding:0 6px">+${allf.length-20}</span>`:''}</div>`:''}
+  </div>`}).join('');
+ const N=a.length,c=k=>a.filter(s=>s[k]).length;
+ document.getElementById('sumBd').innerHTML=
+  `<div class="sumchips">${chips}</div>
+   <div class="box" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
+     ${ITEMS.slice(0,2).map(i=>`<div><div style="font-size:11px;color:var(--ink3);font-weight:700">${i.n}</div>
+       <div style="font-size:17px;font-weight:800">${c(i.k)}<span style="font-size:12px;color:var(--ink3)">/${N}</span></div></div>`).join('')}
+     <div><div style="font-size:11px;color:var(--ink3);font-weight:700">미해결 이슈</div>
+       <div style="font-size:17px;font-weight:800;color:var(--bad)">${a.filter(s=>s.issue).length}</div></div>
+     ${ITEMS.slice(2).map(i=>`<div><div style="font-size:11px;color:var(--ink3);font-weight:700">${i.n}</div>
+       <div style="font-size:17px;font-weight:800">${c(i.k)}<span style="font-size:12px;color:var(--ink3)">/${N}</span></div></div>`).join('')}
+     <div><div style="font-size:11px;color:var(--ink3);font-weight:700">특별점검</div>
+       <div style="font-size:17px;font-weight:800">${a.filter(s=>(s.specials||[]).length).length}<span style="font-size:12px;color:var(--ink3)">/${N}</span></div></div>
+   </div>
+   ${N?body:'<div class="blank">해당하는 학교가 없습니다.</div>'}
+   <div style="height:14px"></div>`}
 
 /* ============== 계정 관리 (관리자) ============== */
 function isAdmin(){return ME&&ME.role==='admin'}
