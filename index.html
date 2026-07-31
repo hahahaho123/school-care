@@ -36,11 +36,13 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .hmid{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:20px;position:relative;z-index:1}
 .eyebrow{font-size:11px;font-weight:700;color:#9EC3E0;letter-spacing:.4px}
 .hero h1{margin:5px 0 0;font-size:27px;font-weight:800;letter-spacing:-1.1px;white-space:nowrap}
-.ring{position:relative;width:86px;height:86px;flex:0 0 auto}
-.ring svg{transform:rotate(-90deg)}
-.rt{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
-.rt b{display:block;font-size:20px;font-weight:800;letter-spacing:-.8px;line-height:1}
-.rt span{font-size:9.5px;color:#9EC3E0;font-weight:600}
+.rings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px;position:relative;z-index:1}
+.ring{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px}
+.ring svg{transform:rotate(-90deg);display:block}
+.rt{position:absolute;top:0;left:0;right:0;height:74px;display:grid;place-content:center;text-align:center}
+.rt b{display:block;font-size:17px;font-weight:800;letter-spacing:-.7px;line-height:1}
+.rl{font-size:11.5px;font-weight:700;color:#fff;text-align:center;line-height:1.35}
+.rl span{display:block;font-size:9.5px;color:#9EC3E0;font-weight:600;margin-top:1px}
 .hstats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:20px;position:relative;z-index:1}
 .hstats .iss{grid-column:1/-1}
 @media(min-width:660px){.hstats{grid-template-columns:repeat(5,1fr)}.hstats .iss{grid-column:auto}}
@@ -220,14 +222,23 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
   </div>
   <div class="hmid">
     <div><div class="eyebrow">(주)한국로보틱스</div><h1>설치 현장 관리</h1></div>
-    <div class="ring">
-      <svg width="86" height="86" viewBox="0 0 86 86">
-        <circle cx="43" cy="43" r="35" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="7"/>
-        <circle id="arc" cx="43" cy="43" r="35" fill="none" stroke="#5FB0E5" stroke-width="7" stroke-linecap="round"
-          stroke-dasharray="219.9" stroke-dashoffset="219.9" style="transition:stroke-dashoffset .45s"/>
-      </svg>
-      <div class="rt"><b id="pct">0%</b><span>진행률</span></div>
-    </div>
+  </div>
+  <div class="rings">
+    <div class="ring"><svg width="74" height="74" viewBox="0 0 74 74">
+        <circle cx="37" cy="37" r="30" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="6"/>
+        <circle id="arc1" cx="37" cy="37" r="30" fill="none" stroke="#5FB0E5" stroke-width="6" stroke-linecap="round"
+          stroke-dasharray="188.5" stroke-dashoffset="188.5" style="transition:stroke-dashoffset .45s"/></svg>
+      <div class="rt"><b id="pct1">0%</b></div><div class="rl">1차<span>점검 · 교육</span></div></div>
+    <div class="ring"><svg width="74" height="74" viewBox="0 0 74 74">
+        <circle cx="37" cy="37" r="30" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="6"/>
+        <circle id="arc2" cx="37" cy="37" r="30" fill="none" stroke="#8FD3F4" stroke-width="6" stroke-linecap="round"
+          stroke-dasharray="188.5" stroke-dashoffset="188.5" style="transition:stroke-dashoffset .45s"/></svg>
+      <div class="rt"><b id="pct2">0%</b></div><div class="rl">2차<span>점검 · 교육</span></div></div>
+    <div class="ring"><svg width="74" height="74" viewBox="0 0 74 74">
+        <circle cx="37" cy="37" r="30" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="6"/>
+        <circle id="arc3" cx="37" cy="37" r="30" fill="none" stroke="#FFC978" stroke-width="6" stroke-linecap="round"
+          stroke-dasharray="188.5" stroke-dashoffset="188.5" style="transition:stroke-dashoffset .45s"/></svg>
+      <div class="rt"><b id="pct3">0%</b></div><div class="rl">특별점검<span>실시 학교</span></div></div>
   </div>
   <div class="hstats" id="hstats"></div>
 </div>
@@ -270,7 +281,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 <div class="foot">(주)한국로보틱스<br><span id="ver"></span></div>
 </div>
 
-<input type="file" id="fpick" style="display:none" accept="image/*,application/pdf">
+<input type="file" id="fpick" style="display:none" accept="image/*,application/pdf" multiple>
 
 <div class="lock" id="lock"><div class="lbox">
   <img class="llogo" id="lLogo" src="" alt="한국로보틱스">
@@ -341,7 +352,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'F2';
+const BUILD = 'G1';
 /* ================================== */
 
 const SEED=[['숭곡중학교','서울'],['인화여자중학교','인천'],['내곡중학교','서울'],['서울고일초등학교','서울'],
@@ -460,10 +471,14 @@ function vis(){const q=document.getElementById('q').value.trim();
  if(flagK)a=a.filter(s=>!s[flagK]);
  if(q)a=a.filter(s=>s.name.includes(q));return a}
 
+function setRing(n,pc){document.getElementById('pct'+n).textContent=pc+'%';
+ document.getElementById('arc'+n).setAttribute('stroke-dashoffset',188.5-188.5*pc/100)}
 function rd(){
- const N=DB.schools.length,pc=N?Math.round(DB.schools.filter(doneAll).length/N*100):0;
- document.getElementById('pct').textContent=pc+'%';
- document.getElementById('arc').setAttribute('stroke-dashoffset',219.9-219.9*pc/100);
+ const N=DB.schools.length;
+ const c=k=>DB.schools.filter(s=>s[k]).length;
+ setRing(1,N?Math.round((c('p1')+c('e1'))/(N*2)*100):0);
+ setRing(2,N?Math.round((c('p2')+c('e2'))/(N*2)*100):0);
+ setRing(3,N?Math.round(DB.schools.filter(s=>(s.specials||[]).length).length/N*100):0);
  hstats();rgrid();
  const a=vis();
  document.getElementById('cnt').textContent=a.length+'개 표시'+(flagK?' · 미완료만':'');
@@ -613,26 +628,31 @@ function pickFile(id,kind){
  if(!SYNC_URL)return ts('동기화 설정 후 사용할 수 있습니다');
  pickTarget={id,kind};document.getElementById('fpick').click()}
 document.getElementById('fpick').addEventListener('change',async function(){
- const f=this.files[0];this.value='';
- if(!f||!pickTarget)return;
+ const files=[...this.files];this.value='';
+ if(!files.length||!pickTarget)return;
  const {id,kind}=pickTarget;
  const pr=document.getElementById('fProg'); if(pr)pr.classList.add('on');
- ts('올리는 중입니다…');
+ let done=0,fail=0;
  try{
-  const {b64,mime,name}=await prep(f);
   const s=S(id);
-  const label=(s?s.name:'')+'_'+(NM[kind]||(kind.indexOf('sp:')===0?'특별점검':kind))+'_'+iso(T);
-  const j=await call('POST',{key:SYNC_KEY,action:'upload',b64,mime,name,label});
-  if(!j.file)throw new Error('시트 코드가 예전 버전입니다');
-  const rec=Object.assign({at:Date.now(),by:ME?ME.name:''},j.file);
-  if(kind.indexOf('sp:')===0){const x=s.specials.find(y=>y.id===kind.slice(3));if(x){x.files=x.files||[];x.files.push(rec)}}
-  else{ s.files[kind]=s.files[kind]||[]; s.files[kind].push(rec);
-    if(!s[kind]){s[kind]=true; if(!s[kind+'Date'])s[kind+'Date']=iso(T);
-      if(!s.who&&ME)s.who=ME.name||ME.id; ts((NM[kind]||'')+' 완료 처리했습니다')} }
-  save(id);
-  if(document.getElementById('ovF').classList.contains('on'))rdFiles();
-  if(document.getElementById('ovSp').classList.contains('on'))rdSpecial();
-  rd();
+  for(const f of files){
+   ts(files.length>1?`올리는 중… ${done+1}/${files.length}`:'올리는 중입니다…');
+   const {b64,mime,name}=await prep(f);
+   const label=(s?s.name:'')+'_'+(NM[kind]||(kind.indexOf('sp:')===0?'특별점검':kind))+'_'+iso(T);
+   const j=await call('POST',{key:SYNC_KEY,action:'upload',b64,mime,name,label});
+   if(!j.file)throw new Error('시트 코드가 예전 버전입니다');
+   const rec=Object.assign({at:Date.now(),by:ME?(ME.name||ME.id):''},j.file);
+   if(kind.indexOf('sp:')===0){const x=s.specials.find(y=>y.id===kind.slice(3));if(x){x.files=x.files||[];x.files.push(rec)}}
+   else{ s.files[kind]=s.files[kind]||[]; s.files[kind].push(rec);
+     if(!s[kind]){s[kind]=true; if(!s[kind+'Date'])s[kind+'Date']=iso(T);
+       if(!s.who&&ME)s.who=ME.name||ME.id} }
+   done++;
+   save(id);
+   if(document.getElementById('ovF').classList.contains('on'))rdFiles();
+   if(document.getElementById('ovSp').classList.contains('on'))rdSpecial();
+   rd();
+  }
+  ts(done+'장 올렸습니다');
  }catch(e){
   const m=String(e&&e.message||e);
   if(/bad data|예전 버전/.test(m)) ts('업로드 실패 · 시트 코드를 최신으로 교체하고 재배포해 주세요');
