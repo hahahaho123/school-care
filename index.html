@@ -219,6 +219,39 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .nd2{width:6px;height:6px;border-radius:50%;background:#FF6B5E;display:none;
  position:absolute;top:3px;right:4px}
 .nd2.on{display:block}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px 13px;margin-bottom:9px}
+.pcard.iss{border-color:#F0C4C0;background:#FFFCFC}
+.ptop{display:flex;align-items:center;gap:8px;min-width:0}
+.pnm2{flex:1;min-width:0;font-size:14.5px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcnt{flex:0 0 auto;font-size:11px;font-weight:800;color:var(--blue);background:var(--tint);
+ border-radius:6px;padding:3px 8px}
+.pcnt.no{color:var(--ink3);background:var(--bg);font-weight:700}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+@media(min-width:560px){.pgrid{grid-template-columns:repeat(5,1fr)}}
+.pth{aspect-ratio:1;border-radius:9px;overflow:hidden;background:var(--bg);border:1px solid var(--line);
+ display:block;padding:0}
+.pth img{width:100%;height:100%;object-fit:cover;display:block}
+.pth .doc{width:100%;height:100%;display:grid;place-items:center;font-size:22px}
+#ovP{z-index:80}
+.pkgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+@media(max-width:560px){.pkgrid{grid-template-columns:1fr}}
+.pk1{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
+ border-radius:10px;padding:11px 12px;text-align:left;width:100%}
+.pk1.on{border-color:var(--navy);box-shadow:0 0 0 1.5px var(--navy) inset;background:var(--tint)}
+.pk1 .pn{flex:0 0 auto;min-width:22px;height:22px;border-radius:6px;background:var(--bg);
+ color:var(--ink3);font-size:10.5px;font-weight:800;display:grid;place-items:center;padding:0 4px}
+.pk1.on .pn{background:var(--navy);color:#fff}
+.pk1 .pnm{flex:1;min-width:0;font-size:13px;font-weight:800;overflow:hidden;
+ text-overflow:ellipsis;white-space:nowrap}
+.pk1 .prg{flex:0 0 auto;font-size:10.5px;font-weight:700;color:var(--ink3)}
+.pk1 .pok{flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.pk1 .piss{flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:var(--bad)}
+.pkall{width:100%;padding:12px;border-radius:10px;background:var(--navy);color:#fff;
+ font-size:13.5px;font-weight:800;margin-bottom:12px}
+.pkseg{display:flex;gap:6px;margin-bottom:12px}
+.pkseg button{flex:1;padding:9px;border:1px solid var(--line);border-radius:9px;background:#fff;
+ font-size:12.5px;font-weight:800;color:var(--ink2)}
+.pkseg button.on{border-color:var(--navy);background:var(--tint);color:var(--navy)}
 .mgrp{font-size:10.5px;font-weight:800;color:var(--ink3);letter-spacing:.3px;margin:16px 0 8px 2px}
 .mgrp:first-child{margin-top:2px}
 .mlist{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
@@ -487,7 +520,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
     <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       <input type="text" id="q" placeholder="학교명 · 지역 · 초성 검색" autocomplete="off">
       <button class="sclr" id="qClr" onclick="clrQ()">✕</button></div>
-    <button class="sortb" id="sortB" onclick="toggleSort()">설치순</button>
+    <button class="sortb" id="sortB" onclick="openPick()">전체보기</button>
   </div>
   <div class="shint" id="sHint">줄임말·초성으로도 찾을 수 있습니다. <b>체고</b> · <b>ㄱㅇ</b> · <b>개일초</b></div>
 </div>
@@ -565,6 +598,10 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 <div class="ov" id="ovM" onclick="if(event.target===this)cl('ovM')"><div class="sheet">
   <div class="shd"><h3>매뉴얼</h3><button class="cls" onclick="cl('ovM')">✕</button></div>
   <div class="sbd" id="mBd"></div></div></div>
+
+<div class="ov" id="ovP" onclick="if(event.target===this)cl('ovP')"><div class="sheet">
+  <div class="shd"><h3>학교 선택</h3><button class="cls" onclick="cl('ovP')">✕</button></div>
+  <div class="sbd" id="pBd"></div></div></div>
 
 <div class="ov" id="ovMn" onclick="if(event.target===this)cl('ovMn')"><div class="sheet">
   <div class="shd"><h3>메뉴</h3><button class="cls" onclick="cl('ovMn')">✕</button></div>
@@ -694,7 +731,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'M5';
+const BUILD = 'M8';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1126,6 +1163,36 @@ function toggleSort(){sortMode=sortMode==='order'?'name':'order';
  const b=document.getElementById('sortB');
  b.textContent=sortMode==='order'?'설치순':'가나다순';
  b.classList.toggle('on',sortMode==='name');rd()}
+let pickMode='main';
+function openPick(m){pickMode=m||'main';rdPick();op('ovP')}
+function rdPick(){
+ const q=(pickMode==='sum'?sumQ:document.getElementById('q').value).trim();
+ let a=DB.schools.slice();
+ a.sort(sortMode==='name'?(x,y)=>x.name.localeCompare(y.name,'ko'):(x,y)=>x.order-y.order);
+ const rgs=['전체',...regions()];
+ document.getElementById('pBd').innerHTML=`
+  <button class="pkall" onclick="pickAll()">전체 학교 보기 · ${DB.schools.length}개</button>
+  <div class="pkseg">
+    <button class="${sortMode==='order'?'on':''}" onclick="pickSort('order')">설치순</button>
+    <button class="${sortMode==='name'?'on':''}" onclick="pickSort('name')">가나다순</button>
+  </div>
+  <div class="pkgrid">${a.map(s=>{const y=Y(s),done=doneAll(s);
+   return `<button class="pk1 ${q===s.name?'on':''}" onclick="pickOne('${s.id}')">
+     <span class="pn">${s.order}</span>
+     <span class="pnm">${esc(s.name)}</span>
+     <span class="prg">${esc(s.region)}</span>
+     ${y.issue?'<span class="piss"></span>':(done?'<span class="pok"></span>':'')}
+   </button>`}).join('')}</div>
+  <div style="height:14px"></div>`}
+function pickSort(m){sortMode=m;rdPick();rd()}
+function pickAll(){cl('ovP');
+ if(pickMode==='sum'){sumQ='';rdSum();return}
+ document.getElementById('q').value='';rd();goList()}
+function pickOne(id){const s=S(id);if(!s)return;cl('ovP');
+ if(pickMode==='sum'){sumQ=s.name;rdSum();return}
+ document.getElementById('q').value=s.name;rd();goList()}
+function goList(){const e=document.getElementById('sBar');
+ if(e)window.scrollTo({top:e.offsetTop-4,behavior:'smooth'})}
 function clrQ(){const e=document.getElementById('q');e.value='';e.focus();rd()}
 function vis(){const q=document.getElementById('q').value.trim();
  let a=DB.schools.slice();
@@ -1574,30 +1641,55 @@ function closeView(){document.getElementById('vw').classList.remove('on');
 
 /* ============== 학교 전체 요약 ============== */
 let sumRg='전체', sumMode='files', SUMF={};
+let sumQ='',sumFocus=false;
+function setSumQ(v){sumQ=String(v);sumFocus=true;rdSum()}
 function openSum(){rdSum();op('ovSum')}
 function setSumRg(r){sumRg=r;rdSum()}
 function setSumMode(m){sumMode=m;rdSum()}
 function rdSum(){
  let a=DB.schools.slice().sort((x,y)=>x.order-y.order);
  if(sumRg!=='전체')a=a.filter(s=>s.region===sumRg);
+ if(sumQ)a=a.filter(s=>hit(s,sumQ));
  document.getElementById('sumCnt').textContent=YEAR+'년 · '+a.length+'개교';
  const chips=['전체',...regions()].map(r=>
   `<button class="sumchip ${sumRg===r?'on':''}" onclick="setSumRg('${esc(r)}')">${esc(r)}</button>`).join('');
  const modes=`<div class="segs">
    <button class="seg ${sumMode==='files'?'on':''}" onclick="setSumMode('files')">자료 보기</button>
    <button class="seg ${sumMode==='text'?'on':''}" onclick="setSumMode('text')">간단 요약</button></div>`;
+ const finder=`<div class="srow" style="margin-bottom:12px">
+   <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+     <input type="text" id="sumQi" placeholder="학교 찾기 · 줄임말 · 초성" value="${esc(sumQ)}" oninput="setSumQ(this.value)" autocomplete="off">
+     <button class="sclr ${sumQ?'on':''}" onclick="setSumQ('')">✕</button></div>
+   <button class="sortb" onclick="openPick('sum')">전체보기</button></div>`;
 
  SUMF={};
  const body=a.map(s=>{
   const y=Y(s);
   const groups=ITEMS.map(i=>({label:i.n,list:y.files[i.k]||[]}))
     .concat(y.specials.map(x=>({label:'특별점검 '+(x.date||'').replace(/-/g,'.'),list:x.files||[]})));
-  const gl=groups.filter(g=>g.list.length); SUMF[s.id]=gl.map(g=>g.list);
   const total=groups.reduce((t,g)=>t+g.list.length,0);
+
+  /* ── 자료 보기 : 학교명 + 사진만 ── */
+  if(sumMode==='files'){
+   const flat=groups.reduce((t,g)=>t.concat(g.list),[]);
+   SUMF[s.id]=[flat];
+   return `<div class="pcard ${y.issue?'iss':''}">
+     <div class="ptop"><span class="no num">${s.order}</span>
+       <span class="pnm2">${hl(s.name,sumQ)}</span>
+       <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
+       <span class="pcnt ${total?'':'no'}">${total?total+'장':'자료 없음'}</span></div>
+     ${total?`<div class="pgrid">${flat.map((fl,fi)=>`
+       <button class="pth" onclick="openView(SUMF['${s.id}'][0],${fi})">
+         ${/image/.test(fl.mime||'')?`<img src="${fl.thumb}" alt="" loading="lazy">`:'<div class="doc">📄</div>'}
+       </button>`).join('')}</div>`:''}
+   </div>`}
+
+  /* ── 간단 요약 ── */
+  const gl=groups.filter(g=>g.list.length); SUMF[s.id]=gl.map(g=>g.list);
   const statline=ITEMS.map(i=>{const d=y[i.k+'Date'],done=OK(y,i.k),L=lvl(d,cyOf(i.c));
     return `<span class="st1 ${done?L:'off'}">${i.n} ${done?d.slice(5).replace('-','.'):'미완료'}</span>`}).join('')
     +`<span class="st1 ${y.specials.length?'sp':'off'}">특별 ${y.specials.length}회</span>`;
-  const head=`<div class="sumtop"><span class="no num">${s.order}</span><span class="nm">${esc(s.name)}</span>
+  const head=`<div class="sumtop"><span class="no num">${s.order}</span><span class="nm">${hl(s.name,sumQ)}</span>
      <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
      ${y.issue?'<span class="badge">이슈</span>':''}
      <button class="act" style="margin-left:auto;padding:5px 10px;font-size:11px" onclick="cl('ovSum');openH('${s.id}')">상세</button></div>
@@ -1605,34 +1697,21 @@ function rdSum(){
   const whos=ITEMS.filter(i=>y[i.k+'Who']).map(i=>`${i.n} <b>${esc(y[i.k+'Who'])}</b>`).join(' · ');
   const meta=`<div class="sumfoot">담당자 ${whos||'<b>미기록</b>'}
      ${y.note?`<div class="sumnote">${esc(y.note)}</div>`:''}</div>`;
-
-  if(sumMode==='text'){
-   const rows=ITEMS.map(i=>{const d=y[i.k+'Date'],L=lvl(d,cyOf(i.c)),n=(y.files[i.k]||[]).length;
-    const w=y[i.k+'Who'];
-    return `<div class="k">${i.n}</div>
-      <div class="v ${d?'':'off'}">${d?d.replace(/-/g,'.')+' <span class="pill p-'+L+'">'+(L==='bad'?'초과':L==='warn'?'임박':'정상')+'</span>':'미실시'}${w?' <i class="wi">'+esc(w)+'</i>':''}</div>
-      <div class="fc ${n?'':'no'}">자료 ${n}</div>`}).join('');
-   return `<div class="sumcard ${y.issue?'iss':(doneAll(s)?'done':'')}">${head}
-     <div class="sumtab" style="margin-top:8px">${rows}
-       <div class="k">특별점검</div>
-       <div class="v ${y.specials.length?'':'off'}">${y.specials.length?y.specials.length+'회':'없음'}</div>
-       <div class="fc ${y.specials.reduce((t,x)=>t+((x.files||[]).length),0)?'':'no'}">자료 ${y.specials.reduce((t,x)=>t+((x.files||[]).length),0)}</div>
-     </div>${meta}</div>`}
-
+  const rows=ITEMS.map(i=>{const d=y[i.k+'Date'],L=lvl(d,cyOf(i.c)),n=(y.files[i.k]||[]).length;
+   const w=y[i.k+'Who'];
+   return `<div class="k">${i.n}</div>
+     <div class="v ${d?'':'off'}">${d?d.replace(/-/g,'.')+' <span class="pill p-'+L+'">'+(L==='bad'?'초과':L==='warn'?'임박':'정상')+'</span>':'미실시'}${w?' <i class="wi">'+esc(w)+'</i>':''}</div>
+     <div class="fc ${n?'':'no'}">자료 ${n}</div>`}).join('');
   return `<div class="sumcard ${y.issue?'iss':(doneAll(s)?'done':'')}">${head}
-   ${total?groups.filter(g=>g.list.length).map((g,gi)=>`
-     <div class="glab">${esc(g.label)}<i>${g.list.length}</i></div>
-     <div class="bigthumbs">${g.list.map((fl,fi)=>`
-       <button class="bigth" onclick="openView(SUMF['${s.id}'][${gi}],${fi})">
-         ${/image/.test(fl.mime||'')?`<img src="${fl.thumb}" alt="" loading="lazy">`:'<div class="doc">📄</div>'}
-         <span class="cap">${esc(fl.name)}</span></button>`).join('')}</div>`).join('')
-    :'<div class="nofile">올린 자료가 없습니다</div>'}
-   ${meta}</div>`}).join('');
+    <div class="sumtab" style="margin-top:8px">${rows}
+      <div class="k">특별점검</div>
+      <div class="v ${y.specials.length?'':'off'}">${y.specials.length?y.specials.length+'회':'없음'}</div>
+      <div class="fc ${y.specials.reduce((t,x)=>t+((x.files||[]).length),0)?'':'no'}">자료 ${y.specials.reduce((t,x)=>t+((x.files||[]).length),0)}</div>
+    </div>${meta}</div>`}).join('');
 
  const N=a.length,c=k=>a.filter(s=>OK(Y(s),k)).length;
- document.getElementById('sumBd').innerHTML=
-  `<div class="sumchips">${chips}</div>${modes}
-   <div class="box" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
+ const stats=sumMode==='files'?'':
+  `<div class="box" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
      ${ITEMS.slice(0,2).map(i=>`<div><div style="font-size:11px;color:var(--ink3);font-weight:700">${i.n}</div>
        <div style="font-size:17px;font-weight:800">${c(i.k)}<span style="font-size:12px;color:var(--ink3)">/${N}</span></div></div>`).join('')}
      <div><div style="font-size:11px;color:var(--ink3);font-weight:700">미해결 이슈</div>
@@ -1641,10 +1720,14 @@ function rdSum(){
        <div style="font-size:17px;font-weight:800">${c(i.k)}<span style="font-size:12px;color:var(--ink3)">/${N}</span></div></div>`).join('')}
      <div><div style="font-size:11px;color:var(--ink3);font-weight:700">특별점검</div>
        <div style="font-size:17px;font-weight:800">${a.filter(s=>Y(s).specials.length).length}<span style="font-size:12px;color:var(--ink3)">/${N}</span></div></div>
-   </div>
+   </div>`;
+ document.getElementById('sumBd').innerHTML=
+  `<div class="sumchips">${chips}</div>${modes}${finder}${stats}
    ${N?body:'<div class="blank">해당하는 학교가 없습니다.</div>'}
-   <div style="height:14px"></div>`}
-
+   <div style="height:14px"></div>`;
+ const el=document.getElementById('sumQi');
+ if(sumQ&&el&&sumFocus){el.focus();el.setSelectionRange(sumQ.length,sumQ.length)}
+ sumFocus=false}
 /* ============== 로그인 기록 ============== */
 function fmtFull(t){const d=new Date(t);
  return d.getFullYear()+'-'+p2s(d.getMonth()+1)+'-'+p2s(d.getDate())+' '+p2s(d.getHours())+':'+p2s(d.getMinutes())}
@@ -1821,40 +1904,52 @@ function delUser(id){
 
 /* ============== 업데이트 내역 ============== */
 const CHANGES=[
- {v:'M5',d:'2026-07-31',n:['화면 오른쪽 위에 <b>메뉴</b> 버튼이 생겼습니다 — 매뉴얼 · 업데이트 내역 · 변경 이력 · 로그아웃을 여기서 바로 엽니다',
-   '맨 아래까지 내려가지 않아도 되도록 하단 버튼 줄은 없앴습니다']},
- {v:'M4',d:'2026-07-31',n:['하단에 <b>업데이트 내역 보기</b> 버튼이 생겼습니다 — 앱이 바뀔 때마다 무엇이 달라졌는지 확인할 수 있습니다',
-   '새 버전이 적용되면 버튼에 빨간 점으로 알려드립니다']},
- {v:'M2',d:'2026-07-31',n:['학교 <b>줄임말 검색</b> 추가 — 체고 · 개일초 · 진선여고 처럼 짧게 입력해도 찾아집니다',
-   '학교마다 줄임말을 직접 등록·수정할 수 있습니다 (학교 카드 ⋯ → 검색 별칭)']},
- {v:'L9',d:'2026-07-31',n:['검색칸이 <b>화면 위에 고정</b>되어 스크롤 중에도 바로 검색할 수 있습니다',
-   '<b>초성 검색</b> 지원 — ㅅㄱ 입력만으로 숭곡중학교를 찾습니다',
-   '지역명·설치 순서 번호로도 검색되고, 찾은 글자는 노란색으로 표시됩니다',
-   '<b>가나다순 정렬</b> 버튼 추가',
-   '로그인할 때 <b>아이디만 입력</b>해도 됩니다 (@뒤 생략 가능)',
-   '<b>학교 추가·삭제는 관리자 전용</b>으로 변경되었습니다']},
- {v:'L5',d:'2026-07-31',n:['승인 직후 바로 로그인되도록 개선 — 승인 대기 중이라고 잘못 뜨던 문제를 고쳤습니다',
-   '관리자가 비밀번호를 바꾸면 즉시 반영됩니다']},
- {v:'L1',d:'2026-07-31',n:['앱 이름이 <b>HR 현장 통합 관리</b> 로 바뀌었습니다',
-   '앱을 켜면 항상 최신 화면을 받아오도록 개선했습니다',
-   '로그인·회원가입 화면 정리 및 안내 문구 추가']},
- {v:'K7',d:'2026-07-31',n:['<b>담당자를 항목별로 분리</b> — 1차 점검과 2차 점검의 담당자를 따로 적을 수 있습니다',
-   '여러 명을 쉼표로 구분해 적으면 칸이 자동으로 늘어납니다',
-   '엑셀 내보내기와 구글 시트에도 항목별 담당자가 들어갑니다']},
- {v:'K3',d:'2026-07-31',n:['<b>날짜를 숫자로 직접 입력</b>할 수 있습니다 — 20260731 또는 0731 만 눌러도 됩니다',
-   '달력 아이콘으로 고르는 방식도 그대로 사용할 수 있습니다']},
- {v:'K1',d:'2026-07-31',n:['가입 신청이 들어오면 관리자에게 <b>메일과 앱 배너</b>로 알립니다',
-   '승인이 완료되면 신청한 분에게 <b>안내 메일</b>이 발송됩니다',
-   '즉시 승인이 필요한 경우 문의처를 화면에 안내합니다']},
- {v:'J9',d:'2026-07-31',n:['상단에 <b>지금 접속 중인 사람</b>이 표시됩니다',
-   '15분 동안 사용하지 않으면 자동으로 로그아웃됩니다']}
+ {v:'M8',d:'2026-07-31',t:'이번 업데이트',n:[
+  '<b>전체 요약 → 자료 보기</b>가 훨씬 간단해졌습니다 — 학교명과 사진만 크게 보입니다',
+  '자료 보기 안에도 <b>학교 찾기</b>와 <b>전체보기</b> 버튼이 생겼습니다',
+  '검색칸 오른쪽 <b>전체보기</b> — 등록된 학교를 펼쳐놓고 눌러서 고를 수 있습니다',
+  '목록에서 <b>설치순 / 가나다순</b>을 바꿀 수 있고, 완료된 학교는 초록 점 · 미해결 이슈는 빨간 점으로 표시됩니다']},
+ {v:'M7',d:'2026-07-31',t:'지난 업데이트',n:[
+  '화면 오른쪽 위에 <b>메뉴</b> 버튼이 생겼습니다 — 매뉴얼 · 업데이트 내역 · 변경 이력 · 접속 현황 · 로그아웃',
+  '맨 아래까지 내려가지 않도록 하단 버튼 줄은 없앴습니다']},
+ {v:'M5',d:'2026-07-31',t:'지난 업데이트',n:[
+  '<b>업데이트 내역 보기</b> 추가 — 새 기능이 들어오면 메뉴 버튼에 빨간 점으로 알려드립니다']},
+ {v:'M2',d:'2026-07-31',t:'학교 찾기',n:[
+  '<b>줄임말 검색</b> — 체고 · 개일초 · 진선여고 처럼 짧게 입력해도 찾아집니다',
+  '<b>초성 검색</b> — ㅅㄱ 만 입력해도 숭곡중학교가 나옵니다',
+  '지역명과 설치 순서 번호로도 검색되고, 찾은 글자는 노란색으로 표시됩니다',
+  '검색칸이 <b>화면 위에 고정</b>되어 스크롤 중에도 바로 검색할 수 있습니다',
+  '<b>가나다순 정렬</b> 버튼 추가',
+  '줄임말은 학교마다 직접 등록·수정할 수 있습니다 (학교 카드 ⋯ → 검색 별칭)']},
+ {v:'L9',d:'2026-07-31',t:'로그인과 권한',n:[
+  '로그인할 때 <b>아이디만 입력</b>해도 됩니다 (@뒤 생략 가능)',
+  '승인 직후 바로 로그인되도록 고쳤습니다 — 승인 대기 중이라고 잘못 뜨던 문제',
+  '관리자가 비밀번호를 바꾸면 다음 로그인부터 즉시 반영됩니다',
+  '<b>학교 추가·삭제는 관리자 전용</b>으로 바뀌었습니다']},
+ {v:'L3',d:'2026-07-31',t:'앱 이름과 자동 갱신',n:[
+  '앱 이름이 <b>HR 현장 통합 관리</b> 로 바뀌었습니다',
+  '앱을 켤 때 <b>항상 최신 화면</b>을 받아오도록 개선했습니다',
+  '사용 중에 새 버전이 나오면 화면 가운데 안내 창이 뜹니다']},
+ {v:'K7',d:'2026-07-31',t:'담당자와 날짜',n:[
+  '<b>담당자를 항목별로 분리</b> — 1차 점검과 2차 점검의 담당자를 따로 적습니다',
+  '여러 명을 쉼표로 구분해 적으면 칸이 자동으로 늘어납니다',
+  '<b>날짜를 숫자로 직접 입력</b>할 수 있습니다 — 20260731 또는 0731 만 눌러도 됩니다',
+  '엑셀 내보내기와 구글 시트에도 항목별 담당자가 들어갑니다']},
+ {v:'K4',d:'2026-07-31',t:'계정 알림',n:[
+  '가입 신청이 들어오면 관리자에게 <b>메일과 앱 배너</b>로 알립니다',
+  '승인이 완료되면 신청한 분에게 <b>안내 메일</b>이 발송됩니다',
+  '즉시 승인이 필요한 경우 문의처를 화면에 안내합니다']},
+ {v:'J9',d:'2026-07-31',t:'접속 현황과 보안',n:[
+  '상단에 <b>지금 접속 중인 사람</b>이 표시됩니다',
+  '15분 동안 사용하지 않으면 자동으로 로그아웃됩니다',
+  '비밀번호는 저장하지 않고 앱을 켤 때마다 입력합니다']}
 ];
 const SEENK='hrSeen.v1';
 function seenBuild(){try{return localStorage.getItem(SEENK)||''}catch(e){return ''}}
 function hasNew(){return seenBuild()!==BUILD}
 function openWhat(){
  document.getElementById('wBd').innerHTML='<div class="cl">'+CHANGES.map((c,i)=>
-  `<div class="clv"><b>${esc(c.v)}</b>${i===0?'<u>최신</u>':''}<span>${esc(c.d)}</span></div>
+  `<div class="clv"><b>${esc(c.t||c.v)}</b>${i===0?'<u>최신</u>':''}<span>${esc(c.d)} · ${esc(c.v)}</span></div>
    <div class="cli">${c.n.map(t=>'<div>'+t+'</div>').join('')}</div>`).join('')
   +'<div style="height:14px"></div></div>';
  try{localStorage.setItem(SEENK,BUILD)}catch(e){}
@@ -1933,8 +2028,10 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
     학교 목록은 그대로 유지되고 점검·교육·자료만 연도별로 구분되어 저장됩니다.
     해가 바뀌면 자동으로 새 연도가 추가되며 빈 상태에서 시작합니다.</p>
  <h4><i>7</i>전체 요약</h4>
- <p>상단 <span class="k">전체 요약</span> 에서 모든 학교의 진행 상황과 업로드한 자료를 한 화면에서 확인합니다.
-    사진을 누르면 크게 열리며 좌우로 넘겨볼 수 있습니다.</p>
+ <p>상단 <span class="k">전체 요약</span> 에서 모든 학교의 진행 상황과 업로드한 자료를 한 화면에서 확인합니다.</p>
+ <p><span class="k">자료 보기</span> 는 학교명과 사진만 크게 보여줍니다. 사진을 누르면 확대되고 좌우로 넘겨볼 수 있습니다.
+    <span class="k">간단 요약</span> 은 날짜 · 담당자 · 진행률을 표로 보여줍니다.
+    두 화면 모두 <span class="k">학교 찾기</span> 칸과 <span class="k">전체보기</span> 로 특정 학교만 볼 수 있습니다.</p>
  <h4><i>8</i>자동 로그아웃</h4>
  <p>보안을 위해 <b>${IDLE_MIN}분간 앱을 사용하지 않으면 자동으로 로그아웃</b>됩니다.
     화면을 만지거나 앱을 다시 열면 시간이 초기화됩니다. 입력한 내용은 그대로 보관되며,
@@ -1947,7 +2044,8 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
     <b>학교명 일부</b>, <b>줄임말</b>, <b>지역</b>, <b>설치 순서 번호</b> 중 아무거나 입력하면 됩니다.
     <span class="k">체고</span> <span class="k">개일초</span> 같은 줄임말이 학교마다 등록되어 있고,
     <span class="k">ㅅㄱ</span> 처럼 <b>초성만 입력해도</b> 찾을 수 있습니다. 찾은 글자는 노란색으로 표시됩니다.
-    오른쪽 <span class="k">설치순</span> 을 누르면 <span class="k">가나다순</span> 으로 정렬이 바뀝니다.</p>
+    오른쪽 <span class="k">전체보기</span> 를 누르면 등록된 학교가 모두 펼쳐지고, 눌러서 바로 고를 수 있습니다.
+    목록 위에서 <span class="k">설치순</span> 과 <span class="k">가나다순</span> 을 바꿀 수 있습니다.</p>
  <p>줄임말을 바꾸려면 학교 카드 오른쪽 위 <span class="k">⋯</span> 를 눌러
     <span class="k">검색 별칭</span> 칸에 쉼표로 구분해 적습니다.</p>
  <h4><i>11</i>학교 추가 · 삭제 <b style="color:var(--bad)">관리자 전용</b></h4>
