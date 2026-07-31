@@ -338,12 +338,19 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 .man .who{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 13px;margin-top:20px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .man .who b{display:block;font-size:13.5px;font-weight:800}
 .man .who span{display:block;font-size:11.5px;color:var(--ink3);margin-top:2px}
-.newver{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + var(--sb));z-index:250;
- background:var(--navy);color:#fff;border-radius:999px;padding:8px 8px 8px 18px;display:none;
- align-items:center;gap:12px;font-size:13px;font-weight:700;white-space:nowrap;
- box-shadow:0 8px 24px rgba(8,32,79,.4)}
+.newver{position:fixed;inset:0;z-index:400;background:rgba(8,18,34,.58);display:none;
+ align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(2px)}
 .newver.on{display:flex}
-.newver button{background:#fff;color:var(--navy);font-size:12.5px;font-weight:800;padding:8px 15px;border-radius:999px;white-space:nowrap}
+.upbox{background:#fff;border-radius:20px;padding:26px 22px 16px;width:100%;max-width:330px;text-align:center;
+ box-shadow:0 24px 60px rgba(8,32,79,.4);animation:uppop .22s ease-out}
+@keyframes uppop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.upic{width:54px;height:54px;margin:0 auto 15px;border-radius:17px;background:var(--tint);
+ display:grid;place-items:center;color:var(--navy)}
+.upbox b{display:block;font-size:19.5px;font-weight:800;letter-spacing:-.6px;color:var(--ink)}
+.upbox .uv{display:block;margin-top:6px;font-size:12.5px;font-weight:800;color:var(--blue)}
+.upbox p{margin:13px 0 18px;font-size:12.5px;font-weight:600;color:var(--ink3);line-height:1.8}
+.upb{width:100%;padding:15px;border-radius:12px;background:var(--navy);color:#fff;font-size:15px;font-weight:800}
+.uplater{width:100%;padding:13px;margin-top:5px;background:#fff;color:var(--ink3);font-size:13px;font-weight:700}
 .viewer{position:fixed;inset:0;z-index:300;background:#0B1220;display:none;flex-direction:column}
 .viewer.on{display:flex}
 .vtop{display:flex;align-items:center;gap:10px;padding:calc(var(--st) + 12px) 16px 12px;color:#fff}
@@ -575,8 +582,16 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
   </div></div></div>
 
 <div class="newver" id="newVer">
-  <span>새 버전이 있습니다</span>
-  <button onclick="applyUpdate()">지금 적용</button>
+  <div class="upbox">
+    <div class="upic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"
+      stroke-linecap="round" stroke-linejoin="round" style="width:27px;height:27px">
+      <path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></div>
+    <b>새 버전이 있습니다</b>
+    <span class="uv" id="upVer"></span>
+    <p>지금 적용하면 최신 화면으로 바뀝니다.<br>입력하신 내용은 그대로 유지됩니다.</p>
+    <button class="upb" onclick="applyUpdate()">지금 적용</button>
+    <button class="uplater" onclick="upLater()">나중에</button>
+  </div>
 </div>
 
 <div class="viewer" id="vw">
@@ -598,7 +613,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'L1';
+const BUILD = 'L2';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1819,6 +1834,9 @@ fillYears();chips();rd();startSync();
 
 /* ===== 새 버전 자동 감지 ===== */
 const AUKEY='hrAuto.v1';
+let upSnooze=0;
+function upLater(){upSnooze=Date.now()+30*60*1000;
+ document.getElementById('newVer').classList.remove('on');ts('30분 뒤에 다시 알려드립니다')}
 function applyUpdate(){
  try{if(window.caches&&caches.keys)caches.keys().then(ks=>ks.forEach(k=>caches.delete(k)))}catch(e){}
  const u=location.origin+location.pathname+'?v='+Date.now();
@@ -1833,8 +1851,9 @@ async function checkUpdate(){
    /* 로그인 전이면 곧바로 최신본으로 교체 (편집 중 강제 이동 방지) */
    let n=0;try{n=+(sessionStorage.getItem(AUKEY)||0)}catch(e){}
    if(!ME&&!pending&&n<2){try{sessionStorage.setItem(AUKEY,String(n+1))}catch(e){}return applyUpdate()}
-   const b=document.querySelector('#newVer span');
-   if(b)b.textContent='새 버전 '+m[1]+' 이 있습니다';
+   if(Date.now()<upSnooze)return;
+   const b=document.getElementById('upVer');
+   if(b)b.textContent='현재 '+BUILD+'  →  새 버전 '+m[1];
    document.getElementById('newVer').classList.add('on')}
   else{try{sessionStorage.removeItem(AUKEY)}catch(e){}}
  }catch(e){}}
