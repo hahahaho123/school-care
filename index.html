@@ -7,6 +7,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="현장관리">
 <meta name="theme-color" content="#08204F">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>설치 현장 관리 | (주)한국로보틱스</title>
 <style>
 :root{
@@ -65,16 +68,16 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .hs.iss .v{color:#FFB3AC}
 
 .panel{background:#fff;border:1px solid var(--line);border-radius:14px;margin:14px 16px 0;padding:14px 15px}
-.sync{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.sync .l{flex:1;min-width:170px}
-.cap{font-size:10.5px;font-weight:700;color:var(--ink3);letter-spacing:.3px}
-.stt{font-size:14.5px;font-weight:700;margin-top:2px;display:flex;align-items:center;gap:6px}
-.ds{font-size:11.5px;color:var(--ink3);margin-top:3px;line-height:1.5}
+.syncbar{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
+ border-radius:11px;margin:12px 16px 0;padding:9px 10px 9px 13px}
+.sl{flex:1;min-width:0;display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.sl b{font-size:13px;font-weight:700;white-space:nowrap}
+.sl span{font-size:11px;color:var(--ink3);font-weight:600}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--ink3);flex:0 0 auto}
 .dot.g{background:#12A150}.dot.r{background:#DC5B4E}.dot.y{background:#D99A0B}
 @keyframes bl{0%,100%{opacity:1}50%{opacity:.25}}
 .dot.y{animation:bl 1s infinite}
-.gbtn{background:var(--navy);color:#fff;border-radius:9px;padding:11px 15px;font-size:13.5px;font-weight:700;white-space:nowrap}
+.gbtn{flex:0 0 auto;background:var(--navy);color:#fff;border-radius:8px;padding:8px 13px;font-size:12px;font-weight:700;white-space:nowrap}
 .gbtn.o{background:#fff;color:var(--ink2);border:1px solid var(--line)}
 
 .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:9px;margin:12px 16px 0}
@@ -85,17 +88,31 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .rbox .v i{font-style:normal;font-size:11.5px;font-weight:600;color:var(--ink3)}
 .rbox .bar{height:3px;border-radius:2px;background:var(--line2);margin-top:7px;overflow:hidden}
 .rbox .bar i{display:block;height:100%;border-radius:2px;transition:width .35s}
-.chips{display:flex;gap:7px;flex-wrap:wrap;padding:0 16px;margin-top:14px}
+.chips{display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:0 16px;margin-top:12px}
 .chip{padding:8px 15px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--ink2)}
 .chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
-.chip.f{border-color:#F0CFCC;color:var(--bad)}
+.chip.f{border-color:#F0CFCC;color:var(--bad);margin-left:auto}
 
 .fl{display:block;font-size:11px;font-weight:700;color:var(--ink2);margin-bottom:6px}
 .inp{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:9px;background:#fff;outline:none;font-size:14.5px}
 .inp:focus{border-color:var(--blue)}
 textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
-.addrow{display:grid;grid-template-columns:1fr 122px 74px;gap:9px;align-items:end}
-.addrow .b{padding:11px;border-radius:9px;background:var(--navy);color:#fff;font-weight:700;font-size:14px}
+.tools{margin:10px 16px 0;display:grid;gap:8px}
+@media(min-width:660px){.tools{grid-template-columns:1fr 1.2fr;align-items:start}}
+.srch{position:relative;display:flex;align-items:center}
+.srch svg{position:absolute;left:11px;width:15px;height:15px;color:var(--ink3)}
+.srch input{width:100%;padding:10px 12px 10px 33px;border:1px solid var(--line);border-radius:9px;
+ background:#fff;font-size:14px;outline:none}
+.srch input:focus{border-color:var(--blue)}
+.addrow{display:grid;grid-template-columns:1fr 104px 62px;gap:7px}
+.addrow .inp{padding:10px 11px;font-size:14px}
+.badd{padding:10px;border-radius:9px;background:var(--navy);color:#fff;font-weight:700;font-size:13.5px}
+.rgwrap{position:relative;display:block;min-width:0}
+.rgwrap .inp{width:100%}
+.rgsel{appearance:none;-webkit-appearance:none;padding-right:26px;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2395A0B5' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+ background-repeat:no-repeat;background-position:right 8px center;background-size:12px}
+.rgsel:invalid{color:var(--ink3)}
 .sec{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:22px 16px 10px}
 .sec .c{font-size:10.5px;font-weight:700;color:var(--ink3);letter-spacing:.3px}
 .sec h2{margin:2px 0 0;font-size:17px;font-weight:800;letter-spacing:-.5px}
@@ -252,6 +269,12 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 .man .who{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 13px;margin-top:20px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .man .who b{display:block;font-size:13.5px;font-weight:800}
 .man .who span{display:block;font-size:11.5px;color:var(--ink3);margin-top:2px}
+.newver{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + var(--sb));z-index:250;
+ background:var(--navy);color:#fff;border-radius:999px;padding:8px 8px 8px 18px;display:none;
+ align-items:center;gap:12px;font-size:13px;font-weight:700;white-space:nowrap;
+ box-shadow:0 8px 24px rgba(8,32,79,.4)}
+.newver.on{display:flex}
+.newver button{background:#fff;color:var(--navy);font-size:12.5px;font-weight:800;padding:8px 15px;border-radius:999px;white-space:nowrap}
 .viewer{position:fixed;inset:0;z-index:300;background:#0B1220;display:none;flex-direction:column}
 .viewer.on{display:flex}
 .vtop{display:flex;align-items:center;gap:10px;padding:calc(var(--st) + 12px) 16px 12px;color:#fff}
@@ -266,7 +289,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 .vnav:disabled{opacity:.3}
 .vopen{flex:0 0 auto;padding:13px 16px;border-radius:10px;background:#fff;color:#0B1220;font-size:13.5px;
  font-weight:800;text-decoration:none}
-.tst{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + var(--sb));background:var(--ink);color:#fff;
+.tst{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(78px + var(--sb));background:var(--ink);color:#fff;
  padding:11px 17px;border-radius:9px;font-size:13px;font-weight:600;z-index:210;opacity:0;pointer-events:none;transition:opacity .18s;max-width:86%;text-align:center}
 .tst.on{opacity:1}
 .foot{text-align:center;font-size:10.5px;color:var(--ink3);padding:26px 0 0;line-height:1.7}
@@ -306,28 +329,27 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
   <div class="hstats" id="hstats"></div>
 </div>
 
-<div class="panel">
-  <div class="sync">
-    <div class="l">
-      <div class="cap">자동 동기화</div>
-      <div class="stt"><span class="dot" id="sDot"></span><span id="sTxt">기기 저장 모드</span></div>
-      <div class="ds" id="sDesc"></div>
-    </div>
-    <button class="gbtn" id="gBtn">지금 동기화</button>
-  </div>
+<div class="syncbar">
+  <span class="dot" id="sDot"></span>
+  <div class="sl"><b id="sTxt">기기 저장 모드</b><span id="sDesc"></span></div>
+  <button class="gbtn" id="gBtn">동기화</button>
 </div>
 
 <div class="pastbar" id="pastBar" style="display:none">선택한 연도: <span id="pastY"></span><button onclick="setYear(Y0())">올해로</button></div>
 <div class="rgrid" id="rgrid"></div>
 <div class="chips" id="chips"></div>
 
-<div class="panel">
-  <div style="margin-bottom:12px"><label class="fl">학교 검색</label>
-    <input class="inp" type="text" id="q" placeholder="학교명을 입력하세요" autocomplete="off"></div>
+<div class="tools">
+  <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input type="text" id="q" placeholder="학교명 검색" autocomplete="off"></div>
   <div class="addrow">
-    <div><label class="fl">새 학교</label><input class="inp" type="text" id="nName" placeholder="학교명 추가" autocomplete="off"></div>
-    <div><label class="fl">지역</label><input class="inp" type="text" id="nRg" list="rgList" value="서울" autocomplete="off"><datalist id="rgList"></datalist></div>
-    <button class="b" style="padding:11px;font-size:14px" onclick="addSchool()">추가</button>
+    <input class="inp" type="text" id="nName" placeholder="새 학교 추가" autocomplete="off">
+    <span class="rgwrap">
+      <select class="inp rgsel" id="nRgSel" onchange="onRgSel(this.value)"></select>
+      <input class="inp" type="text" id="nRgTxt" placeholder="지역 입력" autocomplete="off" style="display:none">
+    </span>
+    <datalist id="rgList"></datalist>
+    <button class="badd" onclick="addSchool()">추가</button>
   </div>
 </div>
 
@@ -407,6 +429,11 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
     <div style="height:14px"></div>
   </div></div></div>
 
+<div class="newver" id="newVer">
+  <span>새 버전이 있습니다</span>
+  <button onclick="applyUpdate()">지금 적용</button>
+</div>
+
 <div class="viewer" id="vw">
   <div class="vtop"><span class="vname" id="vName"></span>
     <span class="vidx" id="vIdx"></span>
@@ -426,7 +453,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'H4';
+const BUILD = 'H8';
 /* ================================== */
 
 const SEED=[['숭곡중학교','서울'],['인화여자중학교','인천'],['내곡중학교','서울'],['서울고일초등학교','서울'],
@@ -574,8 +601,25 @@ function rgrid(){document.getElementById('rgrid').innerHTML=regions().map(r=>{
 function chips(){document.getElementById('chips').innerHTML=
  ['전체',...regions()].map(r=>`<button class="chip ${curRg===r?'on':''}" onclick="setRg('${esc(r)}')">${esc(r)}</button>`).join('')
  +`<button class="chip f" onclick="openIssues()">미해결 이슈 ${DB.schools.filter(s=>Y(s).issue).length}</button>`;
- document.getElementById('rgList').innerHTML=RG_PRESET.concat(regions().filter(r=>RG_PRESET.indexOf(r)<0))
-   .map(r=>`<option value="${esc(r)}">`).join('')}
+ const used=regions(), rest=RG_PRESET.filter(r=>used.indexOf(r)<0);
+ document.getElementById('rgList').innerHTML=used.concat(rest).map(r=>`<option value="${esc(r)}">`).join('');
+ const sel=document.getElementById('nRgSel'); const keep=sel.value;
+ sel.innerHTML=`<option value="" selected disabled>지역 선택</option>`
+  +(used.length?`<optgroup label="사용 중">${used.map(r=>`<option value="${esc(r)}">${esc(r)}</option>`).join('')}</optgroup>`:'')
+  +(rest.length?`<optgroup label="전국">${rest.map(r=>`<option value="${esc(r)}">${esc(r)}</option>`).join('')}</optgroup>`:'')
+  +`<option value="__custom">직접 입력…</option>`;
+ if(keep&&keep!=='__custom')sel.value=keep}
+function onRgSel(v){
+ const sel=document.getElementById('nRgSel'), txt=document.getElementById('nRgTxt');
+ if(v==='__custom'){sel.style.display='none';txt.style.display='block';txt.value='';txt.focus()}
+}
+function resetRg(){
+ const sel=document.getElementById('nRgSel'), txt=document.getElementById('nRgTxt');
+ txt.style.display='none';txt.value='';sel.style.display='block';sel.value=''}
+function pickedRg(){
+ const txt=document.getElementById('nRgTxt');
+ if(txt.style.display!=='none')return txt.value.trim();
+ return document.getElementById('nRgSel').value}
 const setRg=r=>{curRg=curRg===r&&r!=='전체'?'전체':r;rgrid();chips();rd()};
 
 function vis(){const q=document.getElementById('q').value.trim();
@@ -647,11 +691,12 @@ function setI(id,v){Y(S(id)).issue=v;save(id);chips();rd()}
 function addSchool(){const n=document.getElementById('nName').value.trim();
  if(!n)return ts('학교명을 입력하세요');
  if(DB.schools.some(s=>s.name===n))return ts('이미 등록된 학교입니다');
- const rg=document.getElementById('nRg').value.trim()||'기타';
+ const rg=pickedRg();
+ if(!rg||rg==='__custom')return ts('지역을 선택하세요');
  const ns=Object.assign({id:'s'+Date.now()+Math.random().toString(36).slice(2,5),
   order:DB.schools.reduce((a,s)=>Math.max(a,s.order),0)+1,name:n,region:rg},blank(),{mt:Date.now()});
  Y(ns); DB.schools.push(ns);
- document.getElementById('nName').value='';save();chips();rd();ts(n+' 추가 완료 ('+rg+')')}
+ document.getElementById('nName').value='';resetRg();save();chips();rd();ts(n+' 추가 완료 ('+rg+')')}
 function setRegion(id,v){const s=S(id),r=v.trim();if(!r)return;s.region=r;save(id);chips();rd();openH(id);ts('지역 변경: '+r)}
 function renameSchool(id,v){const s=S(id),n=v.trim();if(!n)return;
  if(DB.schools.some(x=>x.id!==id&&x.name===n))return ts('같은 이름의 학교가 있습니다');
@@ -1188,6 +1233,24 @@ document.getElementById('lLogo').src=document.querySelector('.hlogo img').src;
 if(!ME)showLock(); else document.getElementById('lock').classList.add('off');
 document.getElementById('ver').textContent='빌드 '+BUILD+' · 구글 시트 연동 · 동기화 '+(SYNC_URL?'설정됨':'미설정');
 fillYears();chips();rd();startSync();
+
+/* ===== 새 버전 자동 감지 ===== */
+function applyUpdate(){
+ const u=location.origin+location.pathname+'?v='+Date.now();
+ location.replace(u)}
+async function checkUpdate(){
+ try{
+  const r=await fetch(location.pathname+'?_c='+Date.now(),{cache:'no-store'});
+  if(!r.ok)return;
+  const t=await r.text();
+  const m=t.match(/const BUILD = '([^']+)'/);
+  if(m&&m[1]&&m[1]!==BUILD)document.getElementById('newVer').classList.add('on');
+ }catch(e){}}
+if(location.protocol==='https:'||location.protocol==='http:'){
+ setTimeout(checkUpdate,3000);
+ setInterval(checkUpdate,10*60*1000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate()});
+}
 </script>
 </body>
 </html>
