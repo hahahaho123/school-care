@@ -214,6 +214,26 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .acts{display:flex;gap:7px;flex-wrap:wrap;margin:16px 16px 0}
 .act{padding:9px 13px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:12.5px;font-weight:700;color:var(--ink2)}
 .act.d{color:var(--bad);border-color:#F0CFCC}
+.mnb{display:flex;align-items:center;gap:5px;position:relative;padding-left:11px}
+.mnb svg{width:14px;height:14px}
+.nd2{width:6px;height:6px;border-radius:50%;background:#FF6B5E;display:none;
+ position:absolute;top:3px;right:4px}
+.nd2.on{display:block}
+.mgrp{font-size:10.5px;font-weight:800;color:var(--ink3);letter-spacing:.3px;margin:16px 0 8px 2px}
+.mgrp:first-child{margin-top:2px}
+.mlist{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mit{display:flex;align-items:center;gap:11px;width:100%;padding:14px 14px;text-align:left;
+ border-bottom:1px solid var(--line2);background:#fff}
+.mit:last-child{border-bottom:none}
+.mit .mic{width:30px;height:30px;border-radius:9px;background:var(--tint);color:var(--navy);
+ display:grid;place-items:center;flex:0 0 auto}
+.mit .mic svg{width:15px;height:15px}
+.mit b{font-size:13.5px;font-weight:800;color:var(--ink)}
+.mit i{display:block;font-style:normal;font-size:11px;font-weight:600;color:var(--ink3);margin-top:2px}
+.mit .ar{margin-left:auto;color:var(--ink3);font-size:15px;font-weight:700;flex:0 0 auto}
+.mit .dot{margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--bad);flex:0 0 auto}
+.mit.d b{color:var(--bad)}
+.mit.d .mic{background:var(--badbg);color:var(--bad)}
 
 /* sheets */
 .ov{position:fixed;inset:0;background:rgba(14,23,38,.5);z-index:60;display:none;align-items:flex-end;justify-content:center}
@@ -370,7 +390,6 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .cli div::before{content:'';position:absolute;left:2px;top:9px;width:5px;height:5px;
  border-radius:50%;background:var(--blue2)}
 .cli div b{font-weight:800;color:var(--ink)}
-.verlink{color:var(--blue);font-weight:700;text-decoration:underline}
 .act .nd{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--bad);
  vertical-align:middle;margin-left:5px}
 .newver{position:fixed;inset:0;z-index:400;background:rgba(8,18,34,.58);display:none;
@@ -414,7 +433,9 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
     <div class="hlogo"><img src="data:image/png;base64,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" alt="한국로보틱스"></div>
     <div style="display:flex;gap:6px;align-items:center">
       <button class="pill-s" onclick="openSum()">전체 요약</button>
-      <button class="pill-s" onclick="openMan()">매뉴얼</button></div>
+      <button class="pill-s mnb" id="mnBtn" onclick="openMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        메뉴<span class="nd2" id="mnDot"></span></button></div>
   </div>
   <div class="hmid">
     <div><div class="eyebrow">(주)한국로보틱스</div><h1>HR 현장 통합 관리</h1></div>
@@ -486,7 +507,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 <div class="sec"><div><div class="c">관리 목록</div><h2>학교별 체크</h2></div><div class="r" id="cnt"></div></div>
 <div class="grid" id="grid"></div>
 
-<div class="acts" id="acts"></div>
+<div id="acts" style="display:none"></div>
 <input type="file" id="imp" accept=".json" style="display:none" onchange="imJSON(this)">
 <div class="foot"><span id="whoNow" style="font-weight:700;color:var(--ink2)"></span><br>(주)한국로보틱스<br><span id="ver"></span></div>
 </div>
@@ -544,6 +565,10 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 <div class="ov" id="ovM" onclick="if(event.target===this)cl('ovM')"><div class="sheet">
   <div class="shd"><h3>매뉴얼</h3><button class="cls" onclick="cl('ovM')">✕</button></div>
   <div class="sbd" id="mBd"></div></div></div>
+
+<div class="ov" id="ovMn" onclick="if(event.target===this)cl('ovMn')"><div class="sheet">
+  <div class="shd"><h3>메뉴</h3><button class="cls" onclick="cl('ovMn')">✕</button></div>
+  <div class="sbd" id="mnBd"></div></div></div>
 
 <div class="ov" id="ovW" onclick="if(event.target===this)cl('ovW')"><div class="sheet">
   <div class="shd"><h3>업데이트 내역</h3><button class="cls" onclick="cl('ovW')">✕</button></div>
@@ -669,7 +694,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'M3';
+const BUILD = 'M5';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1015,7 +1040,7 @@ async function doLogin(){
  markAct();try{localStorage.setItem(AKEY,String(Date.now()))}catch(e){}
  beat(true);touchLogin(true);
  if(u.role==='admin')askNoti();
- if(hasNew())setTimeout(()=>ts('앱이 업데이트되었습니다 · 아래 업데이트 내역에서 확인하세요'),1400);
+ if(hasNew())setTimeout(()=>ts('앱이 업데이트되었습니다 · 오른쪽 위 메뉴에서 확인하세요'),1400);
  rdActs();rdLoginBar();ts((ME.name||ME.id)+'님, 반갑습니다')}
 /* 앱을 켤 때마다 접속 기록. 30분 안에 재실행하면 시각만 갱신 */
 function touchLogin(force){
@@ -1032,7 +1057,7 @@ function touchLogin(force){
 function logout(){if(!confirm('로그아웃할까요?'))return;
  dropBeat();
  try{sessionStorage.removeItem(UKEY);localStorage.removeItem(UKEY)}catch(e){}
- ME=null;cl('ovM');rdActs();document.getElementById('lPw').value='';showLock()}
+ ME=null;cl('ovM');cl('ovMn');rdActs();document.getElementById('lPw').value='';showLock()}
 
 /* ============== 렌더 ============== */
 function hstats(){
@@ -1165,18 +1190,55 @@ function rd(){
      <label class="isw"><input type="checkbox" ${y.issue?'checked':''} onchange="setI('${s.id}',this.checked)"> 미해결 이슈</label>
    </div></div>`}).join('');
  document.querySelectorAll('.ta,.win').forEach(grow);rdActs();rdLoginBar()}
+const IC={
+ man:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5"/>',
+ up:'<path d="M12 20V5"/><path d="M6 11l6-6 6 6"/>',
+ log:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+ usr:'<circle cx="12" cy="9" r="3.4"/><path d="M5.5 19.5a6.8 6.8 0 0 1 13 0"/>',
+ csv:'<path d="M5 3.5h9l5 5V20.5H5z"/><path d="M14 3.5v5h5"/><path d="M8.5 13h7M8.5 16.5h4.5"/>',
+ dn:'<path d="M12 4v10"/><path d="M7.5 10l4.5 4.5 4.5-4.5"/><path d="M4.5 19.5h15"/>',
+ upl:'<path d="M12 15V5"/><path d="M7.5 9.5L12 5l4.5 4.5"/><path d="M4.5 19.5h15"/>',
+ set:'<circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M21 12h-2.5M5.5 12H3M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8M18.4 18.4l-1.8-1.8M7.4 7.4L5.6 5.6"/>',
+ bell:'<path d="M6.5 10a5.5 5.5 0 0 1 11 0c0 4 1.5 5.5 1.5 5.5H5S6.5 14 6.5 10z"/><path d="M10 18.5a2.2 2.2 0 0 0 4 0"/>',
+ trash:'<path d="M4.5 6.5h15"/><path d="M9.5 6.5V4.5h5v2"/><path d="M6.5 6.5l1 13h9l1-13"/>',
+ out:'<path d="M14.5 4.5H6a1.5 1.5 0 0 0-1.5 1.5v12A1.5 1.5 0 0 0 6 19.5h8.5"/><path d="M16 8.5l3.5 3.5L16 15.5"/><path d="M19.5 12H10"/>'};
+const sv=k=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+IC[k]+'</svg>';
+function mItem(fn,ic,name,desc,opt){opt=opt||{};
+ return `<button class="mit${opt.d?' d':''}" onclick="cl('ovMn');${fn}">
+   <span class="mic">${sv(ic)}</span>
+   <span><b>${name}</b>${desc?`<i>${desc}</i>`:''}</span>
+   ${opt.dot?'<span class="dot"></span>':'<span class="ar">›</span>'}</button>`}
+function openMenu(){
+ const admin=ME&&ME.role==='admin';
+ const pend=(DB.users||[]).filter(u=>u.status==='pending').length;
+ document.getElementById('mnBd').innerHTML=`
+  <div class="mgrp">보기</div>
+  <div class="mlist">
+   ${mItem('openMan()','man','매뉴얼','앱 사용법 안내')}
+   ${mItem('openWhat()','up','업데이트 내역 보기','앱이 어떻게 바뀌었는지',{dot:hasNew()})}
+   ${mItem('openLog()','log','변경 이력','누가 무엇을 바꿨는지')}
+   ${mItem('openLogins()','usr','접속 현황','접속 중 · 로그인 기록')}
+   ${mItem('exCSV()','csv','엑셀(CSV) 내보내기','현황 · 특별점검 · 지난 기록')}
+  </div>
+  ${admin?`<div class="mgrp">관리자</div>
+  <div class="mlist">
+   ${mItem('openUsers()','usr','계정 관리'+(pend?' · 승인 대기 '+pend+'건':''),'승인 · 권한 · 비밀번호',{dot:!!pend})}
+   ${mItem('openSet()','set','점검 주기 설정','정기점검 · 재교육 주기')}
+   ${mItem('exJSON()','dn','백업 저장','전체 데이터를 파일로')}
+   ${mItem("document.getElementById('imp').click()",'upl','백업 불러오기','파일로 전체 복원')}
+   ${mItem('openDel()','trash','학교 삭제','여러 학교를 선택해 삭제',{d:1})}
+  </div>`:''}
+  <div class="mgrp">계정</div>
+  <div class="mlist">
+   ${mItem('logout()','out','로그아웃',(ME?(ME.name||ME.id)+' · '+ME.id:''))}
+  </div>
+  <div style="height:16px"></div>`;
+ op('ovMn')}
 function rdActs(){
  const admin=ME&&ME.role==='admin';
- document.getElementById('acts').innerHTML=
-  `<button class="act" onclick="openWhat()">업데이트 내역${hasNew()?'<span class="nd"></span>':''}</button>
-   <button class="act" onclick="openLog()">변경 이력</button>
-   <button class="act" onclick="exCSV()">엑셀(CSV) 내보내기</button>`
-  +(admin?`<button class="act" onclick="exJSON()">백업 저장</button>
-   <button class="act" onclick="document.getElementById('imp').click()">백업 불러오기</button>
-   <button class="act" onclick="openSet()">점검 주기 설정</button>
-   <button class="act" onclick="openUsers()">계정 관리${(DB.users||[]).filter(u=>u.status==='pending').length?' <b style="color:var(--bad)">'+(DB.users||[]).filter(u=>u.status==='pending').length+'</b>':''}</button>`:'')
-  +(admin?`<button class="act d" onclick="openDel()">학교 삭제</button>`:'')
-  +`<button class="act" onclick="logout()">로그아웃</button>`;
+ const pend=(DB.users||[]).filter(u=>u.status==='pending').length;
+ const d=document.getElementById('mnDot');
+ if(d)d.classList.toggle('on',hasNew()||(admin&&pend>0));
  const tl=document.getElementById('tools'); if(tl)tl.style.display=admin?'':'none';
  rdPend();
  document.getElementById('whoNow').textContent=ME?((ME.name||ME.id)+' · '+ME.id+(ME.role==='admin'?' (관리자)':'')):''}
@@ -1759,7 +1821,9 @@ function delUser(id){
 
 /* ============== 업데이트 내역 ============== */
 const CHANGES=[
- {v:'M3',d:'2026-07-31',n:['<b>업데이트 내역</b> 화면이 생겼습니다 — 앱이 바뀔 때마다 무엇이 달라졌는지 확인할 수 있습니다',
+ {v:'M5',d:'2026-07-31',n:['화면 오른쪽 위에 <b>메뉴</b> 버튼이 생겼습니다 — 매뉴얼 · 업데이트 내역 · 변경 이력 · 로그아웃을 여기서 바로 엽니다',
+   '맨 아래까지 내려가지 않아도 되도록 하단 버튼 줄은 없앴습니다']},
+ {v:'M4',d:'2026-07-31',n:['하단에 <b>업데이트 내역 보기</b> 버튼이 생겼습니다 — 앱이 바뀔 때마다 무엇이 달라졌는지 확인할 수 있습니다',
    '새 버전이 적용되면 버튼에 빨간 점으로 알려드립니다']},
  {v:'M2',d:'2026-07-31',n:['학교 <b>줄임말 검색</b> 추가 — 체고 · 개일초 · 진선여고 처럼 짧게 입력해도 찾아집니다',
    '학교마다 줄임말을 직접 등록·수정할 수 있습니다 (학교 카드 ⋯ → 검색 별칭)']},
@@ -1876,8 +1940,8 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
     화면을 만지거나 앱을 다시 열면 시간이 초기화됩니다. 입력한 내용은 그대로 보관되며,
     다시 로그인하면 이어서 사용할 수 있습니다.</p>
  <h4><i>9</i>업데이트 내역</h4>
- <p>하단 <span class="k">업데이트 내역</span> 에서 앱이 어떻게 바뀌었는지 확인할 수 있습니다.
-    새 기능이 추가되면 버튼에 빨간 점이 표시됩니다.</p>
+ <p>오른쪽 위 <span class="k">메뉴</span> → <span class="k">업데이트 내역 보기</span> 에서 앱이 어떻게 바뀌었는지 확인할 수 있습니다.
+    새 기능이 추가되면 메뉴 버튼에 빨간 점이 표시됩니다.</p>
  <h4><i>10</i>학교 찾기</h4>
  <p>상단 검색칸은 화면을 내려도 계속 따라옵니다.
     <b>학교명 일부</b>, <b>줄임말</b>, <b>지역</b>, <b>설치 순서 번호</b> 중 아무거나 입력하면 됩니다.
@@ -1889,7 +1953,7 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
  <h4><i>11</i>학교 추가 · 삭제 <b style="color:var(--bad)">관리자 전용</b></h4>
  <p>검색칸 아래 <span class="k">새 학교 추가</span> 칸에 학교명과 지역을 입력하고 <span class="k">추가</span> 를 누릅니다.
     지역은 목록에서 선택하거나 직접 입력할 수 있습니다.
-    삭제는 하단 <span class="k">학교 삭제</span> 에서 대상을 선택해 진행합니다.
+    삭제는 오른쪽 위 <span class="k">메뉴</span> → <span class="k">학교 삭제</span> 에서 대상을 선택해 진행합니다.
     두 기능 모두 관리자 계정에서만 보입니다.</p>
  <h4><i>12</i>계정 신청 · 즉시 승인</h4>
  <p>로그인 화면의 <span class="k">회원가입</span> 에서 아이디·이름·비밀번호를 입력해 신청합니다.
@@ -2036,8 +2100,7 @@ document.getElementById('rLogo').src=document.querySelector('.hlogo img').src;
 if(ME && Date.now()-readAct() > IDLE_MIN*60*1000){
  try{sessionStorage.removeItem(UKEY)}catch(e){} ME=null}
 if(!ME)showLock(); else {document.getElementById('lock').classList.add('off');markAct();setTimeout(()=>{touchLogin(false);beat(true)},300)}
-document.getElementById('ver').innerHTML='<a class="verlink" href="javascript:void(0)" onclick="openWhat()">빌드 '
- +BUILD+' 업데이트 내역</a> · 구글 시트 연동 · 동기화 '+(SYNC_URL?'설정됨':'미설정');
+document.getElementById('ver').textContent='빌드 '+BUILD+' · 구글 시트 연동 · 동기화 '+(SYNC_URL?'설정됨':'미설정');
 fillYears();chips();rd();startSync();
 
 /* ===== 새 버전 자동 감지 ===== */
