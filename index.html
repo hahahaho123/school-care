@@ -56,16 +56,21 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .rl{font-size:11.5px;font-weight:700;color:#fff;text-align:center;line-height:1.35}
 .rl span{display:block;font-size:9.5px;color:#9EC3E0;font-weight:600;margin-top:1px}
 .hstats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:20px;position:relative;z-index:1}
-.hstats .iss{grid-column:1/-1}
-@media(min-width:660px){.hstats{grid-template-columns:repeat(5,1fr)}.hstats .iss{grid-column:auto}}
+@media(min-width:660px){.hstats{grid-template-columns:repeat(4,1fr)}}
+.issbar{display:flex;align-items:center;gap:7px;width:100%;padding:9px 11px;border-radius:10px;
+ background:rgba(220,91,78,.2);border:1px solid rgba(255,160,150,.34);text-align:left}
+.issbar .idot{width:7px;height:7px;border-radius:50%;background:#FF9E93;flex:0 0 auto;
+ animation:ibl 1.5s ease-in-out infinite}
+@keyframes ibl{0%,100%{opacity:1}50%{opacity:.35}}
+.issbar b{font-size:12px;font-weight:700;color:#FFD9D4}
+.issbar em{font-style:normal;font-size:13.5px;font-weight:800;color:#FFB3AC}
+.issbar .iar{margin-left:auto;font-size:14px;font-weight:700;color:#FFB3AC}
 .hs{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:11px;padding:10px 12px;text-align:left;width:100%}
 .hs .t{font-size:10.5px;color:#B9D3E8;font-weight:600}
 .hs .v{font-size:18px;font-weight:800;letter-spacing:-.7px;margin-top:2px}
 .hs .v i{font-style:normal;font-size:11.5px;font-weight:600;color:#9EC3E0}
 .hs .bar{height:3px;border-radius:2px;background:rgba(255,255,255,.16);margin-top:6px;overflow:hidden}
 .hs .bar i{display:block;height:100%;background:#5FB0E5;border-radius:2px;transition:width .35s}
-.hs.iss{background:rgba(220,91,78,.18);border-color:rgba(255,160,150,.3)}
-.hs.iss .v{color:#FFB3AC}
 
 .panel{background:#fff;border:1px solid var(--line);border-radius:14px;margin:14px 16px 0;padding:14px 15px}
 .syncbar{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
@@ -738,7 +743,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'N4';
+const BUILD = 'N6';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1112,8 +1117,8 @@ function hstats(){
    <div class="v num">${c}<i>/${N}</i></div><div class="bar"><i style="width:${N?c/N*100:0}%"></i></div></button>`}).join('');
  const ci=DB.schools.filter(s=>Y(s).issue).length;
  document.getElementById('hstats').innerHTML=cells+
-  `<button class="hs iss" onclick="openIssues()"><div class="t">미해결 이슈 ›</div>
-   <div class="v num">${ci}<i> 건</i></div><div class="bar"><i style="width:${N?ci/N*100:0}%;background:#FF9E93"></i></div></button>`}
+  (ci?`<button class="issbar" onclick="openIssues()">
+     <span class="idot"></span><b>미해결 이슈</b><em>${ci}건</em><span class="iar">›</span></button>`:'')}
 let flagK='';
 function setFlag(k){flagK=flagK===k?'':k;rd()}
 function rgrid(){document.getElementById('rgrid').innerHTML=regions().map(r=>{
@@ -1917,6 +1922,7 @@ function delUser(id){
 const CHANGES=[
  {v:'N4',d:'2026-07-31',t:'이번 업데이트',n:[
   '전체 요약의 <b>자료 보기가 한 줄에 두 학교씩</b> 나오도록 바꿨습니다 — 한 화면에 두 배로 보입니다',
+  '상단 <b>미해결 이슈 칸이 얇아졌습니다</b> — 이슈가 없으면 아예 표시되지 않아 화면이 넓어집니다',
   '<b>경과 기간</b>(6개월 경과)을 주황색으로 표시해 눈에 잘 띄도록 했습니다',
   '점검 항목 오른쪽 자료 버튼을 <b>카메라 모양</b>으로 바꿨습니다 — 기기마다 다르게 보이던 문제도 해결됩니다',
   '<b>미해결 이슈 → 이슈 전체보기</b> 로 이름을 바꿨습니다 (건수는 있을 때만 표시)',
