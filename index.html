@@ -33,6 +33,15 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .hlogo img{height:19px;display:block}
 .pill-s{font-size:11.5px;font-weight:700;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.14);
  border:1px solid rgba(255,255,255,.22);color:#fff;white-space:nowrap}
+.yrsel{appearance:none;-webkit-appearance:none;font-size:12px;font-weight:800;padding:7px 26px 7px 13px;
+ border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:#fff;outline:none;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+ background-repeat:no-repeat;background-position:right 9px center;background-size:11px}
+.yrsel option{color:#0E1726}
+.pastbar{background:#FFF7E8;border:1px solid #F0DCA8;border-radius:10px;margin:12px 16px 0;padding:10px 13px;
+ font-size:12.5px;font-weight:700;color:#8A5D0B;display:flex;align-items:center;gap:8px}
+.pastbar button{margin-left:auto;font-size:11.5px;font-weight:700;color:#8A5D0B;border:1px solid #E8CE93;
+ background:#fff;border-radius:8px;padding:5px 10px}
 .hmid{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:20px;position:relative;z-index:1}
 .eyebrow{font-size:11px;font-weight:700;color:#9EC3E0;letter-spacing:.4px}
 .hero h1{margin:5px 0 0;font-size:27px;font-weight:800;letter-spacing:-1.1px;white-space:nowrap}
@@ -187,11 +196,24 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 .sumfoot b{color:var(--ink)}
 .sumnote{margin-top:6px;background:var(--line2);border-radius:8px;padding:8px 10px;font-size:12.5px;
  color:var(--ink2);white-space:pre-wrap;word-break:break-word;line-height:1.6}
-.sumthumbs{display:flex;gap:6px;overflow-x:auto;margin-top:9px;padding-bottom:2px}
-.sumthumbs::-webkit-scrollbar{display:none}
-.sumth{flex:0 0 auto;width:58px;border:1px solid var(--line);border-radius:8px;overflow:hidden;display:block;background:#fff}
-.sumth img{width:100%;height:48px;object-fit:cover;display:block;background:var(--line2)}
-.sumth .d{height:48px;display:grid;place-items:center;font-size:18px;background:var(--tint)}
+.segs{display:flex;gap:0;background:var(--line2);border-radius:10px;padding:3px;margin-bottom:12px}
+.seg{flex:1;padding:9px;border-radius:8px;font-size:12.5px;font-weight:700;color:var(--ink2)}
+.seg.on{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(14,23,38,.1)}
+.stline{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.st1{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:5px;background:var(--okbg);color:var(--ok)}
+.st1.warn{background:var(--warnbg);color:var(--warn)}
+.st1.bad{background:var(--badbg);color:var(--bad)}
+.st1.off{background:var(--line2);color:var(--ink3)}
+.st1.sp{background:#FFF6E6;color:#8A5D0B}
+.glab{font-size:11.5px;font-weight:800;color:var(--ink2);margin:14px 0 7px;display:flex;align-items:center;gap:6px}
+.glab i{font-style:normal;font-size:10.5px;font-weight:700;color:#fff;background:var(--blue);padding:1px 7px;border-radius:8px}
+.bigthumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
+.bigth{border:1px solid var(--line);border-radius:10px;overflow:hidden;display:block;background:#fff}
+.bigth img{width:100%;height:132px;object-fit:cover;display:block;background:var(--line2)}
+.bigth .doc{height:132px;display:grid;place-items:center;font-size:36px;background:var(--tint)}
+.bigth .cap{display:block;font-size:10.5px;color:var(--ink2);font-weight:600;padding:6px 8px;
+ overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nofile{text-align:center;padding:22px;color:var(--ink3);font-size:12.5px;background:var(--line2);border-radius:10px;margin-top:10px}
 .dtop{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 13px;margin-bottom:9px}
 .drow{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:7px;cursor:pointer}
 .drow.on{border-color:#F0C4C0;background:#FFF9F9}
@@ -242,7 +264,9 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 <div class="hero">
   <div class="hbar">
     <div class="hlogo"><img src="data:image/png;base64,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" alt="한국로보틱스"></div>
-    <button class="pill-s" onclick="openMan()">사용법</button>
+    <div style="display:flex;gap:7px;align-items:center">
+      <select class="yrsel" id="yrSel" onchange="setYear(this.value)"></select>
+      <button class="pill-s" onclick="openMan()">사용법</button></div>
   </div>
   <div class="hmid">
     <div><div class="eyebrow">(주)한국로보틱스</div><h1>설치 현장 관리</h1></div>
@@ -278,6 +302,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
   </div>
 </div>
 
+<div class="pastbar" id="pastBar" style="display:none">선택한 연도: <span id="pastY"></span><button onclick="setYear(Y0())">올해로</button></div>
 <div class="rgrid" id="rgrid"></div>
 <div class="chips" id="chips"></div>
 
@@ -294,15 +319,8 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 <div class="sec"><div><div class="c">관리 목록</div><h2>학교별 체크</h2></div><div class="r" id="cnt"></div></div>
 <div class="grid" id="grid"></div>
 
-<div class="acts">
-  <button class="act" style="border-color:var(--navy);color:var(--navy)" onclick="openSum()">학교 전체 요약</button>
-  <button class="act" onclick="exCSV()">엑셀(CSV) 내보내기</button>
-  <button class="act" onclick="exJSON()">백업 저장</button>
-  <button class="act" onclick="document.getElementById('imp').click()">백업 불러오기</button>
-  <input type="file" id="imp" accept=".json" style="display:none" onchange="imJSON(this)">
-  <button class="act" onclick="openSet()">설정</button>
-  <button class="act d" onclick="openDel()">학교 삭제</button>
-</div>
+<div class="acts" id="acts"></div>
+<input type="file" id="imp" accept=".json" style="display:none" onchange="imJSON(this)">
 <div class="foot">(주)한국로보틱스<br><span id="ver"></span></div>
 </div>
 
@@ -381,7 +399,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'G2';
+const BUILD = 'H2';
 /* ================================== */
 
 const SEED=[['숭곡중학교','서울'],['인화여자중학교','인천'],['내곡중학교','서울'],['서울고일초등학교','서울'],
@@ -394,12 +412,24 @@ const RG_COLORS=['#08204F','#016394','#3E7CA6','#6B7C93','#0C3070','#1E6E8C','#4
 const ITEMS=[{k:'p1',n:'1차 점검',c:'p'},{k:'p2',n:'2차 점검',c:'p'},{k:'e1',n:'1차 교육',c:'r'},{k:'e2',n:'2차 교육',c:'r'}];
 const NM={p1:'1차 정기점검',p2:'2차 정기점검',e1:'1차 재교육',e2:'2차 재교육',issue:'이슈 해결'};
 
-const blank=()=>({p1:false,p1Date:'',p2:false,p2Date:'',e1:false,e1Date:'',e2:false,e2Date:'',
- specials:[],files:{p1:[],p2:[],e1:[],e2:[]},issue:false,who:'',note:'',mt:0});
+const Y0=()=>String(new Date().getFullYear());
+let YEAR=Y0();
+const yrec=()=>({p1:false,p1Date:'',p2:false,p2Date:'',e1:false,e1Date:'',e2:false,e2Date:'',
+ specials:[],files:{p1:[],p2:[],e1:[],e2:[]},issue:false,who:'',note:''});
+const blank=()=>({years:{},mt:0});
+function Y(s,y){y=y||YEAR; if(!s.years)s.years={}; if(!s.years[y])s.years[y]=yrec();
+ const r=s.years[y];
+ if(!r.files||Array.isArray(r.files))r.files={p1:[],p2:[],e1:[],e2:[]};
+ ITEMS.forEach(i=>{if(!Array.isArray(r.files[i.k]))r.files[i.k]=[]});
+ if(!Array.isArray(r.specials))r.specials=[];
+ return r}
+function yearList(){const set=new Set([Y0(),YEAR]);
+ DB.schools.forEach(s=>Object.keys(s.years||{}).forEach(y=>set.add(y)));
+ return [...set].sort().reverse()}
 const DEFAULT_USERS=()=>[
  {id:'admin',pw:'admin',name:'관리자',role:'admin',mt:0},
- {id:'HR01', pw:'4609', name:'',      role:'user', mt:0}];
-const fresh=()=>({schools:SEED.map((s,i)=>Object.assign({id:'s'+(i+1),order:i+1,name:s[0],region:s[1]},blank())),
+ {id:'HR01', pw:'0000', name:'',      role:'user', mt:0}];
+const fresh=()=>({schools:SEED.map((s,i)=>Object.assign({id:'s'+(i+1),order:i+1,name:s[0],region:s[1]},blank(),{years:{[Y0()]:yrec()}})),
  history:[],users:DEFAULT_USERS(),utomb:{},cycle:{p:6,r:12},tomb:{},v:5});
 
 const LS=(()=>{const K='hrCheck.v4';let mem=null;
@@ -414,12 +444,25 @@ function normalize(){
  if(!Array.isArray(DB.users)||!DB.users.length)DB.users=DEFAULT_USERS();
  DEFAULT_USERS().forEach(d=>{if(!DB.users.some(u=>u.id===d.id)&&!DB.utomb[d.id])DB.users.push(d)});
  DB.schools.forEach(s=>{
-  if(s.re!==undefined){s.e1=s.re;s.e1Date=s.reDate||'';delete s.re;delete s.reDate}
-  if(typeof s.special==='number'){delete s.special}
-  const b=blank(); for(const k in b) if(s[k]===undefined) s[k]=b[k];
-  if(!Array.isArray(s.specials))s.specials=[];
-  if(!s.files||Array.isArray(s.files))s.files={p1:[],p2:[],e1:[],e2:[]};
-  ITEMS.forEach(i=>{if(!Array.isArray(s.files[i.k]))s.files[i.k]=[]});
+  if(!s.years)s.years={};
+  if(typeof s.special==='number')delete s.special;
+  // 예전(연도 없는) 데이터를 올해 기록으로 이전
+  const flat=['p1','p2','e1','e2','re'].some(k=>s[k]!==undefined)||s.who!==undefined||s.note!==undefined;
+  if(flat){
+   const r=yrec();
+   if(s.re!==undefined){r.e1=!!s.re;r.e1Date=s.reDate||''}
+   ['p1','p2','e1','e2'].forEach(k=>{if(s[k]!==undefined)r[k]=!!s[k];
+     if(s[k+'Date']!==undefined)r[k+'Date']=s[k+'Date']||''});
+   if(Array.isArray(s.specials))r.specials=s.specials;
+   if(s.files&&!Array.isArray(s.files))Object.keys(r.files).forEach(k=>{if(Array.isArray(s.files[k]))r.files[k]=s.files[k]});
+   r.issue=!!s.issue;r.who=s.who||'';r.note=s.note||'';
+   const y=Y0();
+   const cur=s.years[y]||yrec();
+   s.years[y]=Object.assign(cur,r);
+   ['p1','p1Date','p2','p2Date','e1','e1Date','e2','e2Date','re','reDate',
+    'specials','files','issue','who','note'].forEach(k=>delete s[k]);
+  }
+  if(s.mt===undefined)s.mt=0;
  })}
 normalize();
 
@@ -434,7 +477,7 @@ function lvl(date,cy){if(!date)return'';const n=dAgo(date);if(n===null||n<0)retu
  const L=cy*30.44;return n>L?'bad':(n>L*.8?'warn':'ok')}
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const cyOf=c=>c==='r'?DB.cycle.r:DB.cycle.p;
-const doneAll=s=>ITEMS.every(i=>s[i.k]);
+const doneAll=s=>ITEMS.every(i=>Y(s)[i.k]);
 const S=id=>DB.schools.find(x=>x.id===id);
 function regions(){const seen=[];DB.schools.forEach(s=>{if(s.region&&seen.indexOf(s.region)<0)seen.push(s.region)});
  return seen.sort((a,b)=>{const ia=RG_PRESET.indexOf(a),ib=RG_PRESET.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib)||a.localeCompare(b,'ko')})}
@@ -442,6 +485,17 @@ function rgColor(r){const i=RG_PRESET.indexOf(r);if(i>=0)return RG_COLORS[i%RG_C
  let h=0;for(let k=0;k<r.length;k++)h=(h*31+r.charCodeAt(k))>>>0;return RG_COLORS[h%RG_COLORS.length]}
 
 let curRg='전체';
+function fillYears(){const ys=yearList();
+ document.getElementById('yrSel').innerHTML=ys.map(y=>`<option value="${y}" ${y===YEAR?'selected':''}>${y}년</option>`).join('')
+  +`<option value="__new">＋ 연도 추가</option>`}
+function setYear(y){
+ if(y==='__new'){const n=prompt('추가할 연도를 입력하세요 (예: '+(+Y0()+1)+')',String(+Y0()+1));
+  fillYears(); if(!n||!/^\d{4}$/.test(n.trim()))return; y=n.trim()}
+ YEAR=String(y);
+ const past=YEAR!==Y0();
+ document.getElementById('pastBar').style.display=past?'flex':'none';
+ document.getElementById('pastY').textContent=YEAR+'년';
+ fillYears();chips();rd();ts(YEAR+'년 기록입니다')}
 function save(id){const now=Date.now();if(id){const s=S(id);if(s)s.mt=now}
  DB.updatedAt=now;LS.set(DB);queuePush()}
 
@@ -466,18 +520,18 @@ function doLogin(){const n=document.getElementById('lName').value.trim();
  try{ if(keep){localStorage.setItem(UKEY,JSON.stringify(ME));localStorage.setItem(NKEY,u.id)}
       else{sessionStorage.setItem(UKEY,JSON.stringify(ME));localStorage.removeItem(UKEY)} }catch(e){}
  err.textContent='';document.getElementById('lPw').value='';
- document.getElementById('lock').classList.add('off');ts((ME.name||ME.id)+'님, 반갑습니다')}
+ document.getElementById('lock').classList.add('off');rdActs();ts((ME.name||ME.id)+'님, 반갑습니다')}
 function logout(){if(!confirm('로그아웃할까요?'))return;
  try{localStorage.removeItem(UKEY);sessionStorage.removeItem(UKEY)}catch(e){}
- ME=null;cl('ovM');document.getElementById('lPw').value='';showLock()}
+ ME=null;cl('ovM');rdActs();document.getElementById('lPw').value='';showLock()}
 
 /* ============== 렌더 ============== */
 function hstats(){
  const N=DB.schools.length;
- const cells=ITEMS.map(i=>{const c=DB.schools.filter(s=>s[i.k]).length;
+ const cells=ITEMS.map(i=>{const c=DB.schools.filter(s=>Y(s)[i.k]).length;
   return `<button class="hs" onclick="setFlag('${i.k}')"><div class="t">${i.n}</div>
    <div class="v num">${c}<i>/${N}</i></div><div class="bar"><i style="width:${N?c/N*100:0}%"></i></div></button>`}).join('');
- const ci=DB.schools.filter(s=>s.issue).length;
+ const ci=DB.schools.filter(s=>Y(s).issue).length;
  document.getElementById('hstats').innerHTML=cells+
   `<button class="hs iss" onclick="openIssues()"><div class="t">미해결 이슈 ›</div>
    <div class="v num">${ci}<i> 건</i></div><div class="bar"><i style="width:${N?ci/N*100:0}%;background:#FF9E93"></i></div></button>`}
@@ -489,7 +543,7 @@ function rgrid(){document.getElementById('rgrid').innerHTML=regions().map(r=>{
   <div class="v num">${d}<i>/${a.length}</i></div><div class="bar"><i style="width:${p}%;background:${rgColor(r)}"></i></div></button>`}).join('')}
 function chips(){document.getElementById('chips').innerHTML=
  ['전체',...regions()].map(r=>`<button class="chip ${curRg===r?'on':''}" onclick="setRg('${esc(r)}')">${esc(r)}</button>`).join('')
- +`<button class="chip f" onclick="openIssues()">미해결 이슈 ${DB.schools.filter(s=>s.issue).length}</button>`;
+ +`<button class="chip f" onclick="openIssues()">미해결 이슈 ${DB.schools.filter(s=>Y(s).issue).length}</button>`;
  document.getElementById('rgList').innerHTML=RG_PRESET.concat(regions().filter(r=>RG_PRESET.indexOf(r)<0))
    .map(r=>`<option value="${esc(r)}">`).join('')}
 const setRg=r=>{curRg=curRg===r&&r!=='전체'?'전체':r;rgrid();chips();rd()};
@@ -497,64 +551,74 @@ const setRg=r=>{curRg=curRg===r&&r!=='전체'?'전체':r;rgrid();chips();rd()};
 function vis(){const q=document.getElementById('q').value.trim();
  let a=DB.schools.slice().sort((x,y)=>x.order-y.order);
  if(curRg!=='전체')a=a.filter(s=>s.region===curRg);
- if(flagK)a=a.filter(s=>!s[flagK]);
+ if(flagK)a=a.filter(s=>!Y(s)[flagK]);
  if(q)a=a.filter(s=>s.name.includes(q));return a}
 
 function setRing(n,pc){document.getElementById('pct'+n).textContent=pc+'%';
  document.getElementById('arc'+n).setAttribute('stroke-dashoffset',188.5-188.5*pc/100)}
 function rd(){
  const N=DB.schools.length;
- const c=k=>DB.schools.filter(s=>s[k]).length;
+ const c=k=>DB.schools.filter(s=>Y(s)[k]).length;
  setRing(1,N?Math.round((c('p1')+c('e1'))/(N*2)*100):0);
  setRing(2,N?Math.round((c('p2')+c('e2'))/(N*2)*100):0);
- setRing(3,N?Math.round(DB.schools.filter(s=>(s.specials||[]).length).length/N*100):0);
+ setRing(3,N?Math.round(DB.schools.filter(s=>Y(s).specials.length).length/N*100):0);
  hstats();rgrid();
  const a=vis();
  document.getElementById('cnt').textContent=a.length+'개 표시'+(flagK?' · 미완료만':'');
  const G=document.getElementById('grid');
  if(!a.length){G.innerHTML='<div class="blank">해당하는 학교가 없습니다.</div>';return}
- G.innerHTML=a.map(s=>{
-  const rows=ITEMS.map(it=>{const d=s[it.k+'Date'],L=lvl(d,cyOf(it.c)),nf=(s.files[it.k]||[]).length;
+ G.innerHTML=a.map(s=>{const y=Y(s);
+  const rows=ITEMS.map(it=>{const d=y[it.k+'Date'],L=lvl(d,cyOf(it.c)),nf=(y.files[it.k]||[]).length;
    return `<div class="line">
-     <label class="cb ${s[it.k]?'on':''}"><input type="checkbox" ${s[it.k]?'checked':''} onchange="tog('${s.id}','${it.k}',this.checked)"> ${it.n}</label>
+     <label class="cb ${y[it.k]?'on':''}"><input type="checkbox" ${y[it.k]?'checked':''} onchange="tog('${s.id}','${it.k}',this.checked)"> ${it.n}</label>
      <input class="dt ${L}" type="date" value="${d}" onchange="setD('${s.id}','${it.k}',this.value)">
      <button class="clip ${nf?'has':''}" onclick="openFiles('${s.id}','${it.k}')" title="점검 자료">📎${nf?`<b>${nf}</b>`:''}</button>
    </div>${d?`<div class="el ${L}">${ago(dAgo(d))}</div>`:''}`}).join('');
-  const nsp=(s.specials||[]).length, nf=ITEMS.reduce((t,i)=>t+(s.files[i.k]||[]).length,0)
-    +(s.specials||[]).reduce((t,x)=>t+((x.files||[]).length),0);
-  return `<div class="sc ${s.issue?'iss':(doneAll(s)?'done':'')}">
+  const nsp=y.specials.length, nf=ITEMS.reduce((t,i)=>t+(y.files[i.k]||[]).length,0)
+    +y.specials.reduce((t,x)=>t+((x.files||[]).length),0);
+  return `<div class="sc ${y.issue?'iss':(doneAll(s)?'done':'')}">
    <div class="sch"><span class="no num">${s.order}번 설치</span>
      <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
      <button class="mo" onclick="openH('${s.id}')">⋯</button></div>
-   <div class="sct">${esc(s.name)}${s.issue?'<span class="badge">이슈</span>':''}</div>
+   <div class="sct">${esc(s.name)}${y.issue?'<span class="badge">이슈</span>':''}</div>
    ${rows}
    <div class="mm">
-     <div class="mrow"><input class="inp" type="text" value="${esc(s.who)}" placeholder="담당자" onchange="setF('${s.id}','who',this.value)">
-       <textarea class="inp ta" rows="1" placeholder="특이사항" onchange="setF('${s.id}','note',this.value)" oninput="grow(this)">${esc(s.note)}</textarea></div>
+     <div class="mrow"><input class="inp" type="text" value="${esc(y.who)}" placeholder="담당자" onchange="setF('${s.id}','who',this.value)">
+       <textarea class="inp ta" rows="1" placeholder="특이사항" onchange="setF('${s.id}','note',this.value)" oninput="grow(this)">${esc(y.note)}</textarea></div>
      <div class="brow">
        <button class="mini ${nsp?'on':''}" onclick="openSpecial('${s.id}')">특별점검 ${nsp?`<em>${nsp}</em>`:'추가'}</button>
        <button class="mini ${nf?'on':''}" onclick="openFiles('${s.id}','')">점검 자료 ${nf?`<em>${nf}</em>`:'없음'}</button>
      </div>
-     <label class="isw"><input type="checkbox" ${s.issue?'checked':''} onchange="setI('${s.id}',this.checked)"> 미해결 이슈</label>
+     <label class="isw"><input type="checkbox" ${y.issue?'checked':''} onchange="setI('${s.id}',this.checked)"> 미해결 이슈</label>
    </div></div>`}).join('');
- document.querySelectorAll('.ta').forEach(grow)}
+ document.querySelectorAll('.ta').forEach(grow);rdActs()}
+function rdActs(){
+ const admin=ME&&ME.role==='admin';
+ document.getElementById('acts').innerHTML=
+  `<button class="act" style="border-color:var(--navy);color:var(--navy)" onclick="openSum()">학교 전체 요약</button>
+   <button class="act" onclick="exCSV()">엑셀(CSV) 내보내기</button>`
+  +(admin?`<button class="act" onclick="exJSON()">백업 저장</button>
+   <button class="act" onclick="document.getElementById('imp').click()">백업 불러오기</button>
+   <button class="act" onclick="openSet()">점검 주기 설정</button>`:'')
+  +`<button class="act d" onclick="openDel()">학교 삭제</button>`}
 function grow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,260)+'px'}
 
 /* ============== 편집 ============== */
-function tog(id,k,v){const s=S(id);s[k]=v;if(v&&!s[k+'Date'])s[k+'Date']=iso(T);
- if(v&&!s.who&&ME)s.who=ME.name||ME.id;save(id);rd()}
-function setD(id,k,v){const s=S(id);const old=s[k+'Date'];
+function tog(id,k,v){const y=Y(S(id));y[k]=v;if(v&&!y[k+'Date'])y[k+'Date']=iso(T);
+ if(v&&!y.who&&ME)y.who=ME.name||ME.id;save(id);rd()}
+function setD(id,k,v){const y=Y(S(id));const old=y[k+'Date'];
  if(old&&old!==v)DB.history.push({id:'h'+Date.now()+Math.random().toString(36).slice(2,5),
-   schoolId:id,type:k,date:old,who:s.who,note:s.note});
- s[k+'Date']=v;s[k]=!!v;save(id);rd()}
-function setF(id,k,v){S(id)[k]=v.trim();save(id);if(k==='note')rd()}
-function setI(id,v){S(id).issue=v;save(id);chips();rd()}
+   schoolId:id,type:k,date:old,who:y.who,note:y.note,year:YEAR});
+ y[k+'Date']=v;y[k]=!!v;save(id);rd()}
+function setF(id,k,v){Y(S(id))[k]=v.trim();save(id);if(k==='note')rd()}
+function setI(id,v){Y(S(id)).issue=v;save(id);chips();rd()}
 function addSchool(){const n=document.getElementById('nName').value.trim();
  if(!n)return ts('학교명을 입력하세요');
  if(DB.schools.some(s=>s.name===n))return ts('이미 등록된 학교입니다');
  const rg=document.getElementById('nRg').value.trim()||'기타';
- DB.schools.push(Object.assign({id:'s'+Date.now()+Math.random().toString(36).slice(2,5),
-  order:DB.schools.reduce((a,s)=>Math.max(a,s.order),0)+1,name:n,region:rg},blank(),{mt:Date.now()}));
+ const ns=Object.assign({id:'s'+Date.now()+Math.random().toString(36).slice(2,5),
+  order:DB.schools.reduce((a,s)=>Math.max(a,s.order),0)+1,name:n,region:rg},blank(),{mt:Date.now()});
+ Y(ns); DB.schools.push(ns);
  document.getElementById('nName').value='';save();chips();rd();ts(n+' 추가 완료 ('+rg+')')}
 function setRegion(id,v){const s=S(id),r=v.trim();if(!r)return;s.region=r;save(id);chips();rd();openH(id);ts('지역 변경: '+r)}
 function renameSchool(id,v){const s=S(id),n=v.trim();if(!n)return;
@@ -564,17 +628,17 @@ function renameSchool(id,v){const s=S(id),n=v.trim();if(!n)return;
 /* ============== 특이사항 크게 보기 ============== */
 let bigId=null;
 function openBig(id){bigId=id;const s=S(id);
- document.getElementById('nTt').textContent=s.name+' · 특이사항';
- document.getElementById('nBig').value=s.note||'';op('ovN')}
+ document.getElementById('nTt').textContent=s.name+' · 특이사항 ('+YEAR+')';
+ document.getElementById('nBig').value=Y(s).note||'';op('ovN')}
 function saveBigNote(){const s=S(bigId);if(!s)return;
- s.note=document.getElementById('nBig').value.trim();save(bigId);cl('ovN');rd();ts('저장했습니다')}
+ Y(s).note=document.getElementById('nBig').value.trim();save(bigId);cl('ovN');rd();ts('저장했습니다')}
 
 /* ============== 특별점검 ============== */
 let spId=null;
 function openSpecial(id){spId=id;rdSpecial();op('ovSp')}
-function rdSpecial(){const s=S(spId);
- document.getElementById('spTt').textContent=s.name+' · 특별점검';
- const list=(s.specials||[]).slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+function rdSpecial(){const s=S(spId),yy=Y(s);
+ document.getElementById('spTt').textContent=s.name+' · 특별점검 ('+YEAR+')';
+ const list=yy.specials.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)));
  document.getElementById('spBd').innerHTML=`
   <div class="box">
     <div class="d" style="margin-bottom:10px">새 특별점검 기록</div>
@@ -600,33 +664,33 @@ function rdSpecial(){const s=S(spId);
     </div></div>`).join('')
   :'<div class="blank" style="padding:26px">아직 특별점검 기록이 없습니다.</div>'}
   <div style="height:12px"></div>`}
-function addSpecial(){const s=S(spId);
+function addSpecial(){const s=S(spId),yy=Y(s);
  const date=document.getElementById('spDate').value;
  if(!date)return ts('날짜를 선택하세요');
  const rec={id:'x'+Date.now()+Math.random().toString(36).slice(2,5),date,
   who:document.getElementById('spWho').value.trim(),
   note:document.getElementById('spNote').value.trim(),
   issue:document.getElementById('spIssue').checked,files:[]};
- s.specials.push(rec);
- if(rec.issue)s.issue=true;
+ yy.specials.push(rec);
+ if(rec.issue)yy.issue=true;
  save(spId);rdSpecial();chips();rd();ts('특별점검을 추가했습니다')}
 function delSpecial(xid){if(!confirm('이 특별점검 기록을 삭제할까요?'))return;
- const s=S(spId);s.specials=s.specials.filter(x=>x.id!==xid);save(spId);rdSpecial();rd();ts('삭제했습니다')}
+ const yy=Y(S(spId));yy.specials=yy.specials.filter(x=>x.id!==xid);save(spId);rdSpecial();rd();ts('삭제했습니다')}
 
 /* ============== 점검 자료 ============== */
 let fCtx={id:null,kind:''};
 function openFiles(id,kind){fCtx={id,kind};rdFiles();op('ovF')}
-function filesOf(s,kind){
- if(!kind)return ITEMS.map(i=>({label:i.n,kind:i.k,list:s.files[i.k]||[]}))
-   .concat((s.specials||[]).map(x=>({label:'특별점검 '+(x.date||''),kind:'sp:'+x.id,list:x.files||[]})));
- if(kind.indexOf('sp:')===0){const x=(s.specials||[]).find(y=>y.id===kind.slice(3));
+function filesOf(s,kind){const y=Y(s);
+ if(!kind)return ITEMS.map(i=>({label:i.n,kind:i.k,list:y.files[i.k]||[]}))
+   .concat(y.specials.map(x=>({label:'특별점검 '+(x.date||''),kind:'sp:'+x.id,list:x.files||[]})));
+ if(kind.indexOf('sp:')===0){const x=y.specials.find(z=>z.id===kind.slice(3));
    return [{label:'특별점검 '+(x?x.date:''),kind,list:x?(x.files||[]):[]}]}
  const it=ITEMS.find(i=>i.k===kind);
- return [{label:it?it.n:kind,kind,list:s.files[kind]||[]}]}
+ return [{label:it?it.n:kind,kind,list:y.files[kind]||[]}]}
 function rdFiles(){const s=S(fCtx.id);if(!s)return;
  const groups=filesOf(s,fCtx.kind);
  const total=groups.reduce((t,g)=>t+g.list.length,0);
- document.getElementById('fTt').textContent=s.name+' · 점검 자료';
+ document.getElementById('fTt').textContent=s.name+' · 점검 자료 ('+YEAR+')';
  document.getElementById('fBd').innerHTML=`
   <div class="prog" id="fProg" style="margin-bottom:12px"><i></i></div>
   ${fCtx.kind?`<button class="b" onclick="pickFile('${fCtx.id}','${fCtx.kind}')">＋ 자료 올리기</button><div style="height:14px"></div>`:''}
@@ -646,10 +710,10 @@ function rdFiles(){const s=S(fCtx.id);if(!s)return;
   <div style="height:14px"></div>`}
 function delFile(kind,fid){
  if(!confirm('이 자료를 목록에서 지울까요?'))return;
- const s=S(fCtx.id);
- if(kind.indexOf('sp:')===0){const x=s.specials.find(y=>y.id===kind.slice(3));
+ const y=Y(S(fCtx.id));
+ if(kind.indexOf('sp:')===0){const x=y.specials.find(z=>z.id===kind.slice(3));
    if(x)x.files=(x.files||[]).filter(f=>f.id!==fid)}
- else s.files[kind]=(s.files[kind]||[]).filter(f=>f.id!==fid);
+ else y.files[kind]=(y.files[kind]||[]).filter(f=>f.id!==fid);
  save(fCtx.id);rdFiles();rd();ts('목록에서 지웠습니다')}
 
 let pickTarget=null;
@@ -661,36 +725,41 @@ document.getElementById('fpick').addEventListener('change',async function(){
  if(!files.length||!pickTarget)return;
  const {id,kind}=pickTarget;
  const pr=document.getElementById('fProg'); if(pr)pr.classList.add('on');
- let done=0,fail=0;
- try{
-  const s=S(id);
-  for(const f of files){
-   ts(files.length>1?`올리는 중… ${done+1}/${files.length}`:'올리는 중입니다…');
-   const {b64,mime,name}=await prep(f);
-   const label=(s?s.name:'')+'_'+(NM[kind]||(kind.indexOf('sp:')===0?'특별점검':kind))+'_'+iso(T);
+ uploading=true;                       // 업로드 중에는 동기화가 데이터를 갈아치우지 못하게 잠금
+ let done=0,fail=0,lastErr='';
+ for(let i=0;i<files.length;i++){
+  try{
+   ts(files.length>1?`올리는 중… ${i+1}/${files.length}`:'올리는 중입니다…');
+   const {b64,mime,name}=await prep(files[i]);
+   const s=S(id); if(!s)throw new Error('학교를 찾을 수 없습니다');   // 매번 최신 객체를 다시 조회
+   const label=YEAR+'_'+s.name+'_'+(NM[kind]||(kind.indexOf('sp:')===0?'특별점검':kind))+'_'+iso(T);
    const j=await call('POST',{key:SYNC_KEY,action:'upload',b64,mime,name,label});
    if(!j.file)throw new Error('시트 코드가 예전 버전입니다');
+   const cur=S(id); if(!cur)throw new Error('학교를 찾을 수 없습니다');
+   const cy=Y(cur);
    const rec=Object.assign({at:Date.now(),by:ME?(ME.name||ME.id):''},j.file);
-   if(kind.indexOf('sp:')===0){const x=s.specials.find(y=>y.id===kind.slice(3));if(x){x.files=x.files||[];x.files.push(rec)}}
-   else{ s.files[kind]=s.files[kind]||[]; s.files[kind].push(rec);
-     if(!s[kind]){s[kind]=true; if(!s[kind+'Date'])s[kind+'Date']=iso(T);
-       if(!s.who&&ME)s.who=ME.name||ME.id} }
+   if(kind.indexOf('sp:')===0){const x=cy.specials.find(z=>z.id===kind.slice(3));
+     if(x){x.files=x.files||[];x.files.push(rec)}}
+   else{ cy.files[kind]=cy.files[kind]||[]; cy.files[kind].push(rec);
+     if(!cy[kind]){cy[kind]=true; if(!cy[kind+'Date'])cy[kind+'Date']=iso(T);
+       if(!cy.who&&ME)cy.who=ME.name||ME.id} }
+   cur.mt=Date.now(); DB.updatedAt=Date.now(); LS.set(DB);
    done++;
-   save(id);
    if(document.getElementById('ovF').classList.contains('on'))rdFiles();
    if(document.getElementById('ovSp').classList.contains('on'))rdSpecial();
    rd();
-  }
-  ts(done+'장 올렸습니다');
- }catch(e){
-  const m=String(e&&e.message||e);
+  }catch(e){ fail++; lastErr=String(e&&e.message||e); console.log('upload error',files[i]&&files[i].name,e); }
+ }
+ uploading=false;
+ if(pr)pr.classList.remove('on');
+ if(done)save(id);                      // 전부 끝난 뒤 한 번만 동기화
+ if(fail){
+  const m=lastErr;
   if(/bad data|예전 버전/.test(m)) ts('업로드 실패 · 시트 코드를 최신으로 교체하고 재배포해 주세요');
-  else if(/Drive|permission|권한/i.test(m)) ts('업로드 실패 · 시트 재배포 시 권한 승인을 완료해 주세요');
-  else if(/too big/.test(m)) ts('파일이 너무 큽니다 (9MB 이하)');
-  else if(/HTTP/.test(m)) ts('업로드 실패 · '+m);
-  else ts('업로드 실패 · '+m.slice(0,60));
-  console.log('upload error',e)}
- finally{const p=document.getElementById('fProg');if(p)p.classList.remove('on')}
+  else if(/Drive|permission|권한/i.test(m)) ts('업로드 실패 · 시트에서 초기설정 실행 후 재배포해 주세요');
+  else if(/too big/.test(m)) ts(done?`${done}장 완료 · ${fail}장 실패(용량 초과)`:'파일이 너무 큽니다 (9MB 이하)');
+  else ts(done?`${done}장 완료 · ${fail}장 실패`:'업로드 실패 · '+m.slice(0,50));
+ }else ts(done+'장 올렸습니다');
 });
 function prep(file){
  return new Promise((res,rej)=>{
@@ -711,45 +780,50 @@ function prep(file){
   fr.onerror=rej;fr.readAsDataURL(file)})}
 
 /* ============== 이슈 ============== */
-const issueList=()=>DB.schools.filter(s=>s.issue).sort((a,b)=>a.order-b.order);
+const issueList=()=>DB.schools.filter(s=>Y(s).issue).sort((a,b)=>a.order-b.order);
 function openIssues(){const a=issueList();
- const pend=s=>ITEMS.filter(i=>!s[i.k]).map(i=>i.n);
- document.getElementById('iBd').innerHTML=a.length?a.map(s=>{const p=pend(s);
+ const pend=s=>ITEMS.filter(i=>!Y(s)[i.k]).map(i=>i.n);
+ document.getElementById('iBd').innerHTML=a.length?a.map(s=>{const p=pend(s),y=Y(s);
   return `<div class="box" style="border-color:#F0C4C0;background:#FFFCFC">
    <div style="display:flex;align-items:center;gap:7px">
      <span class="d">${esc(s.name)}</span>
      <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
      <span style="font-size:11px;color:var(--ink3);font-weight:700;margin-left:auto">${s.order}번 설치</span></div>
-   <div class="m">담당자 <b>${esc(s.who)||'미기록'}</b>${(s.specials||[]).length?' · 특별점검 '+s.specials.length+'회':''}</div>
+   <div class="m">담당자 <b>${esc(y.who)||'미기록'}</b>${y.specials.length?' · 특별점검 '+y.specials.length+'회':''}</div>
    <div class="m">미완료 <b>${p.length?esc(p.join(', ')):'없음'}</b></div>
    <label class="fl" style="margin-top:10px">이슈 내용</label>
-   <textarea class="inp" style="min-height:70px;overflow:auto" onchange="setF('${s.id}','note',this.value);openIssues()">${esc(s.note)}</textarea>
+   <textarea class="inp" style="min-height:70px;overflow:auto" onchange="setF('${s.id}','note',this.value);openIssues()">${esc(y.note)}</textarea>
    <div class="two" style="margin-top:9px">
      <button class="act" onclick="cl('ovI');openH('${s.id}')">학교 상세</button>
      <button class="act" style="background:var(--okbg);color:var(--ok);border-color:#BFE3D3" onclick="resolveIssue('${s.id}')">해결 완료</button>
    </div></div>`}).join('')
   :'<div class="blank" style="padding:34px">미해결 이슈가 없습니다.</div>';
  document.getElementById('iCnt').textContent=a.length?a.length+'건':'';op('ovI')}
-function resolveIssue(id){const s=S(id);
- if(s.note)DB.history.push({id:'h'+Date.now()+Math.random().toString(36).slice(2,5),
-  schoolId:id,type:'issue',date:iso(T),who:s.who,note:'[해결] '+s.note});
- s.issue=false;save(id);chips();rd();openIssues();ts('해결 처리했습니다')}
+function resolveIssue(id){const y=Y(S(id));
+ if(y.note)DB.history.push({id:'h'+Date.now()+Math.random().toString(36).slice(2,5),
+  schoolId:id,type:'issue',date:iso(T),who:y.who,note:'[해결] '+y.note,year:YEAR});
+ y.issue=false;save(id);chips();rd();openIssues();ts('해결 처리했습니다')}
 
 /* ============== 학교 상세 ============== */
-function openH(id){const s=S(id);
+function openH(id){const s=S(id),y=Y(s);
  const hs=DB.history.filter(h=>h.schoolId===id).sort((a,b)=>b.date.localeCompare(a.date));
  document.getElementById('hTt').textContent=s.name;
+ const ys=Object.keys(s.years||{}).sort().reverse();
  document.getElementById('hBd').innerHTML=`
-  <div class="box"><div class="d">현재 상태</div>
-   ${ITEMS.map(i=>`<div class="m">${i.n} <b>${s[i.k+'Date']||'미실시'}</b>${s[i.k+'Date']?' · '+ago(dAgo(s[i.k+'Date'])):''} · 자료 ${(s.files[i.k]||[]).length}개</div>`).join('')}
-   <div class="m">특별점검 <b>${(s.specials||[]).length}회</b> · 미해결 이슈 <b>${s.issue?'있음':'없음'}</b></div>
-   <div class="m">담당자 <b>${esc(s.who)||'미기록'}</b></div>
-   ${s.note?`<div class="m">특이사항<br>${esc(s.note)}</div>`:''}
+  <div class="box"><div class="d">${YEAR}년 기록</div>
+   ${ITEMS.map(i=>`<div class="m">${i.n} <b>${y[i.k+'Date']||'미실시'}</b>${y[i.k+'Date']?' · '+ago(dAgo(y[i.k+'Date'])):''} · 자료 ${(y.files[i.k]||[]).length}개</div>`).join('')}
+   <div class="m">특별점검 <b>${y.specials.length}회</b> · 미해결 이슈 <b>${y.issue?'있음':'없음'}</b></div>
+   <div class="m">담당자 <b>${esc(y.who)||'미기록'}</b></div>
+   ${y.note?`<div class="m">특이사항<br>${esc(y.note)}</div>`:''}
    <div class="two" style="margin-top:10px">
      <button class="act" onclick="cl('ovH');openBig('${id}')">특이사항 크게 보기</button>
      <button class="act" onclick="cl('ovH');openFiles('${id}','')">점검 자료 전체</button></div></div>
+  ${ys.length>1?`<div class="hd2">연도별</div><div class="box">${ys.map(yy=>{const r=s.years[yy];
+    const n=ITEMS.filter(i=>r[i.k]).length,fn=ITEMS.reduce((t,i)=>t+((r.files&&r.files[i.k]||[]).length),0);
+    return `<div class="m"><b>${yy}년</b> · 완료 ${n}/${ITEMS.length} · 특별점검 ${(r.specials||[]).length}회 · 자료 ${fn}개
+     ${yy!==YEAR?`<button class="act" style="padding:3px 8px;font-size:11px;margin-left:6px" onclick="cl('ovH');setYear('${yy}')">보기</button>`:''}</div>`}).join('')}</div>`:''}
   <div class="hd2">지난 기록${hs.length?' · '+hs.length+'건':''}</div>
-  ${hs.length?hs.map(h=>`<div class="box"><div class="d">${h.date}<span class="tg">${NM[h.type]||h.type}</span></div>
+  ${hs.length?hs.map(h=>`<div class="box"><div class="d">${h.date}<span class="tg">${NM[h.type]||h.type}</span>${h.year?`<span class="tg">${h.year}년</span>`:''}</div>
     <div class="m">담당자 ${esc(h.who)||'미기록'}${h.note?' · '+esc(h.note):''}</div></div>`).join('')
    :'<div class="blank" style="padding:26px">지난 기록이 없습니다.</div>'}
   <div class="hd2">학교 정보 수정</div>
@@ -766,51 +840,70 @@ function delSchool(id){const s=S(id);if(!confirm(s.name+'을(를) 삭제할까�
  save();cl('ovH');chips();rd();ts('삭제했습니다')}
 
 /* ============== 학교 전체 요약 ============== */
-let sumRg='전체';
+let sumRg='전체', sumMode='files';
 function openSum(){rdSum();op('ovSum')}
 function setSumRg(r){sumRg=r;rdSum()}
+function setSumMode(m){sumMode=m;rdSum()}
 function rdSum(){
  let a=DB.schools.slice().sort((x,y)=>x.order-y.order);
  if(sumRg!=='전체')a=a.filter(s=>s.region===sumRg);
- document.getElementById('sumCnt').textContent=a.length+'개교';
+ document.getElementById('sumCnt').textContent=YEAR+'년 · '+a.length+'개교';
  const chips=['전체',...regions()].map(r=>
   `<button class="sumchip ${sumRg===r?'on':''}" onclick="setSumRg('${esc(r)}')">${esc(r)}</button>`).join('');
+ const modes=`<div class="segs">
+   <button class="seg ${sumMode==='files'?'on':''}" onclick="setSumMode('files')">자료 보기</button>
+   <button class="seg ${sumMode==='text'?'on':''}" onclick="setSumMode('text')">간단 요약</button></div>`;
+
  const body=a.map(s=>{
-  const rows=ITEMS.map(i=>{const d=s[i.k+'Date'],L=lvl(d,cyOf(i.c)),n=(s.files[i.k]||[]).length;
-   return `<div class="k">${i.n}</div>
-     <div class="v ${d?'':'off'}">${d?d.replace(/-/g,'.')+' <span class="pill p-'+L+'">'+(L==='bad'?'초과':L==='warn'?'임박':'정상')+'</span>':'미실시'}</div>
-     <div class="fc ${n?'':'no'}">자료 ${n}</div>`}).join('');
-  const sp=(s.specials||[]).slice().sort((x,y)=>String(y.date).localeCompare(String(x.date)));
-  const allf=ITEMS.flatMap(i=>s.files[i.k]||[]).concat(sp.flatMap(x=>x.files||[]));
-  return `<div class="sumcard ${s.issue?'iss':(doneAll(s)?'done':'')}">
-   <div class="sumtop"><span class="no num">${s.order}</span><span class="nm">${esc(s.name)}</span>
+  const y=Y(s);
+  const groups=ITEMS.map(i=>({label:i.n,list:y.files[i.k]||[]}))
+    .concat(y.specials.map(x=>({label:'특별점검 '+(x.date||'').replace(/-/g,'.'),list:x.files||[]})));
+  const total=groups.reduce((t,g)=>t+g.list.length,0);
+  const statline=ITEMS.map(i=>{const d=y[i.k+'Date'],L=lvl(d,cyOf(i.c));
+    return `<span class="st1 ${d?L:'off'}">${i.n} ${d?d.slice(5).replace('-','.'):'미실시'}</span>`}).join('')
+    +`<span class="st1 ${y.specials.length?'sp':'off'}">특별 ${y.specials.length}회</span>`;
+  const head=`<div class="sumtop"><span class="no num">${s.order}</span><span class="nm">${esc(s.name)}</span>
      <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
-     ${s.issue?'<span class="badge">이슈</span>':''}
+     ${y.issue?'<span class="badge">이슈</span>':''}
      <button class="act" style="margin-left:auto;padding:5px 10px;font-size:11px" onclick="cl('ovSum');openH('${s.id}')">상세</button></div>
-   <div class="sumtab">${rows}
-     <div class="k">특별점검</div>
-     <div class="v ${sp.length?'':'off'}">${sp.length?sp.length+'회 · 최근 '+(sp[0].date||'').replace(/-/g,'.'):'없음'}</div>
-     <div class="fc ${sp.reduce((t,x)=>t+((x.files||[]).length),0)?'':'no'}">자료 ${sp.reduce((t,x)=>t+((x.files||[]).length),0)}</div>
-   </div>
-   <div class="sumfoot">점검 담당자 <b>${esc(s.who)||'미기록'}</b>
-     ${s.note?`<div class="sumnote">${esc(s.note)}</div>`:''}</div>
-   ${allf.length?`<div class="sumthumbs">${allf.slice(0,20).map(f=>
-     `<a class="sumth" href="${f.url}" target="_blank" rel="noopener">
-       ${/image/.test(f.mime||'')?`<img src="${f.thumb}" alt="" loading="lazy">`:'<div class="d">📄</div>'}</a>`).join('')}
-     ${allf.length>20?`<span style="align-self:center;font-size:11px;color:var(--ink3);font-weight:700;padding:0 6px">+${allf.length-20}</span>`:''}</div>`:''}
-  </div>`}).join('');
- const N=a.length,c=k=>a.filter(s=>s[k]).length;
+   <div class="stline">${statline}</div>`;
+  const meta=`<div class="sumfoot">점검 담당자 <b>${esc(y.who)||'미기록'}</b>
+     ${y.note?`<div class="sumnote">${esc(y.note)}</div>`:''}</div>`;
+
+  if(sumMode==='text'){
+   const rows=ITEMS.map(i=>{const d=y[i.k+'Date'],L=lvl(d,cyOf(i.c)),n=(y.files[i.k]||[]).length;
+    return `<div class="k">${i.n}</div>
+      <div class="v ${d?'':'off'}">${d?d.replace(/-/g,'.')+' <span class="pill p-'+L+'">'+(L==='bad'?'초과':L==='warn'?'임박':'정상')+'</span>':'미실시'}</div>
+      <div class="fc ${n?'':'no'}">자료 ${n}</div>`}).join('');
+   return `<div class="sumcard ${y.issue?'iss':(doneAll(s)?'done':'')}">${head}
+     <div class="sumtab" style="margin-top:8px">${rows}
+       <div class="k">특별점검</div>
+       <div class="v ${y.specials.length?'':'off'}">${y.specials.length?y.specials.length+'회':'없음'}</div>
+       <div class="fc ${y.specials.reduce((t,x)=>t+((x.files||[]).length),0)?'':'no'}">자료 ${y.specials.reduce((t,x)=>t+((x.files||[]).length),0)}</div>
+     </div>${meta}</div>`}
+
+  return `<div class="sumcard ${y.issue?'iss':(doneAll(s)?'done':'')}">${head}
+   ${total?groups.filter(g=>g.list.length).map(g=>`
+     <div class="glab">${esc(g.label)}<i>${g.list.length}</i></div>
+     <div class="bigthumbs">${g.list.map(fl=>`
+       <a class="bigth" href="${fl.url}" target="_blank" rel="noopener">
+         ${/image/.test(fl.mime||'')?`<img src="${fl.thumb}" alt="" loading="lazy">`:'<div class="doc">📄</div>'}
+         <span class="cap">${esc(fl.name)}</span></a>`).join('')}</div>`).join('')
+    :'<div class="nofile">올린 자료가 없습니다</div>'}
+   ${meta}</div>`}).join('');
+
+ const N=a.length,c=k=>a.filter(s=>Y(s)[k]).length;
  document.getElementById('sumBd').innerHTML=
-  `<div class="sumchips">${chips}</div>
+  `<div class="sumchips">${chips}</div>${modes}
    <div class="box" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
      ${ITEMS.slice(0,2).map(i=>`<div><div style="font-size:11px;color:var(--ink3);font-weight:700">${i.n}</div>
        <div style="font-size:17px;font-weight:800">${c(i.k)}<span style="font-size:12px;color:var(--ink3)">/${N}</span></div></div>`).join('')}
      <div><div style="font-size:11px;color:var(--ink3);font-weight:700">미해결 이슈</div>
-       <div style="font-size:17px;font-weight:800;color:var(--bad)">${a.filter(s=>s.issue).length}</div></div>
+       <div style="font-size:17px;font-weight:800;color:var(--bad)">${a.filter(s=>Y(s).issue).length}</div></div>
      ${ITEMS.slice(2).map(i=>`<div><div style="font-size:11px;color:var(--ink3);font-weight:700">${i.n}</div>
        <div style="font-size:17px;font-weight:800">${c(i.k)}<span style="font-size:12px;color:var(--ink3)">/${N}</span></div></div>`).join('')}
      <div><div style="font-size:11px;color:var(--ink3);font-weight:700">특별점검</div>
-       <div style="font-size:17px;font-weight:800">${a.filter(s=>(s.specials||[]).length).length}<span style="font-size:12px;color:var(--ink3)">/${N}</span></div></div>
+       <div style="font-size:17px;font-weight:800">${a.filter(s=>Y(s).specials.length).length}<span style="font-size:12px;color:var(--ink3)">/${N}</span></div></div>
    </div>
    ${N?body:'<div class="blank">해당하는 학교가 없습니다.</div>'}
    <div style="height:14px"></div>`}
@@ -898,7 +991,10 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
  <h4><i>7</i>특이사항이 길 때</h4>
  <p>입력칸은 글이 길어지면 <b>자동으로 늘어납니다.</b> 전체를 넓게 보려면
     카드 우측 <span class="k">⋯</span> → <span class="k">특이사항 크게 보기</span>를 누르세요.</p>
- <h4><i>8</i>학교 추가 · 삭제</h4>
+ <h4><i>8</i>연도별 관리</h4>
+ <p>상단 <span class="k">연도</span> 를 바꾸면 그 해 기록만 보입니다. 학교 목록은 그대로 이어지고
+    점검·교육·자료만 연도별로 따로 쌓입니다. 해가 바뀌면 자동으로 빈 상태에서 시작합니다.</p>
+ <h4><i>9</i>학교 추가 · 삭제</h4>
  <p>위쪽 <span class="k">새 학교</span> 칸에 이름과 지역을 넣고 <span class="k">추가</span>.
     삭제는 맨 아래 <span class="k">학교 삭제</span>에서 선택해서 지웁니다.</p>
  <div class="who"><div><b>${ME?esc(ME.name||ME.id):'-'}</b><span>${ME?esc(ME.id)+(ME.role==='admin'?' · 관리자':''):''}</span></div>
@@ -931,7 +1027,7 @@ function doDel(){if(!delSel.size)return;
  delSel.clear();save();cl('ovD');chips();rd();ts(names.length+'개 학교를 삭제했습니다')}
 
 /* ============== 설정 · 파일 ============== */
-function openSet(){document.getElementById('cP').value=DB.cycle.p;document.getElementById('cR').value=DB.cycle.r;op('ovS')}
+function openSet(){if(!ME||ME.role!=='admin')return ts('관리자만 사용할 수 있습니다');document.getElementById('cP').value=DB.cycle.p;document.getElementById('cR').value=DB.cycle.r;op('ovS')}
 function saveCycle(){const p=+document.getElementById('cP').value,r=+document.getElementById('cR').value;
  if(!p||!r||p<1||r<1)return ts('1 이상의 숫자를 입력하세요');
  DB.cycle={p,r};save();rd();ts('주기를 저장했습니다')}
@@ -939,31 +1035,36 @@ function dl(n,c,t){const u=URL.createObjectURL(new Blob([c],{type:t}));const a=d
  a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)}
 const cc=v=>{v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
 function exCSV(){
- const h=['설치순서','학교명','지역','1차 점검','1차 점검일','자료','2차 점검','2차 점검일','자료',
+ const h=['연도','설치순서','학교명','지역','1차 점검','1차 점검일','자료','2차 점검','2차 점검일','자료',
   '1차 교육','1차 교육일','자료','2차 교육','2차 교육일','자료','특별점검','미해결이슈','담당자','특이사항'];
- const rows=DB.schools.slice().sort((a,b)=>a.order-b.order).map(s=>[s.order,s.name,s.region,
-  s.p1?'O':'',s.p1Date,(s.files.p1||[]).length||'',s.p2?'O':'',s.p2Date,(s.files.p2||[]).length||'',
-  s.e1?'O':'',s.e1Date,(s.files.e1||[]).length||'',s.e2?'O':'',s.e2Date,(s.files.e2||[]).length||'',
-  (s.specials||[]).length||'',s.issue?'있음':'',s.who,s.note]);
- const h2=['학교명','날짜','담당자','미해결이슈','내용'];
- const r2=[];DB.schools.forEach(s=>(s.specials||[]).forEach(x=>r2.push([s.name,x.date,x.who,x.issue?'있음':'',x.note])));
- r2.sort((a,b)=>String(b[1]).localeCompare(String(a[1])));
- const h3=['학교명','구분','날짜','담당자','메모'];
+ const rows=[];const r2=[];
+ const allY=yearList().slice().sort();
+ DB.schools.slice().sort((a,b)=>a.order-b.order).forEach(s=>{
+  allY.forEach(yy=>{ if(!s.years||!s.years[yy])return; const y=Y(s,yy);
+   rows.push([yy,s.order,s.name,s.region,
+    y.p1?'O':'',y.p1Date,(y.files.p1||[]).length||'',y.p2?'O':'',y.p2Date,(y.files.p2||[]).length||'',
+    y.e1?'O':'',y.e1Date,(y.files.e1||[]).length||'',y.e2?'O':'',y.e2Date,(y.files.e2||[]).length||'',
+    y.specials.length||'',y.issue?'있음':'',y.who,y.note]);
+   y.specials.forEach(x=>r2.push([yy,s.name,x.date,x.who,x.issue?'있음':'',x.note]));
+  })});
+ const h2=['연도','학교명','날짜','담당자','미해결이슈','내용'];
+ r2.sort((a,b)=>String(b[2]).localeCompare(String(a[2])));
+ const h3=['연도','학교명','구분','날짜','담당자','메모'];
  const r3=DB.history.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(x=>{
-  const s=S(x.schoolId)||{name:'(삭제됨)'};return [s.name,NM[x.type]||x.type,x.date,x.who,x.note]});
+  const s=S(x.schoolId)||{name:'(삭제됨)'};return [x.year||'',s.name,NM[x.type]||x.type,x.date,x.who,x.note]});
  dl('설치현장관리_'+iso(T)+'.csv','﻿'+['[학교별 현황]',h.map(cc).join(','),...rows.map(r=>r.map(cc).join(',')),
   '','[특별점검]',h2.map(cc).join(','),...r2.map(r=>r.map(cc).join(',')),
   '','[지난 기록]',h3.map(cc).join(','),...r3.map(r=>r.map(cc).join(','))].join('\r\n'),'text/csv;charset=utf-8');
  ts('CSV를 내려받았습니다')}
-function exJSON(){dl('설치현장관리_백업_'+iso(T)+'.json',JSON.stringify(DB,null,2),'application/json');ts('백업을 저장했습니다')}
-function imJSON(i){const f=i.files[0];if(!f)return;const fr=new FileReader();
+function exJSON(){if(!ME||ME.role!=='admin')return ts('관리자만 사용할 수 있습니다');dl('설치현장관리_백업_'+iso(T)+'.json',JSON.stringify(DB,null,2),'application/json');ts('백업을 저장했습니다')}
+function imJSON(i){if(!ME||ME.role!=='admin'){i.value='';return ts('관리자만 사용할 수 있습니다')}const f=i.files[0];if(!f)return;const fr=new FileReader();
  fr.onload=e=>{try{const d=JSON.parse(e.target.result);if(!d.schools)throw 0;
   if(!confirm('현재 데이터를 불러온 파일로 교체합니다. 계속할까요?'))return;
   DB=d;normalize();save();chips();rd();ts('불러왔습니다')}catch(x){ts('올바른 백업 파일이 아닙니다')}};
  fr.readAsText(f);i.value=''}
 
 /* ============== 동기화 ============== */
-let busy=false,pushT=null,pollT=null,errN=0,applying=false,pending=false;
+let busy=false,pushT=null,pollT=null,errN=0,applying=false,pending=false,uploading=false;
 const $=i=>document.getElementById(i);
 function sst(k,txt,desc){$('sDot').className='dot '+k;$('sTxt').textContent=txt;if(desc!==undefined)$('sDesc').textContent=desc}
 function stamp(t){if(!t)return'-';const d=new Date(t);
@@ -975,7 +1076,7 @@ async function call(method,payload){
  if(!r.ok)throw new Error('HTTP '+r.status);
  const j=await r.json();if(j.error)throw new Error(j.error);return j}
 async function pull(silent){
- if(!SYNC_URL||busy)return;busy=true;if(!silent)sst('y','불러오는 중');
+ if(!SYNC_URL||busy||uploading)return;busy=true;if(!silent)sst('y','불러오는 중');
  try{const j=await call('GET');
   const rt=(j.data&&j.data.updatedAt)||0,lt=DB.updatedAt||0;
   if(j.data&&j.data.schools&&rt>lt){adopt(j.data);if(!silent)ts('최신 데이터를 불러왔습니다')}
@@ -983,9 +1084,9 @@ async function pull(silent){
   busy=false;errN=0;sst('g','자동 동기화 켜짐','마지막 저장 '+stamp(DB.updatedAt));
  }catch(e){busy=false;errN++;
   sst('r','동기화 오류','')}}
-function queuePush(){if(!SYNC_URL||applying)return;pending=true;sst('y','저장 중');clearTimeout(pushT);pushT=setTimeout(push,900)}
+function queuePush(){if(!SYNC_URL||applying||uploading)return;pending=true;sst('y','저장 중');clearTimeout(pushT);pushT=setTimeout(push,900)}
 window.addEventListener('beforeunload',e=>{if(pending){e.preventDefault();e.returnValue=''}});
-async function push(){if(!SYNC_URL)return;
+async function push(){if(!SYNC_URL||uploading)return;
  try{const j=await call('POST',{key:SYNC_KEY,data:DB});
   if(j.data&&j.data.schools&&(j.data.updatedAt||0)>=(DB.updatedAt||0))adopt(j.data);
   pending=false;errN=0;sst('g','자동 동기화 켜짐','마지막 저장 '+stamp(DB.updatedAt));
@@ -1020,7 +1121,7 @@ document.getElementById('nName').addEventListener('keydown',e=>{if(e.key==='Ente
 document.getElementById('lLogo').src=document.querySelector('.hlogo img').src;
 if(!ME)showLock(); else document.getElementById('lock').classList.add('off');
 document.getElementById('ver').textContent='빌드 '+BUILD+' · 구글 시트 연동 · 동기화 '+(SYNC_URL?'설정됨':'미설정');
-chips();rd();startSync();
+fillYears();chips();rd();startSync();
 </script>
 </body>
 </html>
