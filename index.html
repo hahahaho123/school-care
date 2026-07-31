@@ -182,9 +182,9 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .dtw .pk::-webkit-calendar-picker-indicator{width:100%;height:100%;opacity:0;cursor:pointer}
 .dtw .pk::-webkit-date-and-time-value{display:none}
 .dt:focus{border-color:var(--blue)}
-.dt.warn{border-color:#F0C79A;background:var(--warnbg)}.dt.bad{border-color:#F0BDB9;background:var(--badbg)}
 .clip{width:34px;height:36px;border:1px solid var(--line);border-radius:9px;background:#fff;display:grid;place-items:center;
  font-size:13px;color:var(--ink3);position:relative;flex:0 0 auto}
+.clip svg{width:16px;height:16px}
 .clip.has{border-color:#BFD7EA;background:var(--tint);color:var(--blue)}
 .clip b{position:absolute;top:-5px;right:-5px;background:var(--blue);color:#fff;font-size:9px;font-weight:800;
  min-width:15px;height:15px;border-radius:8px;display:grid;place-items:center;padding:0 3px}
@@ -192,7 +192,6 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .sub .el,.sub .wl{align-self:center}
 .el{font-size:10.5px;font-weight:700;color:var(--ink3);flex:0 0 auto;max-width:38%;
  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.el.warn{color:var(--warn)}.el.bad{color:var(--bad)}.el.ok{color:var(--ok)}
 .wl{flex:0 0 auto;margin-left:auto;font-size:10.5px;font-weight:700;color:var(--ink3)}
 .win{flex:1;min-width:0;padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:#fff;
  font-size:11.5px;font-weight:700;color:var(--ink);outline:none;text-align:left;font-family:inherit;
@@ -209,7 +208,10 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .mini.on{border-color:#BFD7EA;background:var(--tint);color:var(--blue)}
 .mini em{font-style:normal;background:var(--blue);color:#fff;font-size:10px;font-weight:800;padding:1px 6px;border-radius:8px}
 .isw{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--ink2);margin-top:9px}
-.isw input{width:16px;height:16px;accent-color:#B3261E;margin:0}
+.isw input{width:16px;height:16px;accent-color:#B3261E;margin:0;flex:0 0 auto}
+.iwh{font-size:10.5px;font-weight:700;color:var(--ink3);margin-left:2px}
+.chip.f em{font-style:normal;display:inline-block;min-width:16px;padding:0 4px;margin-left:4px;
+ border-radius:8px;background:var(--bad);color:#fff;font-size:10.5px;font-weight:800}
 .blank{text-align:center;padding:40px 20px;color:var(--ink3);font-size:13.5px;background:#fff;border:1px solid var(--line);border-radius:13px;grid-column:1/-1}
 .acts{display:flex;gap:7px;flex-wrap:wrap;margin:16px 16px 0}
 .act{padding:9px 13px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:12.5px;font-weight:700;color:var(--ink2)}
@@ -325,9 +327,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .seg{flex:1;padding:9px;border-radius:8px;font-size:12.5px;font-weight:700;color:var(--ink2)}
 .seg.on{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(14,23,38,.1)}
 .stline{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
-.st1{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:5px;background:var(--okbg);color:var(--ok)}
-.st1.warn{background:var(--warnbg);color:var(--warn)}
-.st1.bad{background:var(--badbg);color:var(--bad)}
+.st1{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:5px;background:var(--tint);color:var(--navy)}
 .st1.off{background:var(--line2);color:var(--ink3)}
 .st1.sp{background:#FFF6E6;color:#8A5D0B}
 .glab{font-size:11.5px;font-weight:800;color:var(--ink2);margin:14px 0 7px;display:flex;align-items:center;gap:6px}
@@ -616,7 +616,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
   <div class="sbd" id="hBd"></div></div></div>
 
 <div class="ov" id="ovI" onclick="if(event.target===this)cl('ovI')"><div class="sheet">
-  <div class="shd"><h3>미해결 이슈</h3><span id="iCnt" style="font-size:12px;font-weight:700;color:var(--bad)"></span><button class="cls" onclick="cl('ovI')">✕</button></div>
+  <div class="shd"><h3>이슈 전체보기</h3><span id="iCnt" style="font-size:12px;font-weight:700;color:var(--bad)"></span><button class="cls" onclick="cl('ovI')">✕</button></div>
   <div class="sbd" id="iBd"></div></div></div>
 
 <div class="ov" id="ovSp" onclick="if(event.target===this)cl('ovSp')"><div class="sheet">
@@ -731,7 +731,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'M8';
+const BUILD = 'N2';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -836,7 +836,8 @@ const dAgo=s=>{if(!s)return null;const a=s.split('-');const d=new Date(+a[0],+a[
 function ago(n){if(n===null)return'';if(n===0)return'오늘';if(n<0)return Math.abs(n)+'일 후 예정';
  if(n<30)return n+'일 경과';const m=Math.floor(n/30.44);if(m<12)return m+'개월 경과';
  const y=Math.floor(m/12),k=m%12;return y+'년'+(k?' '+k+'개월':'')+' 경과'}
-function lvl(date,cy){if(!date)return'';const n=dAgo(date);if(n===null||n<0)return'ok';
+function lvl(){return ''}
+function lvl_old(date,cy){if(!date)return'';const n=dAgo(date);if(n===null||n<0)return'ok';
  const L=cy*30.44;return n>L?'bad':(n>L*.8?'warn':'ok')}
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const cyOf=c=>c==='r'?DB.cycle.r:DB.cycle.p;
@@ -1114,7 +1115,8 @@ function rgrid(){document.getElementById('rgrid').innerHTML=regions().map(r=>{
   <div class="v num">${d}<i>/${a.length}</i></div><div class="bar"><i style="width:${p}%;background:${rgColor(r)}"></i></div></button>`}).join('')}
 function chips(){document.getElementById('chips').innerHTML=
  ['전체',...regions()].map(r=>`<button class="chip ${curRg===r?'on':''}" onclick="setRg('${esc(r)}')">${esc(r)}</button>`).join('')
- +`<button class="chip f" onclick="openIssues()">미해결 이슈 ${DB.schools.filter(s=>Y(s).issue).length}</button>`;
+ +(function(){const n=DB.schools.filter(s=>Y(s).issue).length;
+   return `<button class="chip f" onclick="openIssues()">이슈 전체보기${n?' <em>'+n+'</em>':''}</button>`})();
  const used=regions(), rest=RG_PRESET.filter(r=>used.indexOf(r)<0);
  document.getElementById('rgList').innerHTML=used.concat(rest).map(r=>`<option value="${esc(r)}">`).join('');
  const sel=document.getElementById('nRgSel'); const keep=sel.value;
@@ -1221,7 +1223,7 @@ function rd(){
  const G=document.getElementById('grid');
  if(!a.length){G.innerHTML='<div class="blank">'+(QQ?'‘'+esc(QQ)+'’ 와 일치하는 학교가 없습니다.<br>학교명 일부 또는 초성으로 다시 검색해 보세요.':'해당하는 학교가 없습니다.')+'</div>';return}
  G.innerHTML=a.map(s=>{const y=Y(s);
-  const rows=ITEMS.map(it=>{const d=y[it.k+'Date'],L=lvl(d,cyOf(it.c)),nf=(y.files[it.k]||[]).length;
+  const rows=ITEMS.map(it=>{const d=y[it.k+'Date'],L='',nf=(y.files[it.k]||[]).length;
    return `<div class="line">
      <label class="cb ${y[it.k]?'on':''}"><input type="checkbox" ${y[it.k]?'checked':''} onchange="tog('${s.id}','${it.k}',this.checked)"> ${it.n}</label>
      <span class="dtw">
@@ -1231,7 +1233,7 @@ function rd(){
        <span class="cal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" style="width:15px;height:15px"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3.2v3.4M16 3.2v3.4"/></svg></span>
        <input class="pk" type="date" value="${d}" onchange="dtPick(this,'${s.id}','${it.k}')">
      </span>
-     <button class="clip ${nf?'has':''}" onclick="openFiles('${s.id}','${it.k}')" title="점검 자료">📎${nf?`<b>${nf}</b>`:''}</button>
+     <button class="clip ${nf?'has':''}" onclick="openFiles('${s.id}','${it.k}')" title="점검 자료"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5h3.2l1.4-2h7.8l1.4 2h3.2v11H3.5z"/><circle cx="12" cy="13.5" r="3.4"/></svg>${nf?`<b>${nf}</b>`:''}</button>
    </div>
    <div class="sub">
      <span class="el ${L}">${d?ago(dAgo(d)):''}</span>
@@ -1254,7 +1256,8 @@ function rd(){
        <button class="mini ${nsp?'on':''}" onclick="openSpecial('${s.id}')">특별점검 ${nsp?`<em>${nsp}</em>`:'추가'}</button>
        <button class="mini ${nf?'on':''}" onclick="openFiles('${s.id}','')">점검 자료 ${nf?`<em>${nf}</em>`:'없음'}</button>
      </div>
-     <label class="isw"><input type="checkbox" ${y.issue?'checked':''} onchange="setI('${s.id}',this.checked)"> 미해결 이슈</label>
+     <label class="isw"><input type="checkbox" ${y.issue?'checked':''} onchange="setI('${s.id}',this.checked)"> 미해결 이슈
+       <span class="iwh">추후 조치가 필요하면 확인해 주세요.</span></label>
    </div></div>`}).join('');
  document.querySelectorAll('.ta,.win').forEach(grow);rdActs();rdLoginBar()}
 const IC={
@@ -1290,7 +1293,6 @@ function openMenu(){
   ${admin?`<div class="mgrp">관리자</div>
   <div class="mlist">
    ${mItem('openUsers()','usr','계정 관리'+(pend?' · 승인 대기 '+pend+'건':''),'승인 · 권한 · 비밀번호',{dot:!!pend})}
-   ${mItem('openSet()','set','점검 주기 설정','정기점검 · 재교육 주기')}
    ${mItem('exJSON()','dn','백업 저장','전체 데이터를 파일로')}
    ${mItem("document.getElementById('imp').click()",'upl','백업 불러오기','파일로 전체 복원')}
    ${mItem('openDel()','trash','학교 삭제','여러 학교를 선택해 삭제',{d:1})}
@@ -1553,10 +1555,11 @@ function openIssues(){const a=issueList();
      <span class="d">${esc(s.name)}</span>
      <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
      <span style="font-size:11px;color:var(--ink3);font-weight:700;margin-left:auto">${s.order}번 설치</span></div>
-   <div class="m">담당자 <b>${esc(y.who)||'미기록'}</b>${y.specials.length?' · 특별점검 '+y.specials.length+'회':''}</div>
+   <div class="m">담당자 <b>${ITEMS.filter(i=>y[i.k+'Who']).map(i=>esc(y[i.k+'Who'])).join(', ')||'미기록'}</b>${y.specials.length?' · 특별점검 '+y.specials.length+'회':''}</div>
    <div class="m">미완료 <b>${p.length?esc(p.join(', ')):'없음'}</b></div>
-   <label class="fl" style="margin-top:10px">이슈 내용</label>
-   <textarea class="inp" style="min-height:70px;overflow:auto" onchange="setF('${s.id}','note',this.value);openIssues()">${esc(y.note)}</textarea>
+   <div class="flrow" style="margin-top:10px"><label class="fl">이슈 내용</label>
+     <span class="flx">학교 카드의 특이사항과 같은 칸입니다</span></div>
+   <textarea class="inp" style="min-height:70px;overflow:auto" placeholder="어떤 문제가 있는지 적어 주세요" onchange="setF('${s.id}','note',this.value);openIssues()">${esc(y.note)}</textarea>
    <div class="two" style="margin-top:9px">
      <button class="act" onclick="cl('ovI');openH('${s.id}')">학교 상세</button>
      <button class="act" style="background:var(--okbg);color:var(--ok);border-color:#BFE3D3" onclick="resolveIssue('${s.id}')">해결 완료</button>
@@ -1686,8 +1689,8 @@ function rdSum(){
 
   /* ── 간단 요약 ── */
   const gl=groups.filter(g=>g.list.length); SUMF[s.id]=gl.map(g=>g.list);
-  const statline=ITEMS.map(i=>{const d=y[i.k+'Date'],done=OK(y,i.k),L=lvl(d,cyOf(i.c));
-    return `<span class="st1 ${done?L:'off'}">${i.n} ${done?d.slice(5).replace('-','.'):'미완료'}</span>`}).join('')
+  const statline=ITEMS.map(i=>{const d=y[i.k+'Date'],done=OK(y,i.k);
+    return `<span class="st1 ${done?'':'off'}">${i.n} ${done?d.slice(5).replace('-','.'):'미완료'}</span>`}).join('')
     +`<span class="st1 ${y.specials.length?'sp':'off'}">특별 ${y.specials.length}회</span>`;
   const head=`<div class="sumtop"><span class="no num">${s.order}</span><span class="nm">${hl(s.name,sumQ)}</span>
      <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
@@ -1697,10 +1700,10 @@ function rdSum(){
   const whos=ITEMS.filter(i=>y[i.k+'Who']).map(i=>`${i.n} <b>${esc(y[i.k+'Who'])}</b>`).join(' · ');
   const meta=`<div class="sumfoot">담당자 ${whos||'<b>미기록</b>'}
      ${y.note?`<div class="sumnote">${esc(y.note)}</div>`:''}</div>`;
-  const rows=ITEMS.map(i=>{const d=y[i.k+'Date'],L=lvl(d,cyOf(i.c)),n=(y.files[i.k]||[]).length;
+  const rows=ITEMS.map(i=>{const d=y[i.k+'Date'],n=(y.files[i.k]||[]).length;
    const w=y[i.k+'Who'];
    return `<div class="k">${i.n}</div>
-     <div class="v ${d?'':'off'}">${d?d.replace(/-/g,'.')+' <span class="pill p-'+L+'">'+(L==='bad'?'초과':L==='warn'?'임박':'정상')+'</span>':'미실시'}${w?' <i class="wi">'+esc(w)+'</i>':''}</div>
+     <div class="v ${d?'':'off'}">${d?d.replace(/-/g,'.')+' <i class="wi">'+ago(dAgo(d))+'</i>':'미실시'}${w?' <i class="wi">· '+esc(w)+'</i>':''}</div>
      <div class="fc ${n?'':'no'}">자료 ${n}</div>`}).join('');
   return `<div class="sumcard ${y.issue?'iss':(doneAll(s)?'done':'')}">${head}
     <div class="sumtab" style="margin-top:8px">${rows}
@@ -1904,7 +1907,15 @@ function delUser(id){
 
 /* ============== 업데이트 내역 ============== */
 const CHANGES=[
- {v:'M8',d:'2026-07-31',t:'이번 업데이트',n:[
+ {v:'N2',d:'2026-07-31',t:'이번 업데이트',n:[
+  '점검 항목 오른쪽 자료 버튼을 <b>카메라 모양</b>으로 바꿨습니다 — 기기마다 다르게 보이던 문제도 해결됩니다',
+  '<b>미해결 이슈 → 이슈 전체보기</b> 로 이름을 바꿨습니다 (건수는 있을 때만 표시)',
+  '학교 카드의 미해결 이슈 옆에 <b>추후 조치가 필요하면 확인해 주세요</b> 안내를 넣었습니다',
+  '이슈 내용 칸이 학교 카드의 <b>특이사항과 같은 칸</b>이라는 설명을 추가했습니다',
+  '점검 날짜의 <b>정상 · 임박 · 초과 색 구분을 없앴습니다</b> — 이제 얼마나 지났는지만 표시됩니다']},
+ {v:'M9',d:'2026-07-31',t:'지난 업데이트',n:[
+  '간단 요약 표에도 날짜 옆에 경과 기간이 그대로 나옵니다']},
+ {v:'M8',d:'2026-07-31',t:'지난 업데이트',n:[
   '<b>전체 요약 → 자료 보기</b>가 훨씬 간단해졌습니다 — 학교명과 사진만 크게 보입니다',
   '자료 보기 안에도 <b>학교 찾기</b>와 <b>전체보기</b> 버튼이 생겼습니다',
   '검색칸 오른쪽 <b>전체보기</b> — 등록된 학교를 펼쳐놓고 눌러서 고를 수 있습니다',
@@ -2005,7 +2016,7 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
     올해 날짜는 <span class="k">0731</span> 처럼 <b>월·일 4자리</b>만 눌러도 됩니다.
     칸 오른쪽 달력 아이콘을 누르면 달력에서 고를 수 있습니다.</p>
  <h4><i>2</i>점검표를 업로드 시 자동 완료</h4>
- <p>각 항목 오른쪽 <span class="k">📎</span> 를 눌러 점검표 사진이나 PDF를 업로드하면 해당 항목이 자동으로 완료 처리됩니다.
+ <p>각 항목 오른쪽 <span class="k">카메라 버튼</span> 을 눌러 점검표 사진이나 PDF를 업로드하면 해당 항목이 자동으로 완료 처리됩니다.
     여러 장을 한 번에 선택할 수 있으며, 업로드한 자료는 <span class="k">점검 자료</span> 에서 다시 확인합니다.</p>
  <h4><i>3</i>저장은 자동으로 진행</h4>
  <p>입력하는 즉시 기기에 저장되고, 약 1초 뒤 구글 시트로 전송됩니다.
@@ -2021,7 +2032,7 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
     건별로 자료를 첨부하거나 미해결 이슈로 표시할 수 있습니다.</p>
  <h4><i>5</i>현장에 문제가 발생하여 조치하지 못했을 경우, 미해결 이슈 체크</h4>
  <p>카드 아래 <span class="k">미해결 이슈</span> 를 체크하고 특이사항에 내용을 기록합니다.
-    상단 <b>미해결 이슈</b> 를 누르면 해당 학교만 모아서 확인할 수 있으며,
+    상단 <b>이슈 전체보기</b> 를 누르면 해당 학교만 모아서 확인할 수 있으며,
     조치가 끝나면 <span class="k">해결 완료</span> 를 누릅니다. 처리 내역은 이력에 자동 보관됩니다.</p>
  <h4><i>6</i>연도별 관리</h4>
  <p>제목 옆 <span class="k">연도</span> 를 변경하면 해당 연도의 기록만 표시됩니다.
