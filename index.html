@@ -115,6 +115,9 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .chip.f{border-color:#F0CFCC;color:var(--bad);margin-left:auto}
 
 .fl{display:block;font-size:11px;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.flrow{display:flex;align-items:baseline;gap:8px}
+.flrow .fl{margin-bottom:6px}
+.flrow .flx{margin-left:auto;font-size:10.5px;font-weight:700;color:var(--ink3)}
 .inp{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:9px;background:#fff;outline:none;font-size:14.5px}
 .inp:focus{border-color:var(--blue)}
 textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
@@ -458,8 +461,8 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
     <img class="llogo" id="lLogo" src="" alt="한국로보틱스">
     <div class="lt">HR 현장 통합 관리</div><div class="ls">(주)한국로보틱스</div>
   </div>
-  <label class="fl">아이디</label>
-  <input class="inp" type="text" id="lName" placeholder="@뒤는 입력하지 않아도 됩니다"
+  <div class="flrow"><label class="fl">아이디</label><span class="flx">(로그인 시 주소 생략)</span></div>
+  <input class="inp" type="text" id="lName"
     autocomplete="off" autocapitalize="off" spellcheck="false">
   <label class="fl" style="margin-top:13px">접속 비밀번호</label>
   <input class="inp" type="password" id="lPw" autocomplete="off">
@@ -625,7 +628,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'L7';
+const BUILD = 'L8';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
