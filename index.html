@@ -522,7 +522,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
       <button class="sclr" id="qClr" onclick="clrQ()">✕</button></div>
     <button class="sortb" id="sortB" onclick="openPick()">전체보기</button>
   </div>
-  <div class="shint" id="sHint">줄임말·초성으로도 찾을 수 있습니다. <b>체고</b> · <b>ㄱㅇ</b> · <b>개일초</b></div>
+  <div class="shint" id="sHint">줄임말 또는 초성 사용 가능 <b>체고</b> · <b>ㄱㅇ</b> · <b>개일초</b></div>
 </div>
 
 <div class="tools" id="tools" style="display:none">
@@ -731,7 +731,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'N2';
+const BUILD = 'N3';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1257,7 +1257,7 @@ function rd(){
        <button class="mini ${nf?'on':''}" onclick="openFiles('${s.id}','')">점검 자료 ${nf?`<em>${nf}</em>`:'없음'}</button>
      </div>
      <label class="isw"><input type="checkbox" ${y.issue?'checked':''} onchange="setI('${s.id}',this.checked)"> 미해결 이슈
-       <span class="iwh">추후 조치가 필요하면 확인해 주세요.</span></label>
+       <span class="iwh">추후 조치가 필요하면 체크해주세요.</span></label>
    </div></div>`}).join('');
  document.querySelectorAll('.ta,.win').forEach(grow);rdActs();rdLoginBar()}
 const IC={
@@ -1910,7 +1910,7 @@ const CHANGES=[
  {v:'N2',d:'2026-07-31',t:'이번 업데이트',n:[
   '점검 항목 오른쪽 자료 버튼을 <b>카메라 모양</b>으로 바꿨습니다 — 기기마다 다르게 보이던 문제도 해결됩니다',
   '<b>미해결 이슈 → 이슈 전체보기</b> 로 이름을 바꿨습니다 (건수는 있을 때만 표시)',
-  '학교 카드의 미해결 이슈 옆에 <b>추후 조치가 필요하면 확인해 주세요</b> 안내를 넣었습니다',
+  '학교 카드의 미해결 이슈 옆에 <b>추후 조치가 필요하면 체크해주세요</b> 안내를 넣었습니다',
   '이슈 내용 칸이 학교 카드의 <b>특이사항과 같은 칸</b>이라는 설명을 추가했습니다',
   '점검 날짜의 <b>정상 · 임박 · 초과 색 구분을 없앴습니다</b> — 이제 얼마나 지났는지만 표시됩니다']},
  {v:'M9',d:'2026-07-31',t:'지난 업데이트',n:[
