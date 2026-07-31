@@ -437,6 +437,21 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .cli div b{font-weight:800;color:var(--ink)}
 .act .nd{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--bad);
  vertical-align:middle;margin-left:5px}
+.dlg{position:fixed;inset:0;z-index:500;background:rgba(8,18,34,.55);display:none;
+ align-items:center;justify-content:center;padding:24px}
+.dlg.on{display:flex}
+.dbox{background:#fff;border-radius:18px;padding:24px 20px 16px;width:100%;max-width:330px;
+ box-shadow:0 24px 60px rgba(8,32,79,.4);animation:uppop .2s ease-out}
+.dbox b{display:block;font-size:17px;font-weight:800;letter-spacing:-.5px;text-align:center}
+.dbox p{margin-top:9px;font-size:12.5px;font-weight:600;color:var(--ink2);line-height:1.75;
+ text-align:center;white-space:pre-line}
+.dbox p:empty{display:none}
+.dbox .inp{margin-top:14px;text-align:center;font-size:16px;font-weight:700}
+.dbtn{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
+.dno{padding:13px;border-radius:11px;background:#fff;border:1px solid var(--line);
+ font-size:14px;font-weight:700;color:var(--ink2)}
+.dyes{padding:13px;border-radius:11px;background:var(--navy);color:#fff;font-size:14px;font-weight:800}
+.dyes.d{background:var(--bad)}
 .newver{position:fixed;inset:0;z-index:400;background:rgba(8,18,34,.58);display:none;
  align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(2px)}
 .newver.on{display:flex}
@@ -611,6 +626,18 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
   <div class="shd"><h3>매뉴얼</h3><button class="cls" onclick="cl('ovM')">✕</button></div>
   <div class="sbd" id="mBd"></div></div></div>
 
+<div class="dlg" id="dlg">
+  <div class="dbox">
+    <b id="dlgT"></b>
+    <p id="dlgM"></p>
+    <input class="inp" type="text" id="dlgI" style="display:none" autocomplete="off">
+    <div class="dbtn">
+      <button class="dno" id="dlgNo" onclick="dlgEnd(null)">취소</button>
+      <button class="dyes" id="dlgYes" onclick="dlgOk()">확인</button>
+    </div>
+  </div>
+</div>
+
 <div class="ov" id="ovP" onclick="if(event.target===this)cl('ovP')"><div class="sheet">
   <div class="shd"><h3>학교 선택</h3><button class="cls" onclick="cl('ovP')">✕</button></div>
   <div class="sbd" id="pBd"></div></div></div>
@@ -743,7 +770,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'v1.9';
+const BUILD = 'v2.0';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -865,9 +892,11 @@ let curRg='전체';
 function fillYears(){const ys=yearList();
  document.getElementById('yrSel').innerHTML=ys.map(y=>`<option value="${y}" ${y===YEAR?'selected':''}>${y}년</option>`).join('')
   +`<option value="__new">＋ 연도 추가</option>`}
-function setYear(y){
- if(y==='__new'){const n=prompt('추가할 연도를 입력하세요 (예: '+(+Y0()+1)+')',String(+Y0()+1));
-  fillYears(); if(!n||!/^\d{4}$/.test(n.trim()))return; y=n.trim()}
+async function setYear(y){
+ if(y==='__new'){
+  const n=await ask({title:'연도 추가',msg:'추가할 연도를 입력해 주세요',
+    input:String(+Y0()+1),numeric:true,yes:'추가'});
+  fillYears(); if(!n||!/^\d{4}$/.test(String(n).trim()))return; y=String(n).trim()}
  YEAR=String(y);
  const past=YEAR!==Y0();
  document.getElementById('pastBar').style.display=past?'flex':'none';
@@ -1104,7 +1133,7 @@ function touchLogin(force){
    u:ME.name||ME.id,ui:ME.id,t:now});
  if(DB.logins.length>LOGINCAP)DB.logins=DB.logins.slice(-LOGINCAP);
  DB.updatedAt=now;LS.set(DB);queuePush();rdLoginBar()}
-function logout(){if(!confirm('로그아웃할까요?'))return;
+async function logout(){if(!await confirmBox('로그아웃할까요?','',{yes:'로그아웃',danger:1}))return;
  dropBeat();
  try{sessionStorage.removeItem(UKEY);localStorage.removeItem(UKEY)}catch(e){}
  ME=null;cl('ovM');cl('ovMn');rdActs();document.getElementById('lPw').value='';showLock()}
@@ -1448,7 +1477,7 @@ function addSpecial(){const s=S(spId),yy=Y(s);
  if(rec.issue)yy.issue=true;
  LOG(spId,'특별점검 추가 ('+rec.date+')');
  save(spId);rdSpecial();chips();rd();ts('특별점검을 추가했습니다')}
-function delSpecial(xid){if(!confirm('이 특별점검 기록을 삭제할까요?'))return;
+async function delSpecial(xid){if(!await confirmBox('특별점검 기록 삭제','이 기록을 삭제할까요?',{yes:'삭제',danger:1}))return;
  const yy=Y(S(spId));const d=(yy.specials.find(x=>x.id===xid)||{}).date||'';
  yy.specials=yy.specials.filter(x=>x.id!==xid);LOG(spId,'특별점검 삭제'+(d?' ('+d+')':''));save(spId);rdSpecial();rd();ts('삭제했습니다')}
 
@@ -1484,8 +1513,8 @@ function rdFiles(){const s=S(fCtx.id);if(!s)return;
   ${fCtx.kind?'':`<div class="hd2">항목별 올리기</div><div class="two">${ITEMS.map(i=>
      `<button class="act" onclick="pickFile('${fCtx.id}','${i.k}')">${i.n} 자료 추가</button>`).join('')}</div>`}
   <div style="height:14px"></div>`}
-function delFile(kind,fid){
- if(!confirm('이 자료를 목록에서 지울까요?'))return;
+async function delFile(kind,fid){
+ if(!await confirmBox('자료 삭제','이 자료를 목록에서 지울까요?',{yes:'삭제',danger:1}))return;
  const y=Y(S(fCtx.id));
  if(kind.indexOf('sp:')===0){const x=y.specials.find(z=>z.id===kind.slice(3));
    if(x)x.files=(x.files||[]).filter(f=>f.id!==fid)}
@@ -1620,7 +1649,8 @@ function openH(id){const s=S(id),y=Y(s);
   <div style="margin-top:12px"><button class="b d s" onclick="delSchool('${id}')">이 학교 삭제</button></div>
   <div style="height:14px"></div>`;
  op('ovH')}
-function delSchool(id){const s=S(id);if(!confirm(s.name+'을(를) 삭제할까요?'))return;
+async function delSchool(id){const s=S(id);
+ if(!await confirmBox('학교 삭제',s.name+'을(를) 삭제할까요?\n기록도 함께 삭제되며 되돌릴 수 없습니다.',{yes:'삭제',danger:1}))return;
  LOG(id,'학교 삭제');
  DB.tomb=DB.tomb||{};DB.tomb[id]=Date.now();
  DB.schools=DB.schools.filter(x=>x.id!==id);DB.history=DB.history.filter(h=>h.schoolId!==id);
@@ -1909,10 +1939,10 @@ function editUser(id,k,v){const u=findUser(id);if(!u)return;
  if(ME&&ME.id===u.id){ME.name=u.name||u.id;ME.role=u.role;
   try{const st=localStorage.getItem(UKEY)?localStorage:sessionStorage;st.setItem(UKEY,JSON.stringify(ME))}catch(e){}}
  saveUsers();rdUsers();ts('수정했습니다')}
-function delUser(id){
+async function delUser(id){
  if(id==='admin')return ts('관리자 계정은 삭제할 수 없습니다');
  if(ME&&ME.id===id)return ts('접속 중인 계정은 삭제할 수 없습니다');
- if(!confirm(id+' 계정을 삭제할까요?'))return;
+ if(!await confirmBox('계정 삭제',id+'\n이 계정을 삭제할까요?',{yes:'삭제',danger:1}))return;
  LOG('','계정 삭제: '+id);
  DB.users=DB.users.filter(u=>u.id!==id);
  DB.utomb=DB.utomb||{};DB.utomb[id]=Date.now();
@@ -1920,7 +1950,10 @@ function delUser(id){
 
 /* ============== 업데이트 내역 ============== */
 const CHANGES=[
- {v:'v1.9',d:'2026-07-31',t:'이번 업데이트',n:[
+ {v:'v2.0',d:'2026-07-31',t:'이번 업데이트',n:[
+  '<b>확인창을 앱 안에서 직접 띄우도록</b> 바꿨습니다 — 주소가 위에 붙어 나오던 브라우저 기본 창이 사라집니다',
+  '삭제처럼 되돌릴 수 없는 동작은 <b>빨간 버튼</b>으로 구분해 표시합니다']},
+ {v:'v1.9',d:'2026-07-31',t:'지난 업데이트',n:[
   '전체 요약의 <b>자료 보기가 한 줄에 두 학교씩</b> 나오도록 바꿨습니다 — 한 화면에 두 배로 보입니다',
   '상단 <b>미해결 이슈 칸이 얇아졌습니다</b> — 이슈가 없으면 아예 표시되지 않아 화면이 넓어집니다',
   '<b>경과 기간</b>(6개월 경과)을 주황색으로 표시해 눈에 잘 띄도록 했습니다',
@@ -2102,11 +2135,11 @@ function rdDel(){const a=DB.schools.slice().sort((x,y)=>x.order-y.order);
  btn.disabled=!n;btn.className='bdel'+(n?'':' off')}
 function delTog(id,v){v?delSel.add(id):delSel.delete(id);rdDel()}
 function delAll(v){delSel.clear();if(v)DB.schools.forEach(s=>delSel.add(s.id));rdDel()}
-function doDel(){if(!isAdmin())return ts('학교 삭제는 관리자만 할 수 있습니다');
+async function doDel(){if(!isAdmin())return ts('학교 삭제는 관리자만 할 수 있습니다');
  if(!delSel.size)return;
  const names=DB.schools.filter(s=>delSel.has(s.id)).map(s=>s.name);
  const list=names.slice(0,6).join('\n· ')+(names.length>6?`\n외 ${names.length-6}개교`:'');
- if(!confirm(`아래 ${names.length}개 학교를 삭제합니다.\n\n· ${list}\n\n기록도 함께 삭제되며 되돌릴 수 없습니다.\n계속할까요?`))return;
+ if(!await confirmBox(names.length+'개 학교 삭제','· '+list+'\n\n기록도 함께 삭제되며 되돌릴 수 없습니다.',{yes:'삭제',danger:1}))return;
  delSel.forEach(id=>LOG(id,'학교 삭제'));
  DB.tomb=DB.tomb||{};const now=Date.now();delSel.forEach(id=>DB.tomb[id]=now);
  DB.schools=DB.schools.filter(s=>!delSel.has(s.id));
@@ -2149,8 +2182,8 @@ function exCSV(){
  ts('CSV를 내려받았습니다')}
 function exJSON(){if(!ME||ME.role!=='admin')return ts('관리자만 사용할 수 있습니다');dl('HR현장통합관리_백업_'+iso(T)+'.json',JSON.stringify(DB,null,2),'application/json');ts('백업을 저장했습니다')}
 function imJSON(i){if(!ME||ME.role!=='admin'){i.value='';return ts('관리자만 사용할 수 있습니다')}const f=i.files[0];if(!f)return;const fr=new FileReader();
- fr.onload=e=>{try{const d=JSON.parse(e.target.result);if(!d.schools)throw 0;
-  if(!confirm('현재 데이터를 불러온 파일로 교체합니다. 계속할까요?'))return;
+ fr.onload=async e=>{try{const d=JSON.parse(e.target.result);if(!d.schools)throw 0;
+  if(!await confirmBox('백업 불러오기','현재 데이터를 불러온 파일로 교체합니다.\n되돌릴 수 없습니다.',{yes:'교체',danger:1}))return;
   DB=d;normalize();save();chips();rd();ts('불러왔습니다')}catch(x){ts('올바른 백업 파일이 아닙니다')}};
  fr.readAsText(f);i.value=''}
 
@@ -2225,6 +2258,27 @@ document.getElementById('ver').textContent=BUILD+' · 구글 시트 연동 · �
 fillYears();chips();rd();startSync();
 
 /* ===== 새 버전 자동 감지 ===== */
+/* ============== 앱 내 확인창 ============== */
+let dlgRes=null;
+function dlgEnd(v){document.getElementById('dlg').classList.remove('on');
+ const f=dlgRes;dlgRes=null;if(f)f(v)}
+function dlgOk(){const i=document.getElementById('dlgI');
+ dlgEnd(i.style.display==='none'?true:i.value)}
+function ask(o){
+ return new Promise(res=>{
+  dlgRes=res;
+  document.getElementById('dlgT').textContent=o.title||'';
+  document.getElementById('dlgM').textContent=o.msg||'';
+  const i=document.getElementById('dlgI');
+  if(o.input!==undefined){i.style.display='';i.value=o.input;i.inputMode=o.numeric?'numeric':'text'}
+  else i.style.display='none';
+  document.getElementById('dlgNo').textContent=o.no||'취소';
+  const y=document.getElementById('dlgYes');
+  y.textContent=o.yes||'확인'; y.className='dyes'+(o.danger?' d':'');
+  document.getElementById('dlg').classList.add('on');
+  if(o.input!==undefined)setTimeout(()=>{i.focus();i.select()},120)})}
+const confirmBox=(title,msg,opt)=>ask(Object.assign({title,msg},opt||{}));
+
 const AUKEY='hrAuto.v1';
 let upSnooze=0;
 /* 서비스워커: 홈 화면 아이콘으로 열어도 항상 최신 화면을 받도록 */
