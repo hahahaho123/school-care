@@ -487,6 +487,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
   <input class="inp" type="text" id="jName" autocomplete="off">
   <label class="fl" style="margin-top:12px">비밀번호</label>
   <input class="inp" type="password" id="jPw" autocomplete="off">
+  <div class="fhint">숫자 또는 영문 4글자 이상 입력해 주세요.</div>
   <label class="fl" style="margin-top:12px">비밀번호 확인</label>
   <input class="inp" type="password" id="jPw2" autocomplete="off">
   <div class="lerr" id="jErr"></div>
@@ -556,6 +557,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
     <input class="inp" type="text" id="rCode" inputmode="numeric" maxlength="6" autocomplete="off">
     <label class="fl" style="margin-top:12px">새 비밀번호</label>
     <input class="inp" type="password" id="rPw" autocomplete="off">
+    <div class="fhint">숫자 또는 영문 4글자 이상 입력해 주세요.</div>
     <label class="fl" style="margin-top:12px">새 비밀번호 확인</label>
     <input class="inp" type="password" id="rPw2" autocomplete="off">
     <div class="lerr" id="rErr2"></div>
@@ -623,7 +625,7 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'L6';
+const BUILD = 'L7';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -840,7 +842,7 @@ async function confirmReset(){
  const code=document.getElementById('rCode').value.trim();
  const pw=document.getElementById('rPw').value, pw2=document.getElementById('rPw2').value;
  if(!/^\d{6}$/.test(code))return err.textContent='인증번호 6자리를 입력해 주세요';
- if(pw.length<4)return err.textContent='비밀번호는 4자 이상 입력해 주세요';
+ if(pw.length<4)return err.textContent='비밀번호는 숫자 또는 영문 4글자 이상 입력해 주세요';
  if(pw!==pw2)return err.textContent='비밀번호가 서로 다릅니다';
  err.textContent='';ts('변경하는 중입니다…');
  try{
@@ -863,7 +865,7 @@ function doJoin(){
  const pw=document.getElementById('jPw').value, pw2=document.getElementById('jPw2').value;
  if(!/^[a-z0-9._-]{2,}$/.test(local))return err.textContent='아이디는 영문·숫자로 2자 이상 입력해 주세요';
  if(!nm)return err.textContent='이름을 입력해 주세요';
- if(pw.length<4)return err.textContent='비밀번호는 4자 이상 입력해 주세요';
+ if(pw.length<4)return err.textContent='비밀번호는 숫자 또는 영문 4글자 이상 입력해 주세요';
  if(pw!==pw2)return err.textContent='비밀번호가 서로 다릅니다';
  const id=local+DOMAIN;
  if(findUser(id))return err.textContent='이미 등록된 아이디입니다';
