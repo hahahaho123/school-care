@@ -999,7 +999,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'v5.8';
+const BUILD = 'v6.0';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1631,7 +1631,7 @@ function openMenu(){
   </div>
   ${admin?`<div class="mgrp">관리자</div>
   <div class="mlist">
-   ${mItem('openDump()','dn','현장 자료 내보내기','올린 파일 원본을 zip 한 파일로')}
+   ${mItem('openDump()','dn','현장 자료 내보내기','일일점검 · 점검 자료를 zip 으로')}
    ${mItem('exCSV()','csv','엑셀(CSV) 내보내기','현황 · 특별점검 · 지난 기록')}
    ${mItem('openUsers()','usr','계정 관리'+(pend?' · 승인 대기 '+pend+'건':''),'승인 · 권한 · 비밀번호',{dot:!!pend})}
    ${mItem('exJSON()','dn','백업 저장','전체 데이터를 파일로')}
@@ -1943,7 +1943,7 @@ function rdLogs(){
   <button class="b" style="width:100%" onclick="newWork('${s.id}','중식')">＋ 조리지원 일지 (중식)</button>
   <button class="b" style="width:100%;margin-top:8px" onclick="newWork('${s.id}','석식')">＋ 조리지원 일지 (석식)</button>
   <button class="act" style="width:100%;margin-top:8px;padding:12px" onclick="newWork('${s.id}')">＋ 그 밖의 회차 <em class="bsub">(조리지원 또는 모니터링 및 기타)</em></button>
-  <button class="act" style="width:100%;margin-top:8px;padding:12px" onclick="pickLog('${s.id}')">＋ 작성된 엑셀 파일 올리기</button>
+  <button class="act" style="width:100%;margin-top:8px;padding:12px" onclick="pickLog('${s.id}')">＋ 작성된 파일 올리기</button>
   <div class="fhint" style="margin:8px 2px 12px">앱에서 바로 작성하거나, 이미 만든 엑셀(.xlsx · .xls · .csv) · PDF · 사진을 올릴 수 있습니다.</div>
   ${wAll?(wAll>ws.length&&ws.length
    ?`<div class="two"><button class="act" onclick="pdfWorks('${s.id}','y')">${YEAR}년 PDF · ${ws.length}건</button>
@@ -2538,26 +2538,37 @@ function maybeNews(){
  setTimeout(()=>{if(ME&&!document.querySelector('.ov.on'))openNews()},700)}
 
 /* ===== 현장 자료(올린 파일 원본) 통째 내려받기 ===== */
-function dumpFiles(sid){
+const DMCAT={log:{n:'일일점검 및 특이사항',d:'일지에 올린 파일과 현장 조리사진'},
+             insp:{n:'점검 자료',d:'1차 · 2차 점검과 교육, 특별점검에 올린 자료'}};
+let dmCat='log';
+function dumpFiles(sid,cat){
  const s=S(sid); if(!s)return [];
+ cat=cat||dmCat;
  const out=[]; const seen={};
  const add=(folder,f)=>{if(!f||!f.id||seen[f.id])return;seen[f.id]=1;
   out.push({id:f.id,name:f.name||'file',folder:folder})};
  Object.keys(s.years||{}).sort().forEach(yy=>{
   const y=s.years[yy]||{}; const F=y.files||{};
-  ITEMS.forEach(i=>(F[i.k]||[]).forEach(f=>add(yy+'/'+i.n,f)));
-  (F.log||[]).forEach(f=>add(yy+'/업무일지',f));
-  (y.specials||[]).forEach(x=>(x.files||[]).forEach(f=>add(yy+'/특별점검_'+(x.date||''),f)));
+  if(cat==='insp'){
+   ITEMS.forEach(i=>(F[i.k]||[]).forEach(f=>add(yy+'/'+i.n,f)));
+   (y.specials||[]).forEach(x=>(x.files||[]).forEach(f=>add(yy+'/특별점검_'+(x.date||''),f)));
+  }else{
+   (F.log||[]).forEach(f=>add(yy+'/올린 일지',f));
+  }
  });
- (DB.works||[]).filter(w=>w.sid===sid).forEach(w=>{
-  (w.files||[]).forEach(f=>add((w.date||'').slice(0,4)+'/일지사진_'+(w.date||''),f))});
+ if(cat==='log')(DB.works||[]).filter(w=>w.sid===sid).forEach(w=>{
+  (w.files||[]).forEach(f=>add((w.date||'').slice(0,4)+'/조리사진_'+(w.date||''),f))});
  return out}
+function setDmCat(c){dmCat=c;openDump()}
 function openDump(){
  if(!isAdmin())return ts('자료 내보내기는 관리자만 할 수 있습니다');
  const list=LIST().slice().sort((a,b)=>a.order-b.order);
  document.getElementById('dmBd').innerHTML=
-  `<div class="fhint" style="margin:0 2px 12px">${U()}를 고르면 그 ${U()}에 <b>올린 파일 원본</b>(엑셀 · PDF · 사진)을 모아 zip 한 파일로 내려받습니다.
-    앱에서 작성한 일지는 업무일지 화면의 <b>그림(PNG) 전체 저장</b> 을 쓰세요.</div>`
+  `<div class="wseg" style="margin-bottom:10px">
+    ${Object.keys(DMCAT).map(k=>`<button style="flex:1 1 46%" class="${dmCat===k?'on':''}" onclick="setDmCat('${k}')">${DMCAT[k].n}</button>`).join('')}
+   </div>
+   <div class="fhint" style="margin:0 2px 12px"><b>${DMCAT[dmCat].d}</b>를 모아 zip 한 파일로 내려받습니다.
+    ${U()}를 누르면 바로 시작합니다.</div>`
   +(list.length?list.map(x=>{const n=dumpFiles(x.id).length;
     return `<button class="exb" ${n?'':'disabled style="opacity:.45"'} onclick="${n?`runDump('${x.id}')`:''}">
       <b>${esc(x.name)}</b><span>${n?('올린 파일 '+n+'개'):'올린 파일 없음'}</span></button>`}).join('')
@@ -2570,7 +2581,7 @@ async function runDump(sid){
  if(!SYNC_URL)return ts('동기화 설정 후 사용할 수 있습니다');
  if((SHEETVER||0)<19)return ts('시트코드를 새로 배포해야 사용할 수 있습니다 (v19)');
  const s=S(sid); const items=dumpFiles(sid);
- if(!items.length)return ts('올린 파일이 없습니다');
+ if(!items.length)return ts(DMCAT[dmCat].n+'에 올린 파일이 없습니다');
  dumpBusy=true;
  const box=document.getElementById('dmBd');
  const bar=document.createElement('div');
@@ -2594,7 +2605,7 @@ async function runDump(sid){
   if(!files.length){ts('파일을 가져오지 못했습니다');return}
   if(fail.length)files.push({name:'못 받은 파일.txt',
     data:new TextEncoder().encode('아래 파일은 가져오지 못했습니다.\n\n'+fail.join('\n'))});
-  dlBlob(safeName(s.name+'_올린자료')+'.zip',zipStore(files));
+  dlBlob(safeName(s.name+'_'+DMCAT[dmCat].n)+'.zip',zipStore(files));
   ts('파일 '+files.length+'개를 zip 으로 받았습니다'+(fail.length?' · '+fail.length+'개 실패':''));
  }finally{dumpBusy=false;bar.remove()}}
 
@@ -3123,7 +3134,7 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
 
  <h4><i>12</i>관리자 기능 <b style="color:var(--bad)">관리자 전용</b></h4>
  <p>검색칸 아래 <span class="k">새 학교 추가</span> 로 등록하고, 삭제는 <span class="k">메뉴</span> → <span class="k">학교 삭제</span> 에서 합니다.</p>
- <p><span class="k">메뉴</span> → <span class="k">현장 자료 내보내기</span> 에서 현장을 고르면 올린 파일 원본을 zip 한 파일로 받습니다.
+ <p><span class="k">메뉴</span> → <span class="k">현장 자료 내보내기</span> 에서 <b>일일점검 및 특이사항</b> 과 <b>점검 자료</b> 중 하나를 고르고 현장을 누르면 올린 파일 원본을 zip 한 파일로 받습니다.
     엑셀 내보내기와 계정 관리도 메뉴에 있습니다.</p>
  <div style="height:12px"></div></div>`;op('ovM')}
 
@@ -3211,7 +3222,7 @@ async function pull(silent){
  if(!SYNC_URL||busy||uploading)return;busy=true;if(!silent)sst('y','불러오는 중');
  try{const j=await call('GET');
   const rt=(j.data&&j.data.updatedAt)||0,lt=DB.updatedAt||0;
-  if(j.ver)SHEETVER=j.ver;
+  if(j.ver){SHEETVER=j.ver;try{rdVer()}catch(e){}}
   if(j.data&&j.data.schools&&rt>lt){adopt(j.data);if(!silent)ts('최신 데이터를 불러왔습니다')}
   else if(lt>rt){busy=false;return push()}
   busy=false;errN=0;sst('g','자동 동기화 켜짐','마지막 저장 '+stamp(DB.updatedAt));
@@ -3262,7 +3273,9 @@ document.getElementById('rLogo').src=document.querySelector('.hlogo img').src;
 if(ME && Date.now()-readAct() > IDLE_MIN*60*1000){
  try{sessionStorage.removeItem(UKEY)}catch(e){} ME=null}
 if(!ME)showLock(); else {document.getElementById('lock').classList.add('off');secSkin();maybeNews();markAct();setTimeout(()=>{touchLogin(false);beat(true)},300)}
-document.getElementById('ver').textContent=BUILD+' · 구글 시트 연동 · 동기화 '+(SYNC_URL?'설정됨':'미설정');
+function rdVer(){const e=document.getElementById('ver');if(!e)return;
+ e.textContent=BUILD+' · 시트코드 '+(SHEETVER?('v'+SHEETVER):'확인 중')+' · 동기화 '+(SYNC_URL?'설정됨':'미설정')}
+rdVer();
 fillYears();chips();rd();startSync();
 
 /* ===== 새 버전 자동 감지 ===== */
