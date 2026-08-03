@@ -233,7 +233,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .el{font-size:10.5px;font-weight:700;color:#B4720C;flex:0 0 auto;max-width:38%;
  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .wl{flex:0 0 auto;margin-left:auto;font-size:10.5px;font-weight:700;color:var(--ink3)}
-.win{flex:1;min-width:0;padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:#fff;
+.win{flex:1;min-width:0;min-height:29px;padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:#fff;
  font-size:11.5px;font-weight:700;color:var(--ink);outline:none;text-align:left;font-family:inherit;
  resize:none;overflow:hidden;line-height:1.5;display:block}
 .win:focus{border-color:var(--blue)}
@@ -1023,7 +1023,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'v6.5';
+const BUILD = 'v6.6';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1625,7 +1625,7 @@ function rd(){
      <label class="isw"><input type="checkbox" ${y.issue?'checked':''} onchange="setI('${s.id}',this.checked)"> 미해결 이슈
        <span class="iwh">추후 조치가 필요하면 체크해주세요.</span></label>
    </div></div>`}).join('');
- document.querySelectorAll('.ta,.win').forEach(grow);rdSec();rdActs();rdLoginBar()}
+ document.querySelectorAll('.ta,.win').forEach(el=>grow(el));rdSec();rdActs();rdLoginBar()}
 const IC={
  man:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5"/>',
  up:'<path d="M12 20V5"/><path d="M6 11l6-6 6 6"/>',
@@ -1680,9 +1680,17 @@ function rdActs(){
  const tl=document.getElementById('tools'); if(tl)tl.style.display=admin?'':'none';
  rdPend();
  document.getElementById('whoNow').textContent=ME?((ME.name||ME.id)+' · '+ME.id+(ME.role==='admin'?' (관리자)':'')):''}
-function grow(el,mx){el.style.height='auto';
- const bd=el.offsetHeight-el.clientHeight;   /* 테두리 두께 보정 */
- el.style.height=Math.min(el.scrollHeight+bd,mx||260)+'px'}
+function grow(el,mx){
+ if(!el||el.nodeType!==1)return;
+ mx=(typeof mx==='number'&&mx>40)?mx:260;
+ const prev=el.style.height;
+ el.style.height='auto';
+ const sc=el.scrollHeight;
+ if(!sc){el.style.height=prev||'';           /* 아직 화면에 그려지지 않음 */
+  if(window.requestAnimationFrame)requestAnimationFrame(()=>{if(el.isConnected&&el.scrollHeight)grow(el,mx)});
+  return}
+ const bd=Math.max(0,el.offsetHeight-el.clientHeight);   /* 테두리 두께 보정 */
+ el.style.height=Math.min(sc+bd,mx)+'px'}
 
 /* ============== 편집 ============== */
 function tog(id,k,v){const y=Y(S(id));y[k]=v;if(v&&!y[k+'Date'])y[k+'Date']=iso(T);
@@ -2169,7 +2177,7 @@ function rdWE(){
      :'<div class="fhint" style="margin-top:9px">사진을 올리면 엑셀 내보내기에 링크로 들어갑니다.</div>'}
   </div>
   <div style="height:14px"></div>`;
- document.querySelectorAll('#weBd .ta').forEach(grow)}
+ document.querySelectorAll('#weBd .ta').forEach(el=>grow(el))}
 
 /* ===== 확인자 서명 ===== */
 let sgCtx=null,sgOn=false,sgDirty=false;
@@ -3253,10 +3261,6 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
     <b>빨간색</b>이면 연결이 돌아올 때 자동으로 다시 보냅니다. 따로 누를 버튼은 없습니다.</p>
  <p>${IDLE_MIN}분 동안 앱을 쓰지 않으면 자동으로 로그아웃됩니다. 입력한 내용은 그대로 남아 있습니다.</p>
 
- <h4><i>12</i>관리자 기능 <b style="color:var(--bad)">관리자 전용</b></h4>
- <p>검색칸 아래 <span class="k">새 학교 추가</span> 로 등록하고, 삭제는 <span class="k">메뉴</span> → <span class="k">학교 삭제</span> 에서 합니다.</p>
- <p><span class="k">메뉴</span> → <span class="k">현장 자료 내보내기</span> 에서 <b>일일점검 및 특이사항</b> 과 <b>점검 자료</b> 중 하나를 고르고 현장을 누르면 올린 파일 원본을 zip 한 파일로 받습니다.
-    엑셀 내보내기와 계정 관리도 메뉴에 있습니다.</p>
  <div style="height:12px"></div></div>`;op('ovM')}
 
 /* ============== 삭제 시트 ============== */
