@@ -36,8 +36,8 @@ body.priv{
  background:linear-gradient(135deg,#2A5417,#4E8B27 55%,#79B846);
  opacity:0;transition:opacity .45s ease;pointer-events:none}
 body.priv .hero::before{opacity:1}
-body.priv .secseg button:not(.on){color:#A8D47A}
-body.priv .secseg{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}
+body.priv .secseg button:not(.on){color:rgba(232,246,214,.8)}
+body.priv .secseg{background:rgba(0,0,0,.16);border-color:rgba(255,255,255,.16)}
 .hero>*{position:relative;z-index:1}
 .secseg button{transition:background .25s ease,color .25s ease}
 .st1,.b,.act,.wt,.seg,.glab i{transition:background-color .3s ease,color .3s ease,border-color .3s ease}
@@ -65,14 +65,24 @@ body.secx .grid,body.secx .rings,body.secx .stline{animation:secfade .38s ease}
 .hmid{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:18px;position:relative;z-index:1}
 .eyebrow{font-size:11px;font-weight:700;color:#9EC3E0;letter-spacing:.4px}
 .hero h1{margin:5px 0 0;font-size:clamp(20px,6.2vw,27px);font-weight:800;letter-spacing:-1.1px;white-space:nowrap}
-.secseg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:16px;padding:4px;
- background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;
- position:relative;z-index:1}
-.secseg button{padding:9px;border-radius:9px;font-size:13px;font-weight:800;color:#B9D3E8;
- display:flex;align-items:center;justify-content:center;gap:6px}
-.secseg button.on{background:#fff;color:var(--navy)}
+.secseg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;padding:4px;
+ background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.14);border-radius:12px;
+ position:relative;z-index:1;box-shadow:inset 0 1px 3px rgba(0,0,0,.18)}
+/* 흰 알약이 좌우로 미끄러집니다 — 눌러서 바꾸는 스위치라는 느낌 */
+.secseg::after{content:'';position:absolute;top:10px;bottom:10px;left:50%;width:1px;
+ margin-left:-.5px;background:rgba(255,255,255,.24);border-radius:1px;z-index:0}
+.secseg::before{content:'';position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 9px);
+ background:#fff;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.22);
+ transition:transform .3s cubic-bezier(.34,1.2,.44,1);z-index:0}
+.secseg.p::before{transform:translateX(calc(100% + 10px))}
+.secseg button{position:relative;z-index:1;padding:10px 9px;border-radius:9px;font-size:13px;
+ font-weight:800;color:rgba(255,255,255,.72);display:flex;align-items:center;justify-content:center;gap:6px;
+ transition:color .22s ease,transform .12s ease}
+.secseg button:active{transform:scale(.96)}
+.secseg button.on{background:transparent;color:var(--navy)}
 .secseg em{font-style:normal;font-size:11px;font-weight:800;opacity:.75}
-.secseg button.on em{color:var(--blue)}
+.secseg button.on em{color:var(--blue);opacity:1}
+
 .rings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px;position:relative;z-index:1}
 .ring{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px}
 .ring svg{transform:rotate(-90deg);display:block}
@@ -969,7 +979,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'v4.9';
+const BUILD = 'v5.1';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1115,6 +1125,7 @@ function setSec(v){
  rdSec();fillYears();chips();rgrid();rd();ts((v==='priv'?'민간':'학교')+' 목록입니다')}
 function rdSec(){
  secSkin();
+ const sg=document.querySelector('.secseg'); if(sg)sg.classList.toggle('p',SEC==='priv');
  ['secS','secP'].forEach((id,i)=>{const e=document.getElementById(id);
   if(e)e.classList.toggle('on',(i===0)===(SEC==='school'))});
  const n1=document.getElementById('secNS'),n2=document.getElementById('secNP');
