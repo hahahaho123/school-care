@@ -999,7 +999,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'v5.7';
+const BUILD = 'v5.8';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -2500,7 +2500,9 @@ const NEWSK='hrNews.v1';
    앱 버전(BUILD)을 아무리 올려도 이 번호가 그대로면 창은 뜨지 않습니다.
    아래 NEWS 내용을 새로 쓸 때만 이 번호를 1 올리세요. */
 const NEWSVER='1';
-const NEWSDATE='2026-08-03';   /* 안내창에 표시할 업데이트 날짜 */
+const NEWSDATE='2026-08-03';
+const kdate=v=>{const D=new Date(String(v)+'T00:00:00');
+ return isNaN(D)?String(v):(D.getFullYear()+'년 '+(D.getMonth()+1)+'월 '+D.getDate()+'일')};   /* 안내창에 표시할 업데이트 날짜 */
 const NEWS=[
  {t:'민간 현장도 함께 관리합니다',
   d:'상단 <b>학교 · 민간</b> 을 눌러 바꿉니다. <b>삼성 · 현대차 · 피자로봇</b> 등 학교가 아닌 곳은 민간 쪽에 등록하며, 진행률과 이슈도 따로 집계됩니다.',
@@ -2516,10 +2518,8 @@ const NEWS=[
   g:`<svg viewBox="0 0 320 132" width="100%"><rect x="8" y="8" width="180" height="116" rx="8" fill="#fff" stroke="#8B93A1"/><rect x="8" y="8" width="180" height="18" fill="#08204F"/><text x="98" y="21" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff">일일점검 및 특이사항</text><line x1="8" y1="42" x2="188" y2="42" stroke="#8B93A1"/><line x1="8" y1="60" x2="188" y2="60" stroke="#8B93A1"/><line x1="8" y1="78" x2="188" y2="78" stroke="#8B93A1"/><line x1="8" y1="96" x2="188" y2="96" stroke="#8B93A1"/><line x1="62" y1="26" x2="62" y2="124" stroke="#8B93A1"/><rect x="8" y="26" width="54" height="98" fill="#F2F5F9"/><line x1="8" y1="26" x2="188" y2="26" stroke="#8B93A1"/><text x="35" y="37" text-anchor="middle" font-size="8.5" font-weight="700" fill="#56607A">메뉴</text><text x="35" y="55" text-anchor="middle" font-size="8.5" font-weight="700" fill="#56607A">조리시간</text><text x="35" y="73" text-anchor="middle" font-size="8.5" font-weight="700" fill="#56607A">레시피</text><text x="35" y="91" text-anchor="middle" font-size="8.5" font-weight="700" fill="#56607A">작성자</text><text x="35" y="113" text-anchor="middle" font-size="8.5" font-weight="800" fill="#08204F">확인자</text><rect x="70" y="31" width="70" height="5" rx="2" fill="#DCE3EC"/><rect x="70" y="49" width="90" height="5" rx="2" fill="#DCE3EC"/><rect x="70" y="67" width="80" height="5" rx="2" fill="#DCE3EC"/><rect x="70" y="85" width="46" height="5" rx="2" fill="#DCE3EC"/><path d="M72 116c8-11 14 6 22-5s13 7 22-3 12 5 20-2" fill="none" stroke="#0E1726" stroke-width="2" stroke-linecap="round"/><text x="240" y="20" text-anchor="middle" font-size="10.5" font-weight="800" fill="#016394">현장 조리사진</text><rect x="198" y="28" width="52" height="40" rx="6" fill="#EEF3F8" stroke="#BFD7EA"/><rect x="258" y="28" width="52" height="40" rx="6" fill="#EEF3F8" stroke="#BFD7EA"/><g transform="translate(215,40)" fill="none" stroke="#6E93B5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4h3l1.3-2h7.4L13.5 4h3v11H0.5z"/><circle cx="8.5" cy="9.5" r="3.2"/></g><g transform="translate(275,40)" fill="none" stroke="#6E93B5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M0.5 4h3l1.3-2h7.4L13.5 4h3v11H0.5z"/><circle cx="8.5" cy="9.5" r="3.2"/></g><rect x="198" y="80" width="112" height="34" rx="9" fill="#08204F"/><text x="254" y="102" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">저장</text></svg>`}
 ];
 function openNews(){
- const D=new Date(NEWSDATE+'T00:00:00');
- const dtxt=isNaN(D)?NEWSDATE:(D.getFullYear()+'년 '+(D.getMonth()+1)+'월 '+D.getDate()+'일');
  document.getElementById('nwBd').innerHTML=
-  `<div class="nwdate">${dtxt} 업데이트 · ${NEWS.length}건</div>`
+  `<div class="nwdate">${kdate(NEWSDATE)} 업데이트 · ${NEWS.length}건</div>`
   +NEWS.map((n,i)=>`
   <div class="nwit">
     <div class="nwh"><span>${i+1}</span><b>${n.t}</b></div>
@@ -3007,7 +3007,7 @@ function seenBuild(){try{return localStorage.getItem(SEENK)||''}catch(e){return 
 function hasNew(){return seenBuild()!==BUILD}
 function openWhat(){
  document.getElementById('wBd').innerHTML='<button class="b" style="width:100%;margin-bottom:14px" onclick="cl(\'ovW\');openNews()">그림으로 보기</button><div class="cl">'+CHANGES.map((c,i)=>
-  `<div class="clv"><b>${esc(c.t||c.v)}</b>${i===0?'<u>최신</u>':''}<span>${esc(c.d)} · ${esc(c.v)}</span></div>
+  `<div class="clv"><b>${esc(c.t||c.v)}</b>${i===0?'<u>최신</u>':''}<span>${esc(kdate(c.d))}</span></div>
    <div class="cli">${c.n.map(t=>'<div>'+t+'</div>').join('')}</div>`).join('')
   +'<div style="height:14px"></div></div>';
  try{localStorage.setItem(SEENK,BUILD)}catch(e){}
