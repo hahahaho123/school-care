@@ -994,7 +994,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'v5.1';
+const BUILD = 'v5.2';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -2490,6 +2490,11 @@ async function pngAll(sid,scope){
 
 /* ===== 새 기능 안내창 ===== */
 const NEWSK='hrNews.v1';
+/* ★ 안내 내용 번호 ★
+   업데이트 내역 안내창은 이 번호가 바뀔 때만 뜹니다.
+   앱 버전(BUILD)을 아무리 올려도 이 번호가 그대로면 창은 뜨지 않습니다.
+   아래 NEWS 내용을 새로 쓸 때만 이 번호를 1 올리세요. */
+const NEWSVER='1';
 const NEWS=[
  {t:'민간 현장도 함께 관리합니다',
   d:'위쪽 <b>학교 · 민간</b> 을 눌러 바꿉니다. 삼성 · 현대차처럼 학교가 아닌 곳은 민간 쪽에 등록하며, 진행률과 이슈도 따로 집계됩니다.',
@@ -2512,14 +2517,14 @@ function openNews(){
     <div class="nwd">${n.d}</div>
   </div>`).join('')
   +`<div class="nwf"><button class="b" onclick="cl('ovNw')">확인</button></div>
-     <div class="fhint" style="text-align:center;margin-top:9px">확인을 누르면 다음 업데이트까지 이 창이 뜨지 않습니다.</div>`;
- try{localStorage.setItem(NEWSK,BUILD)}catch(e){}
+     <div class="fhint" style="text-align:center;margin-top:9px">확인을 누르면 이 창은 더 이상 뜨지 않습니다.<br>메뉴 → 업데이트 내역 보기 에서 언제든 다시 볼 수 있습니다.</div>`;
+ try{localStorage.setItem(NEWSK,NEWSVER)}catch(e){}
  op('ovNw')}
 function maybeNews(){
  if(!ME)return;
  let seen='';
  try{seen=localStorage.getItem(NEWSK)||''}catch(e){}
- if(seen===BUILD)return;
+ if(seen===NEWSVER)return;
  setTimeout(()=>{if(ME&&!document.querySelector('.ov.on'))openNews()},700)}
 
 /* ===== 현장 자료(올린 파일 원본) 통째 내려받기 ===== */
