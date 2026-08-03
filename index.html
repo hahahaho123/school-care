@@ -28,6 +28,21 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .page{max-width:1000px;margin:0 auto;padding:0 0 calc(40px + var(--sb))}
 
 /* hero */
+/* 민간 탭 — 연두 계열 */
+body.priv{
+ --navy:#3A6B1F;--navy2:#4E8B27;--blue:#5E9B2E;--blue2:#8FC463;--blue3:#7F8A72;
+ --tint:#F2F8EC;}
+.hero::before{content:'';position:absolute;inset:0;
+ background:linear-gradient(135deg,#2A5417,#4E8B27 55%,#79B846);
+ opacity:0;transition:opacity .45s ease;pointer-events:none}
+body.priv .hero::before{opacity:1}
+body.priv .secseg button:not(.on){color:#A8D47A}
+body.priv .secseg{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}
+.hero>*{position:relative;z-index:1}
+.secseg button{transition:background .25s ease,color .25s ease}
+.st1,.b,.act,.wt,.seg,.glab i{transition:background-color .3s ease,color .3s ease,border-color .3s ease}
+@keyframes secfade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+body.secx .grid,body.secx .rings,body.secx .stline{animation:secfade .38s ease}
 .hero{background:linear-gradient(135deg,#08204F,#0C3070 55%,#0B4B7A);color:#fff;
  padding:calc(var(--st) + 18px) 20px 22px;border-radius:0 0 20px 20px;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.05)}
@@ -36,10 +51,12 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .hlogo img{height:19px;display:block}
 .pill-s{font-size:11.5px;font-weight:700;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.14);
  border:1px solid rgba(255,255,255,.22);color:#fff;white-space:nowrap}
-.yrsel{flex:0 0 auto;margin-bottom:3px;appearance:none;-webkit-appearance:none;font-size:12.5px;font-weight:800;padding:8px 28px 8px 14px;
+.yrsel{flex:0 0 auto;margin-bottom:4px;appearance:none;-webkit-appearance:none;font-size:12.5px;font-weight:800;
+ padding:8px 26px 8px 16px;text-align:center;text-align-last:center;min-width:96px;
  border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:#fff;outline:none;
  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
- background-repeat:no-repeat;background-position:right 9px center;background-size:11px}
+ background-repeat:no-repeat;background-position:right 8px center;background-size:11px}
+.yrsel option{text-align:center}
 .yrsel option{color:#0E1726}
 .pastbar{background:#FFF7E8;border:1px solid #F0DCA8;border-radius:10px;margin:12px 16px 0;padding:10px 13px;
  font-size:12.5px;font-weight:700;color:#8A5D0B;display:flex;align-items:center;gap:8px}
@@ -48,6 +65,14 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .hmid{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:18px;position:relative;z-index:1}
 .eyebrow{font-size:11px;font-weight:700;color:#9EC3E0;letter-spacing:.4px}
 .hero h1{margin:5px 0 0;font-size:clamp(20px,6.2vw,27px);font-weight:800;letter-spacing:-1.1px;white-space:nowrap}
+.secseg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:16px;padding:4px;
+ background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;
+ position:relative;z-index:1}
+.secseg button{padding:9px;border-radius:9px;font-size:13px;font-weight:800;color:#B9D3E8;
+ display:flex;align-items:center;justify-content:center;gap:6px}
+.secseg button.on{background:#fff;color:var(--navy)}
+.secseg em{font-style:normal;font-size:11px;font-weight:800;opacity:.75}
+.secseg button.on em{color:var(--blue)}
 .rings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px;position:relative;z-index:1}
 .ring{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px}
 .ring svg{transform:rotate(-90deg);display:block}
@@ -208,10 +233,14 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .mm{margin-top:9px;padding-top:10px;border-top:1px dashed var(--line)}
 .mrow{display:grid;grid-template-columns:96px 1fr;gap:7px;margin-bottom:7px}
 .mrow input{padding:9px 11px;font-size:13.5px}
-.brow{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+.brow{display:grid;grid-template-columns:1fr 1.35fr;gap:7px;margin-top:8px}
 .mini{padding:10px 8px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:12px;font-weight:700;
  color:var(--ink2);display:flex;align-items:center;justify-content:center;gap:5px}
 .mini.on{border-color:#BFD7EA;background:var(--tint);color:var(--blue)}
+.mini.wide{width:100%;margin-top:7px}
+.mini svg{width:14px;height:14px;flex:0 0 auto}
+.mini.lg{font-size:11px;line-height:1.3;padding:8px 6px}
+.mini.lg span{white-space:normal;text-align:center}
 .mini em{font-style:normal;background:var(--blue);color:#fff;font-size:10px;font-weight:800;padding:1px 6px;border-radius:8px}
 .isw{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--ink2);margin-top:9px}
 .isw input{width:16px;height:16px;accent-color:#B3261E;margin:0;flex:0 0 auto}
@@ -229,6 +258,59 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .nd2.on{display:block}
 .plist{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start}
 @media(min-width:760px){.plist{grid-template-columns:repeat(3,1fr)}}
+.sgwrap{position:relative;margin-top:8px;background:#fff;border:1.5px dashed #BFD7EA;border-radius:12px;
+ height:210px;overflow:hidden}
+.sgwrap canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.sgph{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;
+ font-size:14px;font-weight:700;color:#C3CBD8}
+.sgph.off{display:none}
+.sgbox{margin-top:6px;width:100%;border:1.5px dashed #BFD7EA;border-radius:10px;background:#fff;
+ min-height:74px;display:grid;place-items:center;padding:8px}
+.sgbox.has{border-style:solid;border-color:#BFE3D3;background:var(--okbg)}
+.sgbox span{font-size:13px;font-weight:800;color:var(--blue)}
+.sgbox img{max-height:56px;max-width:100%;display:block}
+.sgnm{margin-top:6px;font-size:11.5px;font-weight:700;color:var(--ink2);text-align:center}
+.sgnm i{font-style:normal;color:var(--ink3)}
+.wtabs{display:flex;gap:6px;margin:12px 0;overflow-x:auto;padding-bottom:2px}
+.wtabs button{flex:0 0 auto;padding:9px 15px;border-radius:999px;border:1px solid var(--line);
+ background:#fff;font-size:12.5px;font-weight:800;color:var(--ink2);white-space:nowrap}
+.wtabs button.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.wtabs button.add{padding:9px 13px;color:var(--blue);border-color:#BFD7EA;background:var(--tint)}
+.wkcard{display:flex;align-items:center;gap:7px;width:100%;text-align:left;
+ background:#fff;border:1px solid #BFD7EA;border-radius:10px;padding:9px 8px 9px 10px;margin-bottom:5px}
+.wkcard .wt{flex:0 0 auto;font-size:9.5px;font-weight:800;color:#fff;background:var(--blue);
+ border-radius:5px;padding:3px 6px;white-space:nowrap}
+.wkcard .wt.ok{background:var(--ok)}
+.wkcard .wn{flex:1;min-width:0;font-size:11.5px;font-weight:700;color:var(--ink3);overflow:hidden;
+ text-overflow:ellipsis;white-space:nowrap}
+.wkcard .wn b{font-weight:800;color:var(--ink)}
+.wkcard .wn em{font-style:normal;margin:0 5px;color:#C3CBD8}
+.wkcard .wx{flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:var(--badbg);
+ color:var(--bad);font-size:12px;font-weight:800;display:grid;place-items:center}
+.wksort{display:flex;align-items:center;gap:6px;margin:0 2px 10px}
+.wksort span{flex:1;font-size:11.5px;font-weight:800;color:var(--ink3)}
+.wksort button{padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:#fff;
+ font-size:11.5px;font-weight:800;color:var(--ink2)}
+.wksort button.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.wkday{display:flex;align-items:baseline;gap:7px;margin:13px 2px 6px}
+.wkday b{font-size:13.5px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.wkday i{font-style:normal;font-size:11px;font-weight:700;color:var(--ink3)}
+.wkday u{text-decoration:none;margin-left:auto;font-size:11px;font-weight:800;color:var(--ink3)}
+.wkrow{background:#fff;border:1px solid var(--line);border-radius:11px;padding:10px;margin-bottom:6px}
+.wkhd{display:flex;align-items:flex-start;gap:10px}
+.wkic{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;flex:0 0 auto;
+ background:#E8F3EC;color:#177245;font-size:10px;font-weight:800}
+.wkic.pdf{background:#FCF0EF;color:var(--bad)}
+.wkic.img{background:var(--tint);color:var(--blue)}
+.wktx{flex:1;min-width:0}
+.wktx b{display:block;font-size:13px;font-weight:800;line-height:1.4;word-break:break-all;
+ display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.wktx span{display:block;font-size:11px;font-weight:700;color:var(--ink3);margin-top:3px}
+.wkbt{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}
+.wkbt a,.wkbt button{padding:7px;border-radius:9px;border:1px solid var(--line);background:#fff;
+ font-size:12px;font-weight:800;color:var(--ink2);text-decoration:none;text-align:center}
+.wkbt a{color:var(--navy);border-color:#BFD7EA;background:var(--tint)}
+.wkbt button{color:var(--bad);border-color:#F0CFCC}
 .pcard{background:#fff;border:1px solid var(--line);border-radius:13px;padding:11px 12px}
 .pcard.iss{border-color:#F0C4C0;background:#FFFCFC}
 .ptop{display:flex;align-items:flex-start;gap:7px;min-width:0}
@@ -247,6 +329,8 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .pth img{width:100%;height:100%;object-fit:cover;display:block}
 .pth .doc{width:100%;height:100%;display:grid;place-items:center;font-size:22px}
 #ovP{z-index:80}
+#ovWe{z-index:86}
+#ovSg{z-index:96}
 .pkgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 @media(max-width:560px){.pkgrid{grid-template-columns:1fr}}
 .pk1{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);
@@ -378,6 +462,8 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .lock{position:fixed;inset:0;z-index:200;background:#fff;
  display:flex;align-items:center;justify-content:center;padding:24px}
 .lock.off{display:none}
+/* 로그인 화면은 학교·민간과 무관하므로 항상 기본 색 */
+.lock{--navy:#08204F;--navy2:#0C3070;--blue:#016394;--blue2:#3E7CA6;--blue3:#6B7C93;--tint:#EEF3F8}
 .lbox{width:100%;max-width:340px}
 .lhead{text-align:center;margin-bottom:26px}
 .llogo{height:28px;display:block;margin:0 auto 22px}
@@ -479,6 +565,73 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .vnav:disabled{opacity:.3}
 .vopen{flex:0 0 auto;padding:13px 16px;border-radius:10px;background:#fff;color:#0B1220;font-size:13.5px;
  font-weight:800;text-decoration:none}
+/* ===== 업무일지 PDF 미리보기 · 인쇄 ===== */
+#ovPr{align-items:stretch;background:#5F6675;z-index:88}
+#ovPr .prsh{background:#E8EBF0;width:100%;max-width:100%;max-height:100%;border-radius:0;
+ display:flex;flex-direction:column}
+.prtop{display:flex;align-items:center;gap:9px;padding:11px 13px calc(11px);background:#fff;
+ border-bottom:1px solid var(--line);flex:0 0 auto;padding-top:calc(11px + var(--st))}
+.prtop b{font-size:14px;font-weight:800;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prbtn{background:var(--navy);color:#fff;font-size:12.5px;font-weight:800;border-radius:9px;
+ padding:10px 14px;white-space:nowrap}
+.prbtn:disabled{background:#B7BECC}
+.prbd{overflow-y:auto;flex:1;padding:12px 10px calc(18px + var(--sb))}
+.prhint{max-width:190mm;margin:0 auto 10px;background:#FCF5E8;border:1px solid #EBD9AE;border-radius:9px;
+ padding:9px 11px;font-size:11.5px;font-weight:700;color:#7A5209;line-height:1.65}
+.prpg{background:#fff;width:100%;max-width:190mm;margin:0 auto 12px;padding:13px 14px 15px;
+ border:1px solid #D3D9E2;border-radius:6px}
+.prttl{background:#08204F;color:#fff;text-align:center;font-weight:800;padding:7px;font-size:12.5px;
+ letter-spacing:-.3px}
+.prmeta{display:grid;grid-template-columns:1fr 1fr;gap:5px 12px;margin:9px 0 4px;font-size:11px;
+ font-weight:700;color:var(--ink2)}
+.prmeta b{display:inline-block;min-width:38px;color:var(--navy);font-weight:800}
+.prtb{width:100%;border-collapse:collapse;font-size:10.5px;line-height:1.55;table-layout:auto}
+.prtb td,.prtb th{border:1px solid #8B93A1;padding:4px 6px;vertical-align:top;
+ word-break:keep-all;overflow-wrap:anywhere}
+.prtb th{background:#DCE6F1;text-align:center;vertical-align:middle;font-weight:800;white-space:nowrap}
+.prtb .n{text-align:center;vertical-align:middle;font-weight:800;white-space:nowrap}
+.prtb .k{text-align:center;vertical-align:middle;font-weight:700;background:#F2F5F9;white-space:nowrap}
+.prtb .w{width:99%}
+.prtb .c{text-align:center;white-space:nowrap}
+.exb{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);
+ border-radius:12px;padding:14px 15px;margin-bottom:9px}
+.exb b{display:block;font-size:14.5px;font-weight:800;color:var(--navy)}
+.exb span{display:block;margin-top:3px;font-size:11.5px;font-weight:700;color:var(--ink3);line-height:1.5}
+.exb:last-child{margin-bottom:0}
+.bsub{display:block;font-style:normal;font-size:11px;font-weight:700;color:var(--ink3);margin-top:2px}
+#ovEx{z-index:88}
+#ovDm{z-index:88}
+.wseg{display:flex;flex-wrap:wrap;gap:6px}
+.wseg button{flex:1 1 30%;min-width:0;padding:9px 4px;border-radius:9px;border:1px solid var(--line);background:#fff;
+ font-size:12.5px;font-weight:800;color:var(--ink2)}
+.wseg button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.prsg{margin-top:3px}
+.prsg img{height:40px;display:block;border:1px solid #D3D9E2;border-radius:3px;background:#fff}
+.prsg span{font-size:9.5px;color:#7A8398;font-weight:700}
+.prph{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.prph.n3{grid-template-columns:repeat(3,1fr)}
+.prph.n4{grid-template-columns:repeat(4,1fr)}
+.prph figure{margin:0}
+.prph img{width:100%;aspect-ratio:4/3;object-fit:contain;display:block;
+ border:1px solid #C8CFDA;border-radius:4px;background:#F4F6F9}
+.prph figcaption{font-size:9.5px;font-weight:700;color:#7A8398;margin-top:2px;overflow:hidden;
+ text-overflow:ellipsis;white-space:nowrap}
+@media print{
+ html,body{background:#fff!important;margin:0!important;padding:0!important}
+ body>*{display:none!important}
+ body>#ovPr{display:block!important;position:static!important;inset:auto!important;
+  background:#fff!important;overflow:visible!important;z-index:auto!important}
+ #ovPr .prsh{display:block!important;background:#fff!important;max-height:none!important}
+ .prtop,.prhint{display:none!important}
+ .prbd{overflow:visible!important;padding:0!important;height:auto!important;max-height:none!important}
+ .prpg{max-width:none!important;margin:0!important;padding:0!important;border:none!important;
+  border-radius:0!important;page-break-after:always;break-after:page}
+ .prpg:last-child{page-break-after:auto;break-after:auto}
+ .prtb{font-size:9pt;line-height:1.5}
+ .prtb td,.prtb th{padding:3.5px 6px}
+ .prtb tr,.prph figure{page-break-inside:avoid;break-inside:avoid}
+ @page{size:A4 portrait;margin:12mm 11mm}
+}
 .tst{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(78px + var(--sb));background:var(--ink);color:#fff;
  padding:11px 17px;border-radius:9px;font-size:13px;font-weight:600;z-index:210;opacity:0;pointer-events:none;transition:opacity .18s;max-width:86%;text-align:center}
 .tst.on{opacity:1}
@@ -501,6 +654,10 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
     <div><div class="eyebrow">(주)한국로보틱스</div><h1>HR 현장 통합 관리</h1></div>
     <select class="yrsel" id="yrSel" onchange="setYear(this.value)"></select>
   </div>
+  <div class="secseg">
+    <button id="secS" class="on" onclick="setSec('school')">학교 <em id="secNS">0</em></button>
+    <button id="secP" onclick="setSec('priv')">민간 <em id="secNP">0</em></button>
+  </div>
   <div class="rings">
     <div class="ring"><svg width="74" height="74" viewBox="0 0 74 74">
         <circle cx="37" cy="37" r="30" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="6"/>
@@ -516,7 +673,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
         <circle cx="37" cy="37" r="30" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="6"/>
         <circle id="arc3" cx="37" cy="37" r="30" fill="none" stroke="#FFC978" stroke-width="6" stroke-linecap="round"
           stroke-dasharray="188.5" stroke-dashoffset="188.5" style="transition:stroke-dashoffset .45s"/></svg>
-      <div class="rt"><b id="pct3">0%</b></div><div class="rl">특별점검<span>실시 학교</span></div></div>
+      <div class="rt"><b id="pct3">0%</b></div><div class="rl">특별점검<span data-u="실시 OO">실시 학교</span></div></div>
   </div>
   <div class="hstats" id="hstats"></div>
 </div>
@@ -549,7 +706,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
       <button class="sclr" id="qClr" onclick="clrQ()">✕</button></div>
     <button class="sortb" id="sortB" onclick="openPick()">전체보기</button>
   </div>
-  <div class="shint" id="sHint">줄임말 또는 초성 사용 가능 <b>체고</b> · <b>ㄱㅇ</b> · <b>개일초</b></div>
+  <div class="shint" id="sHint"></div>
 </div>
 
 <div class="tools" id="tools" style="display:none">
@@ -564,7 +721,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
   </div>
 </div>
 
-<div class="sec"><div><div class="c">관리 목록</div><h2>학교별 체크</h2></div><div class="r" id="cnt"></div></div>
+<div class="sec"><div><div class="c">관리 목록</div><h2 data-u="OO별 체크">학교별 체크</h2></div><div class="r" id="cnt"></div></div>
 <div class="grid" id="grid"></div>
 
 <div id="acts" style="display:none"></div>
@@ -573,6 +730,8 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 </div>
 
 <input type="file" id="fpick" style="display:none" accept="image/*,application/pdf" multiple>
+<input type="file" id="lgpick" style="display:none" multiple
+ accept=".xlsx,.xls,.xlsm,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv,application/pdf,image/*">
 
 <div class="lock" id="lock"><div class="lbox">
   <div class="lhead">
@@ -638,8 +797,34 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
   </div>
 </div>
 
+<div class="ov" id="ovSg" onclick="if(event.target===this)cl('ovSg')"><div class="sheet">
+  <div class="shd"><h3>확인자 서명</h3><button class="cls" onclick="cl('ovSg')">✕</button></div>
+  <div class="sbd">
+    <label class="fl">확인자 이름 · 소속</label>
+    <input class="inp" id="sgName" placeholder="예시) 영양사 박OO" autocomplete="off">
+    <div class="flrow" style="margin-top:14px"><label class="fl">아래 칸에 서명해 주세요</label>
+      <span class="flx">손가락 또는 펜으로 씁니다</span></div>
+    <div class="sgwrap"><canvas id="sgCv"></canvas>
+      <span class="sgph" id="sgPh">여기에 서명</span></div>
+    <div class="two" style="margin-top:11px">
+      <button class="act" style="padding:13px" onclick="sgClear()">다시 쓰기</button>
+      <button class="b" onclick="sgDone()">완료</button>
+    </div>
+    <div class="fhint" style="margin-top:10px">완료를 누르면 확인자 칸에 서명이 저장됩니다.</div>
+    <div style="height:14px"></div>
+  </div></div></div>
+
+<div class="ov" id="ovWe" onclick="if(event.target===this)cl('ovWe')"><div class="sheet">
+  <div class="shd"><h3 id="weTt">새 업무일지</h3><button class="cls" onclick="cl('ovWe')">✕</button></div>
+  <div class="sbd" id="weBd"></div>
+  <div class="dfoot"><div class="two" id="weFoot"><button class="act" style="padding:14px" onclick="openWexp()">내보내기</button><button class="b" onclick="saveWork()">저장</button></div></div></div></div>
+
+<div class="ov" id="ovLg" onclick="if(event.target===this)cl('ovLg')"><div class="sheet">
+  <div class="shd"><h3 id="lgTt">업무일지</h3><button class="cls" onclick="cl('ovLg')">✕</button></div>
+  <div class="sbd" id="lgBd2"></div></div></div>
+
 <div class="ov" id="ovP" onclick="if(event.target===this)cl('ovP')"><div class="sheet">
-  <div class="shd"><h3>학교 선택</h3><button class="cls" onclick="cl('ovP')">✕</button></div>
+  <div class="shd"><h3 data-u="OO 선택">학교 선택</h3><button class="cls" onclick="cl('ovP')">✕</button></div>
   <div class="sbd" id="pBd"></div></div></div>
 
 <div class="ov" id="ovMn" onclick="if(event.target===this)cl('ovMn')"><div class="sheet">
@@ -675,13 +860,13 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
   </div></div></div>
 
 <div class="ov" id="ovD" onclick="if(event.target===this)cl('ovD')"><div class="sheet">
-  <div class="shd"><h3>학교 삭제</h3><button class="cls" onclick="cl('ovD')">✕</button></div>
+  <div class="shd"><h3 data-u="OO 삭제">학교 삭제</h3><button class="cls" onclick="cl('ovD')">✕</button></div>
   <div class="sbd" id="dBd"></div>
   <div class="dfoot"><button class="bdel off" id="dBtn" disabled onclick="doDel()">삭제할 학교를 선택하세요</button></div>
 </div></div>
 
 <div class="ov" id="ovSum" onclick="if(event.target===this)cl('ovSum')"><div class="sheet" style="max-width:640px">
-  <div class="shd"><h3>학교 전체 요약</h3><span id="sumCnt" style="font-size:12px;font-weight:700;color:var(--ink3)"></span><button class="cls" onclick="cl('ovSum')">✕</button></div>
+  <div class="shd"><h3 data-u="OO 전체 요약">학교 전체 요약</h3><span id="sumCnt" style="font-size:12px;font-weight:700;color:var(--ink3)"></span><button class="cls" onclick="cl('ovSum')">✕</button></div>
   <div class="sbd" id="sumBd"></div></div></div>
 
 <div class="lock off" id="rst"><div class="lbox">
@@ -763,6 +948,20 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
   </div>
 </div>
 
+<div class="ov" id="ovDm" onclick="if(event.target===this)cl('ovDm')"><div class="sheet">
+  <div class="shd"><h3 data-u="OO 자료 내보내기">학교 자료 내보내기</h3><button class="cls" onclick="cl('ovDm')">✕</button></div>
+  <div class="sbd" id="dmBd"></div></div></div>
+
+<div class="ov" id="ovEx" onclick="if(event.target===this)cl('ovEx')"><div class="sheet">
+  <div class="shd"><h3>업무일지 내보내기</h3><button class="cls" onclick="cl('ovEx')">✕</button></div>
+  <div class="sbd" id="exBd"></div></div></div>
+
+<div class="ov" id="ovPr"><div class="prsh">
+  <div class="prtop"><b id="prTt">업무일지 PDF</b>
+    <button class="prbtn" id="prBtn" onclick="prPrint()">인쇄 · PDF로 저장</button>
+    <button class="cls" onclick="cl('ovPr')">✕</button></div>
+  <div class="prbd" id="prBd"></div></div></div>
+
 <div class="tst" id="tst"></div>
 
 <script>
@@ -770,7 +969,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'v2.0';
+const BUILD = 'v4.9';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -797,11 +996,12 @@ const Y0=()=>String(new Date().getFullYear());
 let YEAR=Y0();
 const yrec=()=>({p1:false,p1Date:'',p1Who:'',p2:false,p2Date:'',p2Who:'',
  e1:false,e1Date:'',e1Who:'',e2:false,e2Date:'',e2Who:'',
- specials:[],files:{p1:[],p2:[],e1:[],e2:[]},issue:false,who:'',note:''});
+ specials:[],files:{p1:[],p2:[],e1:[],e2:[],log:[]},issue:false,who:'',note:''});
 const blank=()=>({years:{},mt:0});
 function Y(s,y){y=y||YEAR; if(!s.years)s.years={}; if(!s.years[y])s.years[y]=yrec();
  const r=s.years[y];
- if(!r.files||Array.isArray(r.files))r.files={p1:[],p2:[],e1:[],e2:[]};
+ if(!r.files||Array.isArray(r.files))r.files={p1:[],p2:[],e1:[],e2:[],log:[]};
+ if(!Array.isArray(r.files.log))r.files.log=[];
  ITEMS.forEach(i=>{if(!Array.isArray(r.files[i.k]))r.files[i.k]=[];
   if(typeof r[i.k+'Who']!=='string')r[i.k+'Who']=''});
  if(!Array.isArray(r.specials))r.specials=[];
@@ -813,7 +1013,7 @@ const DEFAULT_USERS=()=>[
  {id:'admin',pw:'admin',name:'관리자',role:'admin',mt:0},
  {id:'HR01', pw:'0000', name:'',      role:'user', mt:0}];
 const LOGCAP=3000, LOGINCAP=300;
-const fresh=()=>({logs:[],logins:[],presence:{},schools:SEED.map((s,i)=>Object.assign({id:'s'+(i+1),order:i+1,name:s[0],region:s[1]},blank(),{years:{[Y0()]:yrec()}})),
+const fresh=()=>({works:[],wtomb:{},logs:[],logins:[],presence:{},schools:SEED.map((s,i)=>Object.assign({id:'s'+(i+1),order:i+1,name:s[0],region:s[1]},blank(),{years:{[Y0()]:yrec()}})),
  history:[],users:DEFAULT_USERS(),utomb:{},cycle:{p:6,r:12},tomb:{},v:5});
 
 const LS=(()=>{const K='hrCheck.v4';let mem=null;
@@ -825,6 +1025,8 @@ let DB=LS.get()||fresh();
 function normalize(){
  if(!DB.history)DB.history=[]; if(!DB.cycle)DB.cycle={p:6,r:12}; if(!DB.tomb)DB.tomb={};
  if(!DB.utomb)DB.utomb={};
+ if(!Array.isArray(DB.works))DB.works=[];
+ if(!DB.wtomb||typeof DB.wtomb!=='object')DB.wtomb={};
  if(!Array.isArray(DB.logs))DB.logs=[];
  if(!Array.isArray(DB.logins))DB.logins=[];
  if(!DB.presence||typeof DB.presence!=='object')DB.presence={};
@@ -846,6 +1048,7 @@ function normalize(){
     ['p1','p2','e1','e2'].forEach(q=>{if(r[q]&&!r[q+'Who'])r[q+'Who']=r.who})})});
   DB.whoV=1}
  DB.schools.forEach(s=>{
+  if(s.sec!=='priv')s.sec='school';
   if(!s.years)s.years={};
   if(typeof s.special==='number')delete s.special;
   // 예전(연도 없는) 데이터를 올해 기록으로 이전
@@ -883,7 +1086,49 @@ const cyOf=c=>c==='r'?DB.cycle.r:DB.cycle.p;
 const OK=(y,k)=>!!(y[k]&&y[k+'Date']);
 const doneAll=s=>{const y=Y(s);return ITEMS.every(i=>OK(y,i.k))};
 const S=id=>DB.schools.find(x=>x.id===id);
-function regions(){const seen=[];DB.schools.forEach(s=>{if(s.region&&seen.indexOf(s.region)<0)seen.push(s.region)});
+/* ===== 부문(학교 / 민간) ===== */
+const SECK='hrSec.v1';
+let SEC='school';
+try{SEC=localStorage.getItem(SECK)==='priv'?'priv':'school'}catch(e){}
+const secOf=s=>(s&&s.sec==='priv')?'priv':'school';
+const LIST=()=>DB.schools.filter(s=>secOf(s)===SEC);
+const U=()=>SEC==='priv'?'현장':'학교';
+const UN=()=>SEC==='priv'?'곳':'개교';
+const UGA=()=>SEC==='priv'?'현장이':'학교가';
+const UREUL=()=>SEC==='priv'?'현장을':'학교를';
+let secxT=null;
+function secSkin(){
+ const lk=document.getElementById('lock');
+ const locked=lk&&!lk.classList.contains('off');
+ document.body.classList.toggle('priv',SEC==='priv'&&!locked);
+ const m=document.querySelector('meta[name="theme-color"]');
+ if(m)m.setAttribute('content',(SEC==='priv'&&!locked)?'#4E8B18':'#08204F')}
+function setSec(v){
+ if(SEC===v)return; SEC=v;
+ try{localStorage.setItem(SECK,v)}catch(e){}
+ secSkin();
+ document.body.classList.remove('secx'); void document.body.offsetWidth;
+ document.body.classList.add('secx');
+ clearTimeout(secxT); secxT=setTimeout(()=>document.body.classList.remove('secx'),420);
+ curRg='전체';flagK='';sumRg='전체';sumQ='';
+ const q=document.getElementById('q'); if(q)q.value='';
+ rdSec();fillYears();chips();rgrid();rd();ts((v==='priv'?'민간':'학교')+' 목록입니다')}
+function rdSec(){
+ secSkin();
+ ['secS','secP'].forEach((id,i)=>{const e=document.getElementById(id);
+  if(e)e.classList.toggle('on',(i===0)===(SEC==='school'))});
+ const n1=document.getElementById('secNS'),n2=document.getElementById('secNP');
+ if(n1)n1.textContent=DB.schools.filter(s=>secOf(s)==='school').length;
+ if(n2)n2.textContent=DB.schools.filter(s=>secOf(s)==='priv').length;
+ document.querySelectorAll('[data-u]').forEach(e=>e.textContent=e.dataset.u.replace(/OO/g,U()));
+ const nn=document.getElementById('nName'); if(nn)nn.placeholder='새 '+U()+' 추가';
+ const hn=document.getElementById('sHint');
+ if(hn){
+  if(SEC==='priv'){hn.innerHTML='';hn.style.display='none'}
+  else{hn.style.display='';
+   hn.innerHTML='줄임말 또는 초성 사용 가능 <b>체고</b>, <b>ㅈㅅ</b>, <b>진선여고</b> 등'}}
+ const qq=document.getElementById('q'); if(qq)qq.placeholder=U()+'명 · 지역 · 초성 검색'}
+function regions(){const seen=[];LIST().forEach(s=>{if(s.region&&seen.indexOf(s.region)<0)seen.push(s.region)});
  return seen.sort((a,b)=>{const ia=RG_PRESET.indexOf(a),ib=RG_PRESET.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib)||a.localeCompare(b,'ko')})}
 function rgColor(r){const i=RG_PRESET.indexOf(r);if(i>=0)return RG_COLORS[i%RG_COLORS.length];
  let h=0;for(let k=0;k<r.length;k++)h=(h*31+r.charCodeAt(k))>>>0;return RG_COLORS[h%RG_COLORS.length]}
@@ -925,6 +1170,9 @@ function readAct(){try{return +(localStorage.getItem(AKEY)||0)}catch(e){return 0
 function beat(force){
  if(!ME)return;
  DB.presence=DB.presence||{};
+ /* 관리자는 접속 현황에 표시하지 않습니다 */
+ if(ME.role==='admin'){if(DB.presence[ME.id]){delete DB.presence[ME.id];
+   DB.updatedAt=Date.now();LS.set(DB);queuePush()}rdLoginBar();return}
  const now=Date.now(), cur=DB.presence[ME.id];
  if(!force && cur && now-cur.t < (BEAT_MIN-1)*60*1000) return;
  DB.presence[ME.id]={u:ME.name||ME.id,t:now};
@@ -933,7 +1181,9 @@ function dropBeat(){
  if(!ME||!DB.presence)return;
  delete DB.presence[ME.id];
  DB.updatedAt=Date.now();LS.set(DB);queuePush()}
+let ADM={};
 function onlineList(){
+ ADM=adminIds();
  const now=Date.now(), out=[];
  Object.keys(DB.presence||{}).forEach(k=>{const p=DB.presence[k];
   if(p&&now-p.t<ONLINE_MIN*60*1000)out.push({id:k,u:p.u,t:p.t})});
@@ -967,6 +1217,7 @@ function showLock(){
    document.getElementById('lKeep').checked=true}
  else document.getElementById('lKeep').checked=true;
  document.getElementById('lock').classList.remove('off');
+ try{secSkin()}catch(e){}
  setTimeout(()=>document.getElementById(last?'lPw':'lName').focus(),200)}
 const DOMAIN='@hankook-robotics.com';
 function findUser(id){
@@ -1115,15 +1366,31 @@ async function doLogin(){
  try{ sessionStorage.setItem(UKEY,JSON.stringify(ME));
       if(keep)localStorage.setItem(NKEY,String(u.id).split('@')[0]); else localStorage.removeItem(NKEY); }catch(e){}
  err.textContent='';document.getElementById('lPw').value='';hideNote();
- document.getElementById('lock').classList.add('off');
+ document.getElementById('lock').classList.add('off');try{secSkin()}catch(e){}
  markAct();try{localStorage.setItem(AKEY,String(Date.now()))}catch(e){}
  beat(true);touchLogin(true);
  if(u.role==='admin')askNoti();
  if(hasNew())setTimeout(()=>ts('앱이 업데이트되었습니다 · 오른쪽 위 메뉴에서 확인하세요'),1400);
  rdActs();rdLoginBar();ts((ME.name||ME.id)+'님, 반갑습니다')}
+/* 관리자 흔적 청소 — 접속 중 목록 · 로그인 기록에서 관리자 계정을 지웁니다 */
+function adminIds(){
+ const m={};(DB.users||[]).forEach(u=>{if(u&&u.role==='admin')m[String(u.id)]=1});
+ if(ME&&ME.role==='admin')m[String(ME.id)]=1;
+ return m}
+function purgeAdminTrace(){
+ const m=adminIds(); let hit=false;
+ DB.presence=DB.presence||{};
+ Object.keys(DB.presence).forEach(k=>{if(m[String(k)]){delete DB.presence[k];hit=true}});
+ const n=(DB.logins||[]).length;
+ DB.logins=(DB.logins||[]).filter(g=>!m[String(g&&g.ui)]);
+ if(DB.logins.length!==n)hit=true;
+ if(hit){DB.updatedAt=Date.now();LS.set(DB);queuePush()}
+ rdLoginBar()}
+
 /* 앱을 켤 때마다 접속 기록. 30분 안에 재실행하면 시각만 갱신 */
 function touchLogin(force){
  if(!ME)return;
+ if(ME.role==='admin')return purgeAdminTrace();   /* 관리자 접속 기록은 남기지 않습니다 */
  DB.logins=DB.logins||[];
  const now=Date.now();
  let last=null;
@@ -1140,23 +1407,23 @@ async function logout(){if(!await confirmBox('로그아웃할까요?','',{yes:'�
 
 /* ============== 렌더 ============== */
 function hstats(){
- const N=DB.schools.length;
- const cells=ITEMS.map(i=>{const c=DB.schools.filter(s=>OK(Y(s),i.k)).length;
+ const L=LIST(),N=L.length;
+ const cells=ITEMS.map(i=>{const c=L.filter(s=>OK(Y(s),i.k)).length;
   return `<button class="hs" onclick="setFlag('${i.k}')"><div class="t">${i.n}</div>
    <div class="v num">${c}<i>/${N}</i></div><div class="bar"><i style="width:${N?c/N*100:0}%"></i></div></button>`}).join('');
- const ci=DB.schools.filter(s=>Y(s).issue).length;
+ const ci=L.filter(s=>Y(s).issue).length;
  document.getElementById('hstats').innerHTML=cells+
   (ci?`<button class="issbar" onclick="openIssues()">
      <span class="idot"></span><b>미해결 이슈</b><em>${ci}건</em><span class="iar">›</span></button>`:'')}
 let flagK='';
 function setFlag(k){flagK=flagK===k?'':k;rd()}
 function rgrid(){document.getElementById('rgrid').innerHTML=regions().map(r=>{
- const a=DB.schools.filter(s=>s.region===r),d=a.filter(doneAll).length,p=a.length?Math.round(d/a.length*100):0;
+ const a=LIST().filter(s=>s.region===r),d=a.filter(doneAll).length,p=a.length?Math.round(d/a.length*100):0;
  return `<button class="rbox ${curRg===r?'on':''}" onclick="setRg('${esc(r)}')"><div class="t">${esc(r)}</div>
   <div class="v num">${d}<i>/${a.length}</i></div><div class="bar"><i style="width:${p}%;background:${rgColor(r)}"></i></div></button>`}).join('')}
 function chips(){document.getElementById('chips').innerHTML=
  ['전체',...regions()].map(r=>`<button class="chip ${curRg===r?'on':''}" onclick="setRg('${esc(r)}')">${esc(r)}</button>`).join('')
- +(function(){const n=DB.schools.filter(s=>Y(s).issue).length;
+ +(function(){const n=LIST().filter(s=>Y(s).issue).length;
    return `<button class="chip f" onclick="openIssues()">이슈 전체보기${n?' <em>'+n+'</em>':''}</button>`})();
  const used=regions(), rest=RG_PRESET.filter(r=>used.indexOf(r)<0);
  document.getElementById('rgList').innerHTML=used.concat(rest).map(r=>`<option value="${esc(r)}">`).join('');
@@ -1210,11 +1477,11 @@ let pickMode='main';
 function openPick(m){pickMode=m||'main';rdPick();op('ovP')}
 function rdPick(){
  const q=(pickMode==='sum'?sumQ:document.getElementById('q').value).trim();
- let a=DB.schools.slice();
+ let a=LIST().slice();
  a.sort(sortMode==='name'?(x,y)=>x.name.localeCompare(y.name,'ko'):(x,y)=>x.order-y.order);
  const rgs=['전체',...regions()];
  document.getElementById('pBd').innerHTML=`
-  <button class="pkall" onclick="pickAll()">전체 학교 보기 · ${DB.schools.length}개</button>
+  <button class="pkall" onclick="pickAll()">전체 ${U()} 보기 · ${LIST().length}개</button>
   <div class="pkseg">
     <button class="${sortMode==='order'?'on':''}" onclick="pickSort('order')">설치순</button>
     <button class="${sortMode==='name'?'on':''}" onclick="pickSort('name')">가나다순</button>
@@ -1238,7 +1505,7 @@ function goList(){const e=document.getElementById('sBar');
  if(e)window.scrollTo({top:e.offsetTop-4,behavior:'smooth'})}
 function clrQ(){const e=document.getElementById('q');e.value='';e.focus();rd()}
 function vis(){const q=document.getElementById('q').value.trim();
- let a=DB.schools.slice();
+ let a=LIST().slice();
  a.sort(sortMode==='name'
    ? (x,y)=>x.name.localeCompare(y.name,'ko')
    : (x,y)=>x.order-y.order);
@@ -1249,20 +1516,20 @@ function vis(){const q=document.getElementById('q').value.trim();
 function setRing(n,pc){document.getElementById('pct'+n).textContent=pc+'%';
  document.getElementById('arc'+n).setAttribute('stroke-dashoffset',188.5-188.5*pc/100)}
 function rd(){
- const N=DB.schools.length;
- const c=k=>DB.schools.filter(s=>OK(Y(s),k)).length;
+ const L0=LIST(),N=L0.length;
+ const c=k=>L0.filter(s=>OK(Y(s),k)).length;
  setRing(1,N?Math.round((c('p1')+c('e1'))/(N*2)*100):0);
  setRing(2,N?Math.round((c('p2')+c('e2'))/(N*2)*100):0);
- setRing(3,N?Math.round(DB.schools.filter(s=>Y(s).specials.length).length/N*100):0);
+ setRing(3,N?Math.round(L0.filter(s=>Y(s).specials.length).length/N*100):0);
  hstats();rgrid();
  const a=vis();
  const QQ=document.getElementById('q').value.trim();
  document.getElementById('qClr').classList.toggle('on',!!QQ);
  document.getElementById('sHint').style.display=QQ?'none':'';
  document.getElementById('cnt').textContent=
-  (QQ?`검색 ${a.length}개 / 전체 ${DB.schools.length}개`:a.length+'개 표시')+(flagK?' · 미완료만':'');
+  (QQ?`검색 ${a.length}개 / 전체 ${LIST().length}개`:a.length+'개 표시')+(flagK?' · 미완료만':'');
  const G=document.getElementById('grid');
- if(!a.length){G.innerHTML='<div class="blank">'+(QQ?'‘'+esc(QQ)+'’ 와 일치하는 학교가 없습니다.<br>학교명 일부 또는 초성으로 다시 검색해 보세요.':'해당하는 학교가 없습니다.')+'</div>';return}
+ if(!a.length){G.innerHTML='<div class="blank">'+(QQ?'‘'+esc(QQ)+'’ 와 일치하는 '+UGA()+' 없습니다.<br>이름 일부 또는 초성으로 다시 검색해 보세요.':(LIST().length?'해당하는 '+UGA()+' 없습니다.':'등록된 '+UGA()+' 없습니다.'+(isAdmin()?'<br>위 <b>새 '+U()+' 추가</b> 에서 등록해 주세요.':'')))+'</div>';return}
  G.innerHTML=a.map(s=>{const y=Y(s);
   const rows=ITEMS.map(it=>{const d=y[it.k+'Date'],L='',nf=(y.files[it.k]||[]).length;
    return `<div class="line">
@@ -1283,8 +1550,7 @@ function rd(){
        oninput="grow(this)" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
        onchange="setW('${s.id}','${it.k}',this.value)">${esc(y[it.k+'Who'])}</textarea>
    </div>`}).join('');
-  const nsp=y.specials.length, nf=ITEMS.reduce((t,i)=>t+(y.files[i.k]||[]).length,0)
-    +y.specials.reduce((t,x)=>t+((x.files||[]).length),0);
+  const nsp=y.specials.length, nlg=(y.files.log||[]).length+worksOf(s.id).length;
   return `<div class="sc ${y.issue?'iss':(doneAll(s)?'done':'')}">
    <div class="sch"><span class="no num">${s.order}번 설치</span>
      <span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
@@ -1295,12 +1561,14 @@ function rd(){
      <textarea class="inp ta" rows="1" placeholder="특이사항" onchange="setF('${s.id}','note',this.value)" oninput="grow(this)">${esc(y.note)}</textarea>
      <div class="brow">
        <button class="mini ${nsp?'on':''}" onclick="openSpecial('${s.id}')">특별점검 ${nsp?`<em>${nsp}</em>`:'추가'}</button>
-       <button class="mini ${nf?'on':''}" onclick="openFiles('${s.id}','')">점검 자료 ${nf?`<em>${nf}</em>`:'없음'}</button>
+       <button class="mini lg ${nlg?'on':''}" onclick="openLogs('${s.id}')">
+         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h9l5 5V20.5H5z"/><path d="M14 3.5v5h5"/><path d="M8.5 13h7M8.5 16.5h4.5"/></svg>
+         <span>일일점검 및 특이사항 ${nlg?`<em>${nlg}</em>`:'작성'}</span></button>
      </div>
      <label class="isw"><input type="checkbox" ${y.issue?'checked':''} onchange="setI('${s.id}',this.checked)"> 미해결 이슈
        <span class="iwh">추후 조치가 필요하면 체크해주세요.</span></label>
    </div></div>`}).join('');
- document.querySelectorAll('.ta,.win').forEach(grow);rdActs();rdLoginBar()}
+ document.querySelectorAll('.ta,.win').forEach(grow);rdSec();rdActs();rdLoginBar()}
 const IC={
  man:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5"/>',
  up:'<path d="M12 20V5"/><path d="M6 11l6-6 6 6"/>',
@@ -1329,14 +1597,15 @@ function openMenu(){
    ${mItem('openWhat()','up','업데이트 내역 보기','업데이트 내용 확인',{dot:hasNew()})}
    ${mItem('openLog()','log','변경 이력','변경 내역 확인')}
    ${mItem('openLogins()','usr','접속 현황','접속 중 · 로그인 기록')}
-   ${mItem('exCSV()','csv','엑셀(CSV) 내보내기','현황 · 특별점검 · 지난 기록')}
   </div>
   ${admin?`<div class="mgrp">관리자</div>
   <div class="mlist">
+   ${mItem('openDump()','dn','현장 자료 내보내기','올린 파일 원본을 zip 한 파일로')}
+   ${mItem('exCSV()','csv','엑셀(CSV) 내보내기','현황 · 특별점검 · 지난 기록')}
    ${mItem('openUsers()','usr','계정 관리'+(pend?' · 승인 대기 '+pend+'건':''),'승인 · 권한 · 비밀번호',{dot:!!pend})}
    ${mItem('exJSON()','dn','백업 저장','전체 데이터를 파일로')}
    ${mItem("document.getElementById('imp').click()",'upl','백업 불러오기','파일로 전체 복원')}
-   ${mItem('openDel()','trash','학교 삭제','여러 학교를 선택해 삭제',{d:1})}
+   ${mItem('openDel()','trash',U()+' 삭제','여러 '+UREUL()+' 선택해 삭제',{d:1})}
   </div>`:''}
   <div class="mgrp">계정</div>
   <div class="mlist">
@@ -1385,6 +1654,24 @@ function dtDone(el,id,k){
  if(v===cur){el.value=cur;return}
  setD(id,k,v)}
 function dtPick(el,id,k){const v=dtNorm(el.value);if(v)setD(id,k,v)}
+/* ===== 시간 입력 (1414 → 14:14) ===== */
+function tmType(el){
+ let v=el.value.replace(/[^0-9]/g,'').slice(0,4);
+ el.value=v.length>2?v.slice(0,2)+':'+v.slice(2):v}
+function tmNorm(v){
+ v=String(v||'').replace(/[^0-9]/g,'');
+ if(!v)return '';
+ if(v.length===1)v='0'+v+'00';
+ else if(v.length===2)v=v+'00';
+ else if(v.length===3)v='0'+v;
+ if(v.length!==4)return null;
+ const h=+v.slice(0,2),m=+v.slice(2);
+ if(h>23||m>59)return null;
+ return p2s(h)+':'+p2s(m)}
+function tmDone(el,k){
+ const v=tmNorm(el.value);
+ if(v===null){el.value=WE.meals[weMeal][k]||'';return ts('시간은 1430 처럼 네 자리로 입력해 주세요')}
+ el.value=v;weMSet(k,v)}
 function dtFix(el){const v=dtNorm(el.value);
  if(v===null){el.value='';return ts('날짜는 2026-07-31 형식으로 입력해 주세요')}
  el.value=v}
@@ -1400,16 +1687,16 @@ function setF(id,k,v){const y=Y(S(id));const before=y[k]||'';v=v.trim();
  save(id);if(k==='note')rd()}
 function setI(id,v){Y(S(id)).issue=v;LOG(id,v?'미해결 이슈 표시':'미해결 이슈 해제');save(id);chips();rd()}
 function addSchool(){
- if(!isAdmin())return ts('학교 추가는 관리자만 할 수 있습니다');
+ if(!isAdmin())return ts(U()+' 추가는 관리자만 할 수 있습니다');
  const n=document.getElementById('nName').value.trim();
- if(!n)return ts('학교명을 입력하세요');
- if(DB.schools.some(s=>s.name===n))return ts('이미 등록된 학교입니다');
+ if(!n)return ts(U()+'명을 입력하세요');
+ if(LIST().some(s=>s.name===n))return ts('이미 등록된 '+U()+'입니다');
  const rg=pickedRg();
  if(!rg||rg==='__custom')return ts('지역을 선택하세요');
  const ns=Object.assign({id:'s'+Date.now()+Math.random().toString(36).slice(2,5),
-  order:DB.schools.reduce((a,s)=>Math.max(a,s.order),0)+1,name:n,region:rg},blank(),{mt:Date.now()});
+  order:LIST().reduce((a,s)=>Math.max(a,s.order),0)+1,sec:SEC,name:n,region:rg},blank(),{mt:Date.now()});
  if(ALIAS[n])ns.alias=ALIAS[n];
- Y(ns); DB.schools.push(ns); LOG(ns.id,'학교 등록 ('+rg+')');
+ Y(ns); DB.schools.push(ns); LOG(ns.id,U()+' 등록 ('+rg+')');
  document.getElementById('nName').value='';resetRg();save();chips();rd();ts(n+' 추가 완료 ('+rg+')')}
 function setRegion(id,v){const s=S(id),r=v.trim();if(!r)return;const b0=s.region;s.region=r;LOG(id,'지역 변경: '+b0+' → '+r);save(id);chips();rd();openH(id);ts('지역 변경: '+r)}
 function setAlias(id,v){const s=S(id);const b0=s.alias||'';
@@ -1417,8 +1704,8 @@ function setAlias(id,v){const s=S(id);const b0=s.alias||'';
  if(b0===v)return; s.alias=v;
  LOG(id,'검색 별칭 '+(b0||'없음')+' → '+(v||'없음'));save(id);rd();ts('별칭을 저장했습니다')}
 function renameSchool(id,v){const s=S(id),n=v.trim();if(!n)return;
- if(DB.schools.some(x=>x.id!==id&&x.name===n))return ts('같은 이름의 학교가 있습니다');
- const o0=s.name;s.name=n;LOG(id,'학교명 변경: '+o0+' → '+n);save(id);rd();document.getElementById('hTt').textContent=n;ts('학교명을 변경했습니다')}
+ if(DB.schools.some(x=>x.id!==id&&x.name===n&&secOf(x)===secOf(S(id))))return ts('같은 이름이 이미 있습니다');
+ const o0=s.name;s.name=n;LOG(id,'이름 변경: '+o0+' → '+n);save(id);rd();document.getElementById('hTt').textContent=n;ts('이름을 변경했습니다')}
 
 /* ============== 특이사항 크게 보기 ============== */
 let bigId=null;
@@ -1448,7 +1735,9 @@ function rdSpecial(){const s=S(spId),yy=Y(s);
     <div class="f"><label class="fl">담당자</label><input class="inp" type="text" id="spWho" value="${ME?esc(ME.name||ME.id):''}"></div>
     <div class="f"><label class="fl">내용 · 메모</label><textarea class="inp" id="spNote" style="min-height:96px;overflow:auto" ></textarea></div>
     <label class="isw" style="margin:0 0 12px"><input type="checkbox" id="spIssue"> 미해결 이슈로 표시</label>
-    <button class="b" onclick="addSpecial()">추가</button>
+    <div class="two"><button class="act" style="padding:14px" onclick="addSpecial(1)">추가 · 자료 첨부</button>
+      <button class="b" onclick="addSpecial()">추가</button></div>
+    <div class="fhint" style="margin-top:8px">사진이나 문서를 올리려면 <b>추가 · 자료 첨부</b> 를 누르세요. 기록이 저장된 뒤 바로 파일 선택 창이 열립니다.</div>
   </div>
   <div class="hd2">기록${list.length?' · '+list.length+'건':''}</div>
   ${list.length?list.map(x=>`<div class="box">
@@ -1466,7 +1755,7 @@ function rdSpecial(){const s=S(spId),yy=Y(s);
     </div></div>`).join('')
   :'<div class="blank" style="padding:26px">아직 특별점검 기록이 없습니다.</div>'}
   <div style="height:12px"></div>`}
-function addSpecial(){const s=S(spId),yy=Y(s);
+function addSpecial(withFile){const s=S(spId),yy=Y(s);
  const date=document.getElementById('spDate').value;
  if(!date)return ts('날짜를 선택하세요');
  const rec={id:'x'+Date.now()+Math.random().toString(36).slice(2,5),date,
@@ -1476,7 +1765,9 @@ function addSpecial(){const s=S(spId),yy=Y(s);
  yy.specials.push(rec);
  if(rec.issue)yy.issue=true;
  LOG(spId,'특별점검 추가 ('+rec.date+')');
- save(spId);rdSpecial();chips();rd();ts('특별점검을 추가했습니다')}
+ save(spId);rdSpecial();chips();rd();
+ if(withFile){ts('기록을 저장했습니다 · 파일을 고르세요');setTimeout(()=>pickFile(spId,'sp:'+rec.id),250)}
+ else ts('특별점검을 추가했습니다')}
 async function delSpecial(xid){if(!await confirmBox('특별점검 기록 삭제','이 기록을 삭제할까요?',{yes:'삭제',danger:1}))return;
  const yy=Y(S(spId));const d=(yy.specials.find(x=>x.id===xid)||{}).date||'';
  yy.specials=yy.specials.filter(x=>x.id!==xid);LOG(spId,'특별점검 삭제'+(d?' ('+d+')':''));save(spId);rdSpecial();rd();ts('삭제했습니다')}
@@ -1530,28 +1821,34 @@ document.getElementById('fpick').addEventListener('change',async function(){
  const files=[...this.files];this.value='';
  if(!files.length||!pickTarget)return;
  const {id,kind}=pickTarget;
- const pr=document.getElementById('fProg'); if(pr)pr.classList.add('on');
+ const pr=document.getElementById(pickTarget.kind==='log'?'lgProg':(pickTarget.kind==='wphoto'?'wProg':'fProg')); if(pr)pr.classList.add('on');
  uploading=true;                       // 업로드 중에는 동기화가 데이터를 갈아치우지 못하게 잠금
  let done=0,fail=0,lastErr='';
  for(let i=0;i<files.length;i++){
   try{
    ts(files.length>1?`올리는 중… ${i+1}/${files.length}`:'올리는 중입니다…');
    const {b64,mime,name}=await prep(files[i]);
-   const s=S(id); if(!s)throw new Error('학교를 찾을 수 없습니다');   // 매번 최신 객체를 다시 조회
-   const label=YEAR+'_'+s.name+'_'+(NM[kind]||(kind.indexOf('sp:')===0?'특별점검':kind))+'_'+iso(T);
+   const s=(id==='__work')?(S(WE&&WE.sid)||{name:'업무일지'}):S(id);
+   if(!s)throw new Error('대상을 찾을 수 없습니다');   // 매번 최신 객체를 다시 조회
+   const label=YEAR+'_'+s.name+'_'+(kind==='log'?'업무일지':(kind==='wphoto'?'일지사진':(NM[kind]||(kind.indexOf('sp:')===0?'특별점검':kind))))+'_'+iso(T);
    const j=await call('POST',{key:SYNC_KEY,action:'upload',b64,mime,name,label});
    if(!j.file)throw new Error('시트 코드가 예전 버전입니다');
-   const cur=S(id); if(!cur)throw new Error('학교를 찾을 수 없습니다');
-   const cy=Y(cur);
+   const cur=(id==='__work')?null:S(id);
+   if(id!=='__work'&&!cur)throw new Error('대상을 찾을 수 없습니다');
+   const cy=cur?Y(cur):null;
    const rec=Object.assign({at:Date.now(),by:ME?(ME.name||ME.id):''},j.file);
    if(kind.indexOf('sp:')===0){const x=cy.specials.find(z=>z.id===kind.slice(3));
      if(x){x.files=x.files||[];x.files.push(rec)}}
+   else if(kind==='wphoto'){ if(WE){WE.files=WE.files||[];WE.files.push(rec);rdWE()} }
+   else if(kind==='log'){ cy.files.log=cy.files.log||[]; cy.files.log.push(rec) }
    else{ cy.files[kind]=cy.files[kind]||[]; cy.files[kind].push(rec);
      if(!cy[kind]){cy[kind]=true; if(!cy[kind+'Date'])cy[kind+'Date']=iso(T);
        if(!cy.who&&ME)cy.who=ME.name||ME.id} }
-   LOG(id,(NM[kind]||(kind.indexOf('sp:')===0?'특별점검':kind))+' 자료 업로드: '+name);
-   cur.mt=Date.now(); DB.updatedAt=Date.now(); LS.set(DB);
+   if(kind!=='wphoto')LOG(id,(kind==='log'?'업무일지':(NM[kind]||(kind.indexOf('sp:')===0?'특별점검':kind)))+' 업로드: '+name);
+   if(cur)cur.mt=Date.now();
+   DB.updatedAt=Date.now(); LS.set(DB);
    done++;
+   if(document.getElementById('ovLg').classList.contains('on'))rdLogs();
    if(document.getElementById('ovF').classList.contains('on'))rdFiles();
    if(document.getElementById('ovSp').classList.contains('on'))rdSpecial();
    rd();
@@ -1559,14 +1856,14 @@ document.getElementById('fpick').addEventListener('change',async function(){
  }
  uploading=false;
  if(pr)pr.classList.remove('on');
- if(done)save(id);                      // 전부 끝난 뒤 한 번만 동기화
+ if(done&&id!=='__work')save(id);       // 전부 끝난 뒤 한 번만 동기화
  if(fail){
   const m=lastErr;
   if(/bad data|예전 버전/.test(m)) ts('업로드 실패 · 시트 코드를 최신으로 교체하고 재배포해 주세요');
   else if(/Drive|permission|권한/i.test(m)) ts('업로드 실패 · 시트에서 초기설정 실행 후 재배포해 주세요');
   else if(/too big/.test(m)) ts(done?`${done}장 완료 · ${fail}장 실패(용량 초과)`:'파일이 너무 큽니다 (9MB 이하)');
   else ts(done?`${done}장 완료 · ${fail}장 실패`:'업로드 실패 · '+m.slice(0,50));
- }else ts(done+'장 올렸습니다');
+ }else ts(done+'개 올렸습니다');
 });
 function prep(file){
  return new Promise((res,rej)=>{
@@ -1586,8 +1883,678 @@ function prep(file){
    img.onerror=rej;img.src=fr.result};
   fr.onerror=rej;fr.readAsDataURL(file)})}
 
+/* ============== 업무일지 ============== */
+let lgCtx=null;
+const XL=m=>/sheet|excel|spreadsheet|csv/i.test(m||'');
+let lgDesc=true;
+function setLgSort(d){lgDesc=d;rdLogs()}
+function openLogs(id){lgCtx=id;rdLogs();op('ovLg')}
+const dayOf=f=>{const d=new Date(f.at||0);
+ return d.getFullYear()+'-'+p2s(d.getMonth()+1)+'-'+p2s(d.getDate())};
+const WD=['일','월','화','수','목','금','토'];
+function rdLogs(){
+ const s=S(lgCtx); if(!s)return;
+ const y=Y(s);
+ const ws=worksOf(s.id).map(w=>({t:'w',d:w.date,w}));
+ const wAll=(DB.works||[]).filter(w=>w.sid===s.id).length;
+ const wSrc=(DB.works||[]).filter(w=>w.sid===s.id&&(wAll>ws.length&&ws.length?(w.date||'').slice(0,4)===YEAR:true));
+ const wSheets=wSrc.reduce((t,w)=>t+Math.max(1,(w.meals||[]).length),0);
+ const fs=(y.files.log||[]).map(f=>({t:'f',d:dayOf(f),at:f.at||0,f}));
+ const all=ws.concat(fs).sort((x,z)=>{
+   const c=String(z.d).localeCompare(String(x.d));
+   const r=c!==0?c:((z.at||0)-(x.at||0));
+   return lgDesc?r:-r});
+ const days=[];const map={};
+ all.forEach(o=>{const k=o.d;if(!map[k]){map[k]=[];days.push(k)}map[k].push(o)});
+ document.getElementById('lgTt').textContent=s.name+' · 업무일지 ('+YEAR+')';
+ document.getElementById('lgBd2').innerHTML=`
+  <div class="prog" id="lgProg" style="margin-bottom:12px"><i></i></div>
+  <button class="b" style="width:100%" onclick="newWork('${s.id}','중식')">＋ 조리지원 일지 (중식)</button>
+  <button class="b" style="width:100%;margin-top:8px" onclick="newWork('${s.id}','석식')">＋ 조리지원 일지 (석식)</button>
+  <button class="act" style="width:100%;margin-top:8px;padding:12px" onclick="newWork('${s.id}')">＋ 그 밖의 회차 <em class="bsub">(조리지원 또는 모니터링 및 기타)</em></button>
+  <button class="act" style="width:100%;margin-top:8px;padding:12px" onclick="pickLog('${s.id}')">＋ 작성된 엑셀 파일 올리기</button>
+  <div class="fhint" style="margin:8px 2px 12px">앱에서 바로 작성하거나, 이미 만든 엑셀(.xlsx · .xls · .csv) · PDF · 사진을 올릴 수 있습니다.</div>
+  ${wAll?(wAll>ws.length&&ws.length
+   ?`<div class="two"><button class="act" onclick="pdfWorks('${s.id}','y')">${YEAR}년 PDF · ${ws.length}건</button>
+      <button class="act" onclick="pdfWorks('${s.id}','all')">전체 기간 PDF · ${wAll}건</button></div>`
+   :`<button class="act" style="width:100%;padding:12px" onclick="pdfWorks('${s.id}','all')">업무일지 전체 PDF 내보내기 · ${wAll}건</button>`)
+   +`<button class="act" id="pngBtn" style="width:100%;padding:12px;margin-top:8px" onclick="pngAll('${s.id}','${wAll>ws.length&&ws.length?'y':'all'}')">${wAll>ws.length&&ws.length?YEAR+'년 ':''}그림(PNG) 전체 저장 · ${wSheets}장</button>`
+   +`<div class="fhint" style="margin:8px 2px 14px">PDF는 한 문서로 묶여 인쇄·저장하고, 그림은 한 장씩 만들어 <b>zip 한 파일</b>로 내려받습니다. 올린 파일은 원본 그대로라 합쳐지지 않습니다.</div>`:''}
+  ${all.length?`
+  <div class="wksort">
+    <span>일지 ${ws.length}건 · 파일 ${fs.length}개</span>
+    <button class="${lgDesc?'on':''}" onclick="setLgSort(true)">최신순</button>
+    <button class="${lgDesc?'':'on'}" onclick="setLgSort(false)">오래된순</button>
+  </div>`+days.map(dk=>{
+   const dt=new Date(dk+'T00:00:00');
+   return `<div class="wkday"><b>${dk.replace(/-/g,'.')}</b><i>${isNaN(dt)?'':WD[dt.getDay()]+'요일'}</i><u>${map[dk].length}개</u></div>`
+    +map[dk].map(o=>{
+     if(o.t==='w'){const w=o.w;
+      const sum=w.meals.filter(m=>m.menu||m.qty).map(m=>`${esc(m.n)} ${esc(m.menu||'-')}${m.qty?' · '+esc(m.qty)+'kg':''}`).join(' / ');
+      const mn=(w.meals||[]).map(x=>esc(x.n||'')).filter(Boolean).join('·')||'일지';
+      return `<div class="wkcard" onclick="editWork('${w.id}')">
+        <span class="wt">${mn}</span>
+        <span class="wn">작성자 <b>${esc(w.by||'-')}</b><em>·</em>확인자 <b>${esc(w.chk||'-')}</b></span>
+        ${w.sign&&w.sign.img?'<span class="wt ok">서명완료</span>':''}
+        ${isAdmin()?`<button class="wx" onclick="event.stopPropagation();delWork('${w.id}')">✕</button>`:''}
+      </div>`}
+     const f=o.f;
+    const k=XL(f.mime)||/\.(xlsx?|xlsm|csv)$/i.test(f.name||'')?'':(/pdf/i.test(f.mime||'')?'pdf':(/image/.test(f.mime||'')?'img':''));
+    const tag=k==='pdf'?'PDF':(k==='img'?'IMG':'XLS');
+    return `<div class="wkrow">
+      <div class="wkhd">
+        <span class="wkic ${k}">${tag}</span>
+        <span class="wktx"><b>${esc(f.name||'파일')}</b>
+          <span>${f.at?hhmm(f.at):''}${f.by?' · '+esc(f.by):''}</span></span>
+      </div>
+      <div class="wkbt">
+        <a href="${f.url||'#'}" target="_blank" rel="noopener">열기 · 내려받기</a>
+        <button onclick="delLog('${f.id}')">삭제</button></div>
+    </div>`}).join('')}).join('')
+   :'<div class="blank" style="padding:30px">아직 작성된 일지가 없습니다.<br>위 <b>＋ 조리지원 일지 (중식)</b> 으로 시작해 보세요.</div>'}
+  <div style="height:14px"></div>`}
+const hhmm=t=>{const d=new Date(t);return p2s(d.getHours())+':'+p2s(d.getMinutes())};
+function pickLog(id){
+ if(!SYNC_URL)return ts('동기화 설정 후 사용할 수 있습니다');
+ pickTarget={id,kind:'log'};document.getElementById('lgpick').click()}
+async function delLog(fid){
+ if(!await confirmBox('업무일지 삭제','이 파일을 목록에서 지울까요?',{yes:'삭제',danger:1}))return;
+ const s=S(lgCtx);if(!s)return;const y=Y(s);
+ const f=(y.files.log||[]).find(x=>x.id===fid);
+ y.files.log=(y.files.log||[]).filter(x=>x.id!==fid);
+ LOG(lgCtx,'업무일지 삭제: '+((f&&f.name)||''));save(lgCtx);rdLogs();rd()}
+document.getElementById('lgpick').addEventListener('change',function(){
+ const fp=document.getElementById('fpick');
+ const dt=new DataTransfer();[...this.files].forEach(f=>dt.items.add(f));
+ this.value='';fp.files=dt.files;fp.dispatchEvent(new Event('change'))});
+
+
+/* ============== 업무일지 (앱에서 작성) ============== */
+const MEALS=['중식','석식','조리지원','모니터링','간식','기타'];
+const wrec=()=>({id:'w'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+ sid:'',date:iso(T),
+ meals:[{n:'중식',menu:'',agree:'',t1:'',t2:'',qty:'',cnt:'',avg:'',fix:'',recipe:''}],
+ err:'',edu:'',req:'',next:'',act:'',by:'',chk:'',sign:null,files:[],at:Date.now(),mt:Date.now()});
+const worksOf=sid=>(DB.works||[]).filter(w=>w.sid===sid&&(w.date||'').slice(0,4)===YEAR);
+const workById=id=>(DB.works||[]).find(w=>w.id===id);
+let WE=null, weNew=false, weMeal=0;
+
+function newWork(sid,mn){WE=wrec();WE.sid=sid;WE.by=ME?(ME.name||ME.id):'';
+ if(mn)WE.meals[0].n=mn;
+ weNew=true;weMeal=0;rdWE();op('ovWe')}
+function editWork(id){const w=workById(id);if(!w)return;
+ WE=JSON.parse(JSON.stringify(w));weNew=false;weMeal=0;rdWE();op('ovWe')}
+function weSet(k,v){WE[k]=v}
+function weMSet(k,v){WE.meals[weMeal][k]=v}
+function weTab(i){weMeal=i;rdWE()}
+function weMealName(v){WE.meals[weMeal].n=String(v||'').trim()||'중식';rdWE()}
+async function splitWork(){
+ if(!WE||(WE.meals||[]).length<2)return;
+ const n=WE.meals.length;
+ if(!await confirmBox('회차별로 나누기',
+   n+'개 회차를 각각 다른 업무일지로 나눕니다.\n오류사항 · 교육 · 작성자 · 확인자 같은 공통 항목은 모두에 그대로 들어갑니다.',
+   {yes:'나누기'}))return;
+ const base=JSON.parse(JSON.stringify(WE)), now=Date.now();
+ DB.works=(DB.works||[]).filter(w=>w.id!==base.id);
+ DB.wtomb=DB.wtomb||{}; DB.wtomb[base.id]=now;
+ base.meals.forEach((m,i)=>{
+  const r=JSON.parse(JSON.stringify(base));
+  r.id='w'+now.toString(36)+i+Math.random().toString(36).slice(2,5);
+  r.meals=[m]; r.at=now; r.mt=now+i; r.sec=SEC;
+  DB.works.push(r)});
+ LOG(base.sid||'','업무일지 회차 분리: '+base.date+' ('+n+'건)');
+ DB.updatedAt=Date.now();LS.set(DB);queuePush();
+ cl('ovWe'); if(lgCtx)rdLogs(); rd(); ts(n+'건으로 나눴습니다')}
+async function weDelMeal(){
+ if(WE.meals.length<=1)return ts('최소 1개는 있어야 합니다');
+ if(!await confirmBox(WE.meals[weMeal].n+' 삭제','이 회차를 지울까요?',{yes:'삭제',danger:1}))return;
+ WE.meals.splice(weMeal,1);weMeal=Math.max(0,weMeal-1);rdWE()}
+function weName(v){WE.meals[weMeal].n=String(v).trim()||'중식';rdWE()}
+
+function rdWE(){
+ const m=WE.meals[weMeal]||WE.meals[0];
+ const opts=LIST().slice().sort((a,b)=>a.order-b.order)
+  .map(x=>`<option value="${x.id}" ${WE.sid===x.id?'selected':''}>${esc(x.name)}</option>`).join('');
+ document.getElementById('weTt').textContent=(weNew?'업무일지 작성':'업무일지 수정')
+  +(WE.meals.length===1?' · '+(m.n||'중식'):'')+' · '+YEAR;
+ document.getElementById('weBd').innerHTML=`
+  <div class="box">
+    <div class="two">
+      <div><label class="fl">날짜</label>
+        <span class="dtw"><input class="inp" type="text" inputmode="numeric" maxlength="10" placeholder="YYYY-MM-DD"
+          value="${esc(WE.date)}" oninput="dtType(this)" onblur="dtFix(this);weSet('date',this.value)">
+          <span class="cal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3.2v3.4M16 3.2v3.4"/></svg></span>
+          <input class="pk" type="date" value="${esc(WE.date)}" onchange="if(this.value){WE.date=this.value;rdWE()}"></span></div>
+      <div><label class="fl">${U()}</label>
+        <select class="inp" onchange="weSet('sid',this.value)">
+          <option value="">선택 안 함</option>${opts}</select></div>
+    </div>
+    <div class="two" style="margin-top:11px">
+      <div><label class="fl">작성자</label><input class="inp" value="${esc(WE.by)}" placeholder="예시) 안성용" onchange="weSet('by',this.value)"></div>
+      <div><label class="fl">확인자</label>
+        <button class="sgbox ${WE.sign&&WE.sign.img?'has':''}" onclick="openSign()">
+          ${WE.sign&&WE.sign.img?`<img src="${WE.sign.img}" alt="서명">`:'<span>서명하기</span>'}</button>
+        ${WE.sign&&WE.sign.img?`<div class="sgnm">${esc(WE.chk||'이름 미기록')} <i>· ${WE.sign.at?fmtFull(WE.sign.at):''}</i></div>`:''}</div>
+    </div>
+  </div>
+
+  ${WE.meals.length>1?`<div class="wtabs">
+    ${WE.meals.map((x,i)=>`<button class="${i===weMeal?'on':''}" onclick="weTab(${i})">${esc(x.n||'회차'+(i+1))}</button>`).join('')}
+  </div>
+  <div class="box" style="border-color:#EBD9AE;background:#FCF9F2">
+    <div class="m" style="margin:0 0 9px">이 일지에는 회차가 <b>${WE.meals.length}개</b> 들어 있습니다.
+      이제는 <b>중식 · 석식을 각각 따로</b> 작성합니다.</div>
+    <button class="act" style="width:100%;padding:11px" onclick="splitWork()">회차별로 나누기 · ${WE.meals.length}건</button>
+  </div>`:''}
+
+  <div class="box">
+    <label class="fl">구분</label>
+    <div class="wseg">${MEALS.map(x=>`<button class="${m.n===x?'on':''}" onclick="weMealName('${x}')">${x}</button>`).join('')}</div>
+    <div class="two" style="margin-top:11px">
+      <div><label class="fl">직접 입력</label><input class="inp" value="${esc(m.n)}" placeholder="예시) 중식" onchange="weMealName(this.value)"></div>
+      <div><label class="fl">메뉴</label><input class="inp" value="${esc(m.menu)}" placeholder="예시) 새우튀김" onchange="weMSet('menu',this.value)"></div>
+    </div>
+    <label class="fl" style="margin-top:11px">① 사전협의 내용</label>
+    <textarea class="inp ta" rows="2" placeholder="예시) 온도 170도, 조리시간 3분, 쉐이킹 3회" oninput="grow(this)" onchange="weMSet('agree',this.value)">${esc(m.agree)}</textarea>
+
+    <div class="hd2" style="margin:16px 0 8px">② 조리중 레시피 특이사항</div>
+    <div class="two"><!-- 시간 -->
+      <div><label class="fl">조리 시작</label>
+        <span class="dtw"><input class="inp tmi" type="text" inputmode="numeric" maxlength="5" placeholder="예시) 0944"
+            value="${esc(m.t1)}" oninput="tmType(this)" onblur="tmDone(this,'t1')"
+            onkeydown="if(event.key==='Enter')this.blur()">
+          <span class="cal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" style="width:15px;height:15px"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+          <input class="pk" type="time" value="${esc(m.t1)}" onchange="if(this.value){weMSet('t1',this.value);rdWE()}"></span></div>
+      <div><label class="fl">조리 완료</label>
+        <span class="dtw"><input class="inp tmi" type="text" inputmode="numeric" maxlength="5" placeholder="예시) 1130"
+            value="${esc(m.t2)}" oninput="tmType(this)" onblur="tmDone(this,'t2')"
+            onkeydown="if(event.key==='Enter')this.blur()">
+          <span class="cal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" style="width:15px;height:15px"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+          <input class="pk" type="time" value="${esc(m.t2)}" onchange="if(this.value){weMSet('t2',this.value);rdWE()}"></span></div>
+    </div>
+    <div class="two" style="margin-top:11px">
+      <div><label class="fl">총 조리량 (kg)</label><input class="inp" type="text" inputmode="decimal" placeholder="예시) 70" value="${esc(m.qty)}" onchange="weMSet('qty',this.value)"></div>
+      <div><label class="fl">자동조리횟수</label><input class="inp" type="text" inputmode="numeric" placeholder="예시) 17" value="${esc(m.cnt)}" onchange="weMSet('cnt',this.value)"></div>
+    </div>
+    <div class="fhint" style="margin-top:7px">시간은 <b>0944</b> 처럼 숫자만 눌러도 <b>09:44</b> 로 바뀝니다. 오른쪽 시계를 눌러 고를 수도 있습니다.</div>
+    <label class="fl" style="margin-top:11px">투입 시 무게 평균 (kg)</label>
+    <input class="inp" type="text" inputmode="decimal" placeholder="예시) 평균 5kg" value="${esc(m.avg||'')}" onchange="weMSet('avg',this.value)">
+    <label class="fl" style="margin-top:11px">조리 중 수정내용</label>
+    <textarea class="inp ta" rows="2" placeholder="예시) 쉐이킹 3회 → 4회로 변경" oninput="grow(this)" onchange="weMSet('fix',this.value)">${esc(m.fix)}</textarea>
+    <label class="fl" style="margin-top:11px">최종 레시피</label>
+    <textarea class="inp ta" rows="2" placeholder="예시) 170도 → 1회 쉐이킹 후 투입 → 3분 → 쉐이크 약 3회 → 배출" oninput="grow(this)" onchange="weMSet('recipe',this.value)">${esc(m.recipe)}</textarea>
+    ${WE.meals.length>1?`<div style="margin-top:12px"><button class="b d s" onclick="weDelMeal()">이 회차 삭제</button></div>`:''}
+  </div>
+
+  ${[['err','③ 시스템 작동중 오류사항','예시) 조리 중 온도센서 경고 1회 발생, 재가동 후 정상'],
+     ['edu','④ 시스템 사용법 교육','예시) 로봇 시스템 사용법 교육'],
+     ['req','⑤ 사용자 시스템 개선 요구사항','예시) 배출 높이 조정 요청'],
+     ['next','⑥ 다음 시스템 사용 일자 협의','예시) 11월 4일 중식'],
+     ['act','오류 및 개선 요구사항 수정 작업','예시) 1. 조리시작 전·조리중·완료 후 시스템 사용법 및 관리방법 교육 진행']].map(([k,t,ph])=>`
+    <div class="box"><div class="d" style="margin-bottom:9px">${t}</div>
+      <textarea class="inp ta" rows="2" placeholder="${ph}" oninput="grow(this)" onchange="weSet('${k}',this.value)">${esc(WE[k]||'')}</textarea></div>`).join('')}
+
+  <div class="box">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="d">현장 사진</span>
+      <span style="font-size:11px;font-weight:700;color:var(--ink3)">${(WE.files||[]).length}장</span>
+      <button class="act" style="margin-left:auto;padding:6px 11px;font-size:11.5px" onclick="pickWPhoto()">＋ 사진 추가</button>
+    </div>
+    <div class="prog" id="wProg" style="margin-top:10px"><i></i></div>
+    ${(WE.files||[]).length?`<div class="pgrid" style="margin-top:10px">${WE.files.map((f,i)=>`
+      <div style="position:relative"><button class="thx" style="z-index:2" onclick="wDelPhoto(${i})">✕</button>
+        <button class="pth" onclick="openView(WE.files,${i})">
+          ${/image/.test(f.mime||'')?`<img src="${f.thumb}" alt="" loading="lazy">`:'<div class="doc">📄</div>'}</button></div>`).join('')}</div>`
+     :'<div class="fhint" style="margin-top:9px">사진을 올리면 엑셀 내보내기에 링크로 들어갑니다.</div>'}
+  </div>
+  <div style="height:14px"></div>`;
+ document.querySelectorAll('#weBd .ta').forEach(grow)}
+
+/* ===== 확인자 서명 ===== */
+let sgCtx=null,sgOn=false,sgDirty=false;
+function openSign(){
+ document.getElementById('sgName').value=WE.chk||'';
+ op('ovSg');
+ setTimeout(()=>{
+  const cv=document.getElementById('sgCv');
+  const r=cv.parentNode.getBoundingClientRect();
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);
+  sgCtx=cv.getContext('2d');sgCtx.scale(dpr,dpr);
+  sgCtx.lineWidth=2.6;sgCtx.lineCap='round';sgCtx.lineJoin='round';sgCtx.strokeStyle='#0E1726';
+  sgDirty=false;document.getElementById('sgPh').classList.remove('off');
+  if(WE.sign&&WE.sign.img){const im=new Image();
+   im.onload=()=>{sgCtx.drawImage(im,0,0,r.width,r.height);sgDirty=true;
+     document.getElementById('sgPh').classList.add('off')};im.src=WE.sign.img}
+ },120)}
+function sgPos(e,cv){const r=cv.getBoundingClientRect();
+ return {x:(e.clientX-r.left),y:(e.clientY-r.top)}}
+function sgInit(){
+ const cv=document.getElementById('sgCv'); if(!cv)return;
+ const down=e=>{if(!sgCtx)return;sgOn=true;sgDirty=true;
+  document.getElementById('sgPh').classList.add('off');
+  const p=sgPos(e,cv);sgCtx.beginPath();sgCtx.moveTo(p.x,p.y);
+  cv.setPointerCapture&&cv.setPointerCapture(e.pointerId);e.preventDefault()};
+ const move=e=>{if(!sgOn||!sgCtx)return;const p=sgPos(e,cv);sgCtx.lineTo(p.x,p.y);sgCtx.stroke();e.preventDefault()};
+ const up=()=>{sgOn=false};
+ cv.addEventListener('pointerdown',down);
+ cv.addEventListener('pointermove',move);
+ cv.addEventListener('pointerup',up);
+ cv.addEventListener('pointercancel',up);
+ cv.addEventListener('pointerleave',up)}
+sgInit();
+function sgClear(){
+ const cv=document.getElementById('sgCv');
+ if(sgCtx)sgCtx.clearRect(0,0,cv.width,cv.height);
+ sgDirty=false;document.getElementById('sgPh').classList.remove('off')}
+function sgDone(){
+ const nm=document.getElementById('sgName').value.trim();
+ if(!sgDirty)return ts('서명을 입력해 주세요');
+ const cv=document.getElementById('sgCv');
+ /* 여백을 잘라내고 가로 480px로 축소 */
+ const src=sgCtx.getImageData(0,0,cv.width,cv.height).data;
+ let x0=cv.width,y0=cv.height,x1=0,y1=0,found=false;
+ for(let y=0;y<cv.height;y++)for(let x=0;x<cv.width;x++){
+   if(src[(y*cv.width+x)*4+3]>10){found=true;
+     if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}}
+ if(!found)return ts('서명을 입력해 주세요');
+ const pad=8;x0=Math.max(0,x0-pad);y0=Math.max(0,y0-pad);
+ x1=Math.min(cv.width,x1+pad);y1=Math.min(cv.height,y1+pad);
+ const w=x1-x0,h=y1-y0,M=480,sc=Math.min(1,M/w);
+ const o=document.createElement('canvas');o.width=Math.round(w*sc);o.height=Math.round(h*sc);
+ const oc=o.getContext('2d');
+ oc.fillStyle='#fff';oc.fillRect(0,0,o.width,o.height);
+ oc.drawImage(cv,x0,y0,w,h,0,0,o.width,o.height);
+ WE.sign={img:o.toDataURL('image/png'),at:Date.now(),by:ME?(ME.name||ME.id):''};
+ WE.chk=nm;
+ cl('ovSg');rdWE();ts('서명을 저장했습니다')}
+
+function pickWPhoto(){
+ if(!SYNC_URL)return ts('동기화 설정 후 사용할 수 있습니다');
+ pickTarget={id:'__work',kind:'wphoto'};document.getElementById('fpick').click()}
+function wDelPhoto(i){WE.files.splice(i,1);rdWE()}
+
+async function saveWork(){
+ const v=dtNorm(WE.date); if(v===null||!v)return ts('날짜를 확인해 주세요');
+ WE.date=v; WE.mt=Date.now(); WE.sec=SEC;
+ if(!WE.by)WE.by=ME?(ME.name||ME.id):'';
+ DB.works=DB.works||[];
+ const i=DB.works.findIndex(w=>w.id===WE.id);
+ if(i<0){WE.at=Date.now();DB.works.push(WE)} else DB.works[i]=WE;
+ const s=S(WE.sid);
+ LOG(WE.sid||'',(i<0?'업무일지 작성: ':'업무일지 수정: ')+WE.date+(s?' · '+s.name:''));
+ DB.updatedAt=Date.now();LS.set(DB);queuePush();
+ cl('ovWe');
+ const wy=WE.date.slice(0,4);
+ if(wy!==YEAR){setYear(wy);ts(wy+'년 업무일지로 저장했습니다')}
+ else ts('업무일지를 저장했습니다');
+ if(lgCtx)rdLogs();rd()}
+
+async function delWork(id){
+ if(!isAdmin())return ts('업무일지 삭제는 관리자만 할 수 있습니다');
+ const w=workById(id);if(!w)return;
+ if(!await confirmBox('업무일지 삭제',w.date+' 일지를 삭제할까요?',{yes:'삭제',danger:1}))return;
+ DB.works=(DB.works||[]).filter(x=>x.id!==id);
+ DB.wtomb=DB.wtomb||{};DB.wtomb[id]=Date.now();
+ LOG(w.sid||'','업무일지 삭제: '+w.date);
+ DB.updatedAt=Date.now();LS.set(DB);queuePush();rdLogs();rd();ts('삭제했습니다')}
+
+/* 엑셀 내보내기 — 엑셀에서 그대로 열리는 표 */
+function workXlsCur(){
+ if(!WE)return;
+ if(!(DB.works||[]).some(w=>w.id===WE.id))return ts('저장 후 내보낼 수 있습니다');
+ workXls(WE.id)}
+function workXls(id){
+ if(!isAdmin())return ts('엑셀 내보내기는 관리자만 할 수 있습니다');
+ const w=workById(id);if(!w)return;
+ const s=S(w.sid);
+ const E=t=>esc(String(t==null?'':t)).replace(/\n/g,'<br>');
+ const rows=[];
+ rows.push(`<tr><td class=n>1</td><td class=k>시스템 사용 협의<br>(온도, 시간 등)</td><td>`
+  +w.meals.map(m=>`${E(m.n)} : ${E(m.menu)}<br>사전협의 : ${E(m.agree)}`).join('<br><br>')+`</td></tr>`);
+ w.meals.forEach((m,i)=>{
+  rows.push(`<tr>${i===0?`<td class=n rowspan=${w.meals.length}>2</td><td class=k rowspan=${w.meals.length}>조리중 레시피 특이사항</td>`:''}`
+   +`<td>${E(m.n)} 조리시작,완료시간 = ${E(m.t1)} ~ ${E(m.t2)}<br><br>`
+   +`총 조리량 = ${E(m.qty)}kg<br><br>자동조리횟수 = ${E(m.cnt)}회<br><br>`
+   +`투입 시 무게 평균 = ${E(m.avg||'')}<br><br>`
+   +`조리 중 수정내용 = ${E(m.fix)}<br><br>최종 레시피 = ${E(m.recipe)}</td></tr>`)});
+ [['3','시스템 작동중 오류사항',w.err],['4','시스템 사용법 교육',w.edu],
+  ['5','사용자 시스템 개선 요구사항',w.req],['6','다음 시스템 사용 일자 협의',w.next]]
+  .forEach(([n,k,v])=>rows.push(`<tr><td class=n>${n}</td><td class=k>${k}</td><td>${E(v)}</td></tr>`));
+ rows.push(`<tr><td class=n></td><td class=k>오류 및 개선 요구사항 수정 작업</td><td>${E(w.act)}</td></tr>`);
+ rows.push(`<tr><td class=n></td><td class=k>작성자</td><td>${E(w.by)}</td></tr>`);
+ rows.push(`<tr><td class=n></td><td class=k>확인자</td><td>${E(w.chk)}`
+  +(w.sign&&w.sign.img?`<br><img src="${w.sign.img}" width="200"><br><span style="color:#666">서명 ${E(fmtFull(w.sign.at))}</span>`:'')+`</td></tr>`);
+ const ph=(w.files||[]).map((f,i)=>`<tr><td class=k>현장 사진 ${i+1}</td><td colspan=2><a href="${f.url||''}">${E(f.name||'사진')}</a></td></tr>`).join('');
+ const html=`<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="utf-8">
+<style>table{border-collapse:collapse;font-family:맑은 고딕,Malgun Gothic,sans-serif;font-size:11pt}
+td,th{border:1px solid #808080;padding:6px;vertical-align:top}
+.t{background:#08204F;color:#fff;font-weight:bold;text-align:center;font-size:13pt}
+th{background:#DCE6F1;font-weight:bold;text-align:center}
+.n{text-align:center;width:50px}.k{width:230px;font-weight:bold;background:#F2F5F9}
+td{width:600px}</style></head><body>
+<table>
+<tr><td class=t colspan=3>${(s?E(s.name)+' · ':'')}일일점검 및 특이사항</td></tr>
+<tr><td class=k>날짜</td><td colspan=2>${E(w.date)}</td></tr>
+<tr><th>연번</th><th>점검 내용</th><th>세부사항</th></tr>
+${rows.join('')}${ph}
+</table></body></html>`;
+ const nm=(s?s.name:'업무일지')+'_'+w.date+'.xls';
+ dl(nm,'﻿'+html,'application/vnd.ms-excel');
+ ts('엑셀 파일을 내려받았습니다')}
+
+/* ============== 업무일지 일괄 PDF ============== */
+const prImg=f=>((f.thumb||'').replace(/sz=w\d+/,'sz=w1200')||f.url||'');
+const wkPhs=w=>(w.files||[]).filter(f=>/image/.test(f.mime||'')).slice(0,6)
+ .map(f=>({name:f.name||'현장 사진',src:prImg(f)}));
+function wkSheet(s,w,m,phs){
+ const E=t=>esc(String(t==null?'':t)).replace(/\n/g,'<br>');
+ m=m||{}; phs=phs||[];
+ const rows=[];
+ rows.push(`<tr><td class="n">1</td><td class="k">시스템 사용 협의<br>(온도, 시간 등)</td>`
+  +`<td class="w">${E(m.n||'')} : ${E(m.menu||'-')}<br>사전협의 : ${E(m.agree||'-')}</td></tr>`);
+ rows.push(`<tr><td class="n">2</td><td class="k">조리중 레시피<br>특이사항</td>`
+  +`<td>조리 시작 · 완료 = ${E(m.t1||'-')} ~ ${E(m.t2||'-')}<br>`
+  +`총 조리량 = ${E(m.qty||'-')}kg &nbsp; · &nbsp; 자동조리횟수 = ${E(m.cnt||'-')}회<br>`
+  +`투입 시 무게 평균 = ${E(m.avg||'-')}<br>`
+  +`조리 중 수정내용 = ${E(m.fix||'-')}<br>`
+  +`최종 레시피 = ${E(m.recipe||'-')}</td></tr>`);
+ [['3','시스템 작동중<br>오류사항',w.err],['4','시스템 사용법 교육',w.edu],
+  ['5','사용자 시스템<br>개선 요구사항',w.req],['6','다음 시스템<br>사용 일자 협의',w.next]]
+  .forEach(a=>rows.push(`<tr><td class="n">${a[0]}</td><td class="k">${a[1]}</td><td>${E(a[2]||'-')}</td></tr>`));
+ rows.push(`<tr><td class="n"></td><td class="k">오류 및 개선 요구사항<br>수정 작업</td><td>${E(w.act||'-')}</td></tr>`);
+ rows.push(`<tr><td class="n"></td><td class="k">작성자</td><td>${E(w.by||'-')}</td></tr>`);
+ rows.push(`<tr><td class="n"></td><td class="k">확인자</td><td>${E(w.chk||'-')}`
+  +(w.sign&&w.sign.img?`<div class="prsg"><img src="${w.sign.img}" alt="서명"><span>서명 ${E(fmtFull(w.sign.at))}</span></div>`:'')+`</td></tr>`);
+ return `<div class="prpg">
+  <div class="prttl">${E(s?s.name:'')} · 일일점검 및 특이사항${m.n?' · '+E(m.n):''}</div>
+  <table class="prtb" style="margin-top:0">
+   <tr><td class="k" colspan="2">날짜</td><td class="w">${E(w.date)}</td></tr>
+   <tr><th>연번</th><th>점검 내용</th><th class="w">세부사항</th></tr>
+   ${rows.join('')}
+  </table>
+  ${phs.length?`<div class="prph${phs.length>3?' n4':(phs.length>2?' n3':'')}">${phs.map(f=>
+    `<figure><img src="${f.src}" alt=""><figcaption>${E(f.name)}</figcaption></figure>`).join('')}</div>`:''}
+ </div>`}
+
+/* 이 일지 한 건만 미리보기 · 인쇄 */
+function pdfWork(id){
+ const w=workById(id); if(!w)return;
+ const s=S(w.sid); if(!s)return ts('현장을 먼저 지정해 주세요');
+ const ms=(w.meals&&w.meals.length)?w.meals:[{n:''}];
+ const phs=wkPhs(w);
+ document.getElementById('prTt').textContent=s.name+' · '+w.date;
+ document.getElementById('prBd').innerHTML=
+  `<div class="prhint">아래 <b>인쇄 · PDF로 저장</b> 을 누른 뒤, 인쇄 화면에서 <b>대상(프린터)</b> 을
+    <b>PDF로 저장</b> 으로 바꾸면 파일로 받을 수 있습니다.</div>`
+  +ms.map(m=>wkSheet(s,w,m,phs)).join('');
+ op('ovPr'); prWait()}
+
+function pdfWorks(sid,scope){
+ const s=S(sid); if(!s)return;
+ let ws=(DB.works||[]).filter(w=>w.sid===sid);
+ if(scope==='y')ws=ws.filter(w=>(w.date||'').slice(0,4)===YEAR);
+ ws=ws.slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+ if(!ws.length)return ts('내보낼 업무일지가 없습니다');
+ const E=t=>esc(String(t==null?'':t)).replace(/\n/g,'<br>');
+ /* 회차(중식·석식)마다 한 장씩 만듭니다 */
+ const sheets=[];
+ ws.forEach(w=>{const ms=(w.meals&&w.meals.length)?w.meals:[{n:'중식'}];
+   ms.forEach(m=>sheets.push({w:w,m:m}))});
+ const page=o=>wkSheet(s,o.w,o.m,wkPhs(o.w));
+ document.getElementById('prTt').textContent=s.name+' · '+sheets.length+'장';
+ document.getElementById('prBd').innerHTML=
+  `<div class="prhint">아래 <b>인쇄 · PDF로 저장</b> 을 누른 뒤, 인쇄 화면에서 <b>대상(프린터)</b> 을
+    <b>PDF로 저장</b> 으로 바꾸면 파일로 받을 수 있습니다. <b>중식 · 석식이 각각 한 장</b>씩 나옵니다.</div>`
+  +sheets.map(page).join('');
+ op('ovPr');
+ prWait()}
+/* ===== 일지 한 장을 그림(PNG) 파일로 저장 ===== */
+function dlURL(n,u){const a=document.createElement('a');a.href=u;a.download=n;
+ document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),200)}
+function prCss(){
+ const out=[];
+ try{[].slice.call(document.styleSheets).forEach(ss=>{
+  let rs;try{rs=ss.cssRules}catch(e){return}
+  [].slice.call(rs||[]).forEach(r=>{
+   const sel=r.selectorText||'';
+   if(/(^|,)\s*\.pr[a-z0-9]/i.test(sel)&&!/[<&]/.test(r.cssText))out.push(r.cssText)})})}catch(e){}
+ return out.join('\n')}
+const xmlSafe=h=>String(h).replace(/<br\s*\/?>/g,'<br/>').replace(/&nbsp;/g,'&#160;')
+ .replace(/<img\b([^>]*?)\/?>/g,'<img$1/>');
+function imgData(u){return new Promise(res=>{
+ if(!u)return res(null);
+ if(/^data:/.test(u))return res(u);
+ const im=new Image(); im.crossOrigin='anonymous';
+ im.onload=()=>{try{const c=document.createElement('canvas');
+   const k=Math.min(1,1000/(im.naturalWidth||1));
+   c.width=Math.max(1,Math.round((im.naturalWidth||1)*k));
+   c.height=Math.max(1,Math.round((im.naturalHeight||1)*k));
+   c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+   res(c.toDataURL('image/jpeg',.82))}catch(e){res(null)}};
+ im.onerror=()=>res(null);
+ setTimeout(()=>res(null),8000);
+ im.src=u})}
+async function pngData(s,w,m,phs){
+ const W=800;
+ const html=wkSheet(s,w,m,phs);
+ const box=document.createElement('div');
+ box.style.cssText='position:fixed;left:-99999px;top:0;width:'+W+'px;background:#fff;z-index:-1';
+ box.innerHTML='<div class="prwrap">'+html+'</div>';
+ document.body.appendChild(box);
+ const el=box.querySelector('.prpg');
+ el.style.maxWidth='none';el.style.margin='0';el.style.border='none';el.style.borderRadius='0';
+ el.style.padding='10px 12px';
+ await new Promise(r=>setTimeout(r,80));
+ const H=Math.ceil(el.getBoundingClientRect().height)+2;
+ document.body.removeChild(box);
+ const css='*{box-sizing:border-box;margin:0;padding:0}\n'+prCss()+'\n.prpg{max-width:none;margin:0;border:none;border-radius:0;padding:10px 12px;width:100%}'+'\n.prtb{width:100%}\nfigure{margin:0}';
+ const inner='<div xmlns="http://www.w3.org/1999/xhtml" style="width:'+W+'px;background:#fff;'
+  +'font-family:-apple-system,BlinkMacSystemFont,Apple SD Gothic Neo,Pretendard,Noto Sans KR,Malgun Gothic,sans-serif;'
+  +'letter-spacing:-.2px;color:#0E1726"><style>'+css+'</style>'+xmlSafe(html)+'</div>';
+ const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'">'
+  +'<foreignObject width="100%" height="100%">'+inner+'</foreignObject></svg>';
+ const img=new Image();
+ const ok=await new Promise(r=>{img.onload=()=>r(1);img.onerror=()=>r(0);
+  setTimeout(()=>r(0),9000);img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)});
+ if(!ok)return null;
+ const sc=2, c=document.createElement('canvas'); c.width=W*sc; c.height=H*sc;
+ const g=c.getContext('2d'); g.fillStyle='#fff'; g.fillRect(0,0,c.width,c.height);
+ g.drawImage(img,0,0,c.width,c.height);
+ try{return c.toDataURL('image/png')}catch(e){return null}}
+async function pngSheet(s,w,m,phs,name){
+ const d=await pngData(s,w,m,phs); if(!d)return false; dlURL(name,d); return true}
+async function pngWork(id){
+ const w=workById(id); if(!w)return;
+ const s=S(w.sid); if(!s)return ts('현장을 먼저 지정해 주세요');
+ const ms=(w.meals&&w.meals.length)?w.meals:[{n:''}];
+ ts('그림 파일을 만드는 중입니다');
+ const raw=(w.files||[]).filter(f=>/image/.test(f.mime||'')).slice(0,6);
+ const phs=[]; let drop=0;
+ for(let i=0;i<raw.length;i++){
+  const d=await imgData(prImg(raw[i]));
+  if(d)phs.push({name:raw[i].name||'현장 사진',src:d}); else drop++}
+ let okN=0;
+ for(let i=0;i<ms.length;i++){
+  const nm=s.name+'_'+w.date+(ms[i].n?'_'+ms[i].n:'')+(ms.length>1?'_'+(i+1):'')+'.png';
+  if(await pngSheet(s,w,ms[i],phs,nm))okN++}
+ if(!okN)return ts('그림으로 만들지 못했습니다. PDF로 저장해 주세요');
+ ts(drop?('그림 '+okN+'장을 받았습니다 · 사진 '+drop+'장은 빠졌습니다'):('그림 '+okN+'장을 받았습니다'))}
+
+/* ===== 여러 장을 zip 한 파일로 ===== */
+const CRCT=(function(){const t=new Uint32Array(256);
+ for(let i=0;i<256;i++){let c=i;for(let k=0;k<8;k++)c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1);t[i]=c>>>0}
+ return t})();
+function crc32(u){let c=0xFFFFFFFF;
+ for(let i=0;i<u.length;i++)c=CRCT[(c^u[i])&0xFF]^(c>>>8);return (c^0xFFFFFFFF)>>>0}
+function b64u8(d){const b=atob(String(d).split(',')[1]||'');
+ const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+function zipStore(files){
+ const enc=new TextEncoder(), body=[], cen=[]; let off=0;
+ const D=new Date();
+ const dtime=((D.getHours()&31)<<11)|((D.getMinutes()&63)<<5)|((D.getSeconds()/2)&31);
+ const ddate=(((D.getFullYear()-1980)&127)<<9)|(((D.getMonth()+1)&15)<<5)|(D.getDate()&31);
+ files.forEach(f=>{
+  const nm=enc.encode(f.name), d=f.data, cr=crc32(d);
+  const lh=new DataView(new ArrayBuffer(30));
+  lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(6,0x0800,true);
+  lh.setUint16(8,0,true);lh.setUint16(10,dtime,true);lh.setUint16(12,ddate,true);
+  lh.setUint32(14,cr,true);lh.setUint32(18,d.length,true);lh.setUint32(22,d.length,true);
+  lh.setUint16(26,nm.length,true);lh.setUint16(28,0,true);
+  body.push(new Uint8Array(lh.buffer),nm,d);
+  const ch=new DataView(new ArrayBuffer(46));
+  ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);
+  ch.setUint16(8,0x0800,true);ch.setUint16(10,0,true);ch.setUint16(12,dtime,true);ch.setUint16(14,ddate,true);
+  ch.setUint32(16,cr,true);ch.setUint32(20,d.length,true);ch.setUint32(24,d.length,true);
+  ch.setUint16(28,nm.length,true);ch.setUint16(30,0,true);ch.setUint16(32,0,true);
+  ch.setUint16(34,0,true);ch.setUint16(36,0,true);ch.setUint32(38,0,true);ch.setUint32(42,off,true);
+  cen.push(new Uint8Array(ch.buffer),nm);
+  off+=30+nm.length+d.length});
+ let cs=0; cen.forEach(x=>cs+=x.length);
+ const eo=new DataView(new ArrayBuffer(22));
+ eo.setUint32(0,0x06054b50,true);eo.setUint16(4,0,true);eo.setUint16(6,0,true);
+ eo.setUint16(8,files.length,true);eo.setUint16(10,files.length,true);
+ eo.setUint32(12,cs,true);eo.setUint32(16,off,true);eo.setUint16(20,0,true);
+ return new Blob(body.concat(cen,[new Uint8Array(eo.buffer)]),{type:'application/zip'})}
+function dlBlob(n,b){const u=URL.createObjectURL(b);const a=document.createElement('a');
+ a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(u),3000)}
+const safeName=v=>String(v||'').replace(/[\\/:*?"<>|]/g,'_').replace(/\s+/g,' ').trim();
+
+/* ===== 현장 하나의 업무일지를 그림으로 통째 저장 ===== */
+let pngBusy=false;
+async function pngAll(sid,scope){
+ if(pngBusy)return ts('이미 만드는 중입니다');
+ const s=S(sid); if(!s)return;
+ let ws=(DB.works||[]).filter(w=>w.sid===sid);
+ if(scope==='y')ws=ws.filter(w=>(w.date||'').slice(0,4)===YEAR);
+ ws=ws.slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+ if(!ws.length)return ts('내보낼 업무일지가 없습니다');
+ const sheets=[];
+ ws.forEach(w=>{const ms=(w.meals&&w.meals.length)?w.meals:[{n:''}];
+  ms.forEach((m,i)=>sheets.push({w:w,m:m,i:i,n:ms.length}))});
+ pngBusy=true;
+ const btn=document.getElementById('pngBtn');
+ const setB=t=>{if(btn)btn.textContent=t};
+ const btn0=btn?btn.textContent:'';
+ setB('만드는 중 0 / '+sheets.length);
+ const cache={}, files=[]; let drop=0, fail=0, seen={};
+ try{
+  for(let k=0;k<sheets.length;k++){
+   const o=sheets[k], w=o.w;
+   const raw=(w.files||[]).filter(f=>/image/.test(f.mime||'')).slice(0,6);
+   const phs=[];
+   for(let j=0;j<raw.length;j++){
+    const u=prImg(raw[j]);
+    if(!(u in cache))cache[u]=await imgData(u);
+    if(cache[u])phs.push({name:raw[j].name||'현장 사진',src:cache[u]}); else drop++}
+   const d=await pngData(s,w,o.m,phs);
+   if(!d){fail++;continue}
+   let nm=safeName(s.name+'_'+w.date+(o.m.n?'_'+o.m.n:'')+(o.n>1?'_'+(o.i+1):''))+'.png';
+   if(seen[nm]){seen[nm]++;nm=nm.replace(/\.png$/,'('+seen[nm]+').png')}else seen[nm]=1;
+   files.push({name:nm,data:b64u8(d)});
+   setB('만드는 중 '+(k+1)+' / '+sheets.length);
+   await new Promise(r=>setTimeout(r,0))}
+  if(!files.length)return ts('그림으로 만들지 못했습니다. PDF로 저장해 주세요');
+  const zn=safeName(s.name+'_업무일지_'+(scope==='y'?YEAR+'년':'전체'))+'.zip';
+  dlBlob(zn,zipStore(files));
+  ts('그림 '+files.length+'장을 zip 한 파일로 받았습니다'
+   +(drop?' · 사진 '+drop+'장 빠짐':'')+(fail?' · '+fail+'장 실패':''));
+ }finally{pngBusy=false;setB(btn0)}}
+
+/* ===== 현장 자료(올린 파일 원본) 통째 내려받기 ===== */
+function dumpFiles(sid){
+ const s=S(sid); if(!s)return [];
+ const out=[]; const seen={};
+ const add=(folder,f)=>{if(!f||!f.id||seen[f.id])return;seen[f.id]=1;
+  out.push({id:f.id,name:f.name||'file',folder:folder})};
+ Object.keys(s.years||{}).sort().forEach(yy=>{
+  const y=s.years[yy]||{}; const F=y.files||{};
+  ITEMS.forEach(i=>(F[i.k]||[]).forEach(f=>add(yy+'/'+i.n,f)));
+  (F.log||[]).forEach(f=>add(yy+'/업무일지',f));
+  (y.specials||[]).forEach(x=>(x.files||[]).forEach(f=>add(yy+'/특별점검_'+(x.date||''),f)));
+ });
+ (DB.works||[]).filter(w=>w.sid===sid).forEach(w=>{
+  (w.files||[]).forEach(f=>add((w.date||'').slice(0,4)+'/일지사진_'+(w.date||''),f))});
+ return out}
+function openDump(){
+ if(!isAdmin())return ts('자료 내보내기는 관리자만 할 수 있습니다');
+ const list=LIST().slice().sort((a,b)=>a.order-b.order);
+ document.getElementById('dmBd').innerHTML=
+  `<div class="fhint" style="margin:0 2px 12px">${U()}를 고르면 그 ${U()}에 <b>올린 파일 원본</b>(엑셀 · PDF · 사진)을 모아 zip 한 파일로 내려받습니다.
+    앱에서 작성한 일지는 업무일지 화면의 <b>그림(PNG) 전체 저장</b> 을 쓰세요.</div>`
+  +(list.length?list.map(x=>{const n=dumpFiles(x.id).length;
+    return `<button class="exb" ${n?'':'disabled style="opacity:.45"'} onclick="${n?`runDump('${x.id}')`:''}">
+      <b>${esc(x.name)}</b><span>${n?('올린 파일 '+n+'개'):'올린 파일 없음'}</span></button>`}).join('')
+   :`<div class="blank" style="padding:26px">등록된 ${UGA()} 없습니다.</div>`);
+ op('ovDm')}
+let dumpBusy=false;
+async function runDump(sid){
+ if(!isAdmin())return ts('자료 내보내기는 관리자만 할 수 있습니다');
+ if(dumpBusy)return ts('이미 내려받는 중입니다');
+ if(!SYNC_URL)return ts('동기화 설정 후 사용할 수 있습니다');
+ if((SHEETVER||0)<19)return ts('시트코드를 새로 배포해야 사용할 수 있습니다 (v19)');
+ const s=S(sid); const items=dumpFiles(sid);
+ if(!items.length)return ts('올린 파일이 없습니다');
+ dumpBusy=true;
+ const box=document.getElementById('dmBd');
+ const bar=document.createElement('div');
+ bar.className='fhint'; bar.style.cssText='position:sticky;bottom:0;background:#fff;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-top:6px';
+ bar.textContent='0 / '+items.length+' 내려받는 중…'; box.appendChild(bar);
+ const files=[], fail=[]; const seen={};
+ try{
+  for(let i=0;i<items.length;i++){
+   const it=items[i];
+   try{
+    const j=await call('POST',{key:SYNC_KEY,action:'getfile',id:it.id});
+    if(j&&j.b64){
+     let nm=safeName(it.folder)+'/'+safeName(it.name||'file');
+     if(seen[nm]){seen[nm]++;nm=nm.replace(/(\.[^.\/]+)?$/,'('+seen[nm]+')$1')}else seen[nm]=1;
+     files.push({name:nm,data:b64u8('base64,'+j.b64)});
+    } else fail.push(it.name);
+   }catch(e){fail.push(it.name)}
+   bar.textContent=(i+1)+' / '+items.length+' 내려받는 중…';
+   await new Promise(r=>setTimeout(r,0));
+  }
+  if(!files.length){ts('파일을 가져오지 못했습니다');return}
+  if(fail.length)files.push({name:'못 받은 파일.txt',
+    data:new TextEncoder().encode('아래 파일은 가져오지 못했습니다.\n\n'+fail.join('\n'))});
+  dlBlob(safeName(s.name+'_올린자료')+'.zip',zipStore(files));
+  ts('파일 '+files.length+'개를 zip 으로 받았습니다'+(fail.length?' · '+fail.length+'개 실패':''));
+ }finally{dumpBusy=false;bar.remove()}}
+
+/* ===== 내보내기 선택 ===== */
+function openWexp(){
+ if(!WE)return;
+ if(!(DB.works||[]).some(x=>x.id===WE.id))return ts('저장 후 내보낼 수 있습니다');
+ const id=WE.id;
+ document.getElementById('exBd').innerHTML=`
+  <button class="exb" onclick="cl('ovEx');pngWork('${id}')">
+    <b>그림(PNG)으로 저장</b><span>화면에 보이는 그대로 한 장씩 바로 받습니다</span></button>
+  <button class="exb" onclick="cl('ovEx');pdfWork('${id}')">
+    <b>PDF · 인쇄</b><span>미리 보고 인쇄 화면에서 PDF로 저장합니다</span></button>
+  ${isAdmin()?`<button class="exb" onclick="cl('ovEx');workXls('${id}')">
+    <b>엑셀(.xls)로 저장</b><span>표를 엑셀에서 열어 고칠 수 있습니다 · 관리자 전용</span></button>`:''}`;
+ op('ovEx')}
+
+let prReady=false;
+function prWait(){
+ const b=document.getElementById('prBtn');
+ const imgs=[].slice.call(document.querySelectorAll('#prBd img')).filter(i=>!i.complete);
+ prReady=false;
+ const fin=()=>{if(prReady)return;prReady=true;b.disabled=false;b.textContent='인쇄 · PDF로 저장'};
+ if(!imgs.length)return fin();
+ b.disabled=true;b.textContent='사진 불러오는 중…';
+ let left=imgs.length;
+ const one=()=>{if(--left<=0)fin()};
+ imgs.forEach(i=>{i.addEventListener('load',one,{once:true});i.addEventListener('error',one,{once:true})});
+ setTimeout(fin,9000)}
+function prPrint(){
+ if(!prReady)return ts('사진을 불러오는 중입니다');
+ try{window.print()}catch(e){ts('이 기기에서는 인쇄 화면을 열 수 없습니다')}}
+
 /* ============== 이슈 ============== */
-const issueList=()=>DB.schools.filter(s=>Y(s).issue).sort((a,b)=>a.order-b.order);
+const issueList=()=>LIST().filter(s=>Y(s).issue).sort((a,b)=>a.order-b.order);
 function openIssues(){const a=issueList();
  const pend=s=>ITEMS.filter(i=>!OK(Y(s),i.k)).map(i=>i.n);
  document.getElementById('iBd').innerHTML=a.length?a.map(s=>{const p=pend(s),y=Y(s);
@@ -1602,7 +2569,7 @@ function openIssues(){const a=issueList();
      <span class="flx">학교 카드의 특이사항과 같은 칸입니다</span></div>
    <textarea class="inp" style="min-height:70px;overflow:auto" placeholder="어떤 문제가 있는지 적어 주세요" onchange="setF('${s.id}','note',this.value);openIssues()">${esc(y.note)}</textarea>
    <div class="two" style="margin-top:9px">
-     <button class="act" onclick="cl('ovI');openH('${s.id}')">학교 상세</button>
+     <button class="act" onclick="cl('ovI');openH('${s.id}')">${U()} 상세</button>
      <button class="act" style="background:var(--okbg);color:var(--ok);border-color:#BFE3D3" onclick="resolveIssue('${s.id}')">해결 완료</button>
    </div></div>`}).join('')
   :'<div class="blank" style="padding:34px">미해결 이슈가 없습니다.</div>';
@@ -1638,20 +2605,20 @@ function openH(id){const s=S(id),y=Y(s);
   ${hs.length?hs.map(h=>`<div class="box"><div class="d">${h.date}<span class="tg">${NM[h.type]||h.type}</span>${h.year?`<span class="tg">${h.year}년</span>`:''}</div>
     <div class="m">담당자 ${esc(h.who)||'미기록'}${h.note?' · '+esc(h.note):''}</div></div>`).join('')
    :'<div class="blank" style="padding:26px">지난 기록이 없습니다.</div>'}
-  <div class="hd2">학교 정보 수정</div>
+  <div class="hd2">${U()} 정보 수정</div>
   <div class="box">
-    <label class="fl">학교명</label><input class="inp" type="text" value="${esc(s.name)}" onchange="renameSchool('${id}',this.value)">
+    <label class="fl">${U()}명</label><input class="inp" type="text" value="${esc(s.name)}" onchange="renameSchool('${id}',this.value)">
     <label class="fl" style="margin-top:11px">지역</label><input class="inp" type="text" value="${esc(s.region)}" list="rgList" onchange="setRegion('${id}',this.value)">
     <div class="flrow" style="margin-top:11px"><label class="fl">검색 별칭</label><span class="flx">쉼표로 구분</span></div>
     <input class="inp" type="text" value="${esc(s.alias||'')}" placeholder="줄임말 · 별칭" onchange="setAlias('${id}',this.value)">
-    <div class="fhint">여기 적은 단어로도 이 학교가 검색됩니다.</div>
+    <div class="fhint">여기 적은 단어로도 이 ${UGA()} 검색됩니다.</div>
   </div>
-  <div style="margin-top:12px"><button class="b d s" onclick="delSchool('${id}')">이 학교 삭제</button></div>
+  <div style="margin-top:12px"><button class="b d s" onclick="delSchool('${id}')">이 ${U()} 삭제</button></div>
   <div style="height:14px"></div>`;
  op('ovH')}
 async function delSchool(id){const s=S(id);
- if(!await confirmBox('학교 삭제',s.name+'을(를) 삭제할까요?\n기록도 함께 삭제되며 되돌릴 수 없습니다.',{yes:'삭제',danger:1}))return;
- LOG(id,'학교 삭제');
+ if(!await confirmBox(U()+' 삭제',s.name+'을(를) 삭제할까요?\n기록도 함께 삭제되며 되돌릴 수 없습니다.',{yes:'삭제',danger:1}))return;
+ LOG(id,U()+' 삭제');
  DB.tomb=DB.tomb||{};DB.tomb[id]=Date.now();
  DB.schools=DB.schools.filter(x=>x.id!==id);DB.history=DB.history.filter(h=>h.schoolId!==id);
  save();cl('ovH');chips();rd();ts('삭제했습니다')}
@@ -1692,10 +2659,10 @@ function openSum(){rdSum();op('ovSum')}
 function setSumRg(r){sumRg=r;rdSum()}
 function setSumMode(m){sumMode=m;rdSum()}
 function rdSum(){
- let a=DB.schools.slice().sort((x,y)=>x.order-y.order);
+ let a=LIST().slice().sort((x,y)=>x.order-y.order);
  if(sumRg!=='전체')a=a.filter(s=>s.region===sumRg);
  if(sumQ)a=a.filter(s=>hit(s,sumQ));
- document.getElementById('sumCnt').textContent=YEAR+'년 · '+a.length+'개교';
+ document.getElementById('sumCnt').textContent=YEAR+'년 · '+a.length+UN();
  const chips=['전체',...regions()].map(r=>
   `<button class="sumchip ${sumRg===r?'on':''}" onclick="setSumRg('${esc(r)}')">${esc(r)}</button>`).join('');
  const modes=`<div class="segs">
@@ -1703,7 +2670,7 @@ function rdSum(){
    <button class="seg ${sumMode==='text'?'on':''}" onclick="setSumMode('text')">간단 요약</button></div>`;
  const finder=`<div class="srow" style="margin-bottom:12px">
    <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-     <input type="text" id="sumQi" placeholder="학교 찾기 · 줄임말 · 초성" value="${esc(sumQ)}" oninput="setSumQ(this.value)" autocomplete="off">
+     <input type="text" id="sumQi" placeholder="${U()} 찾기 · 줄임말 · 초성" value="${esc(sumQ)}" oninput="setSumQ(this.value)" autocomplete="off">
      <button class="sclr ${sumQ?'on':''}" onclick="setSumQ('')">✕</button></div>
    <button class="sortb" onclick="openPick('sum')">전체보기</button></div>`;
 
@@ -1723,6 +2690,7 @@ function rdSum(){
        <span class="pnm2">${hl(s.name,sumQ)}</span></div>
      <div class="pmeta"><span class="rg" style="color:${rgColor(s.region)}">${esc(s.region)}</span>
        ${y.issue?'<span class="pissue">이슈</span>':''}
+       ${(y.files.log||[]).length?`<span class="pcnt" style="margin-left:0;background:#E8F3EC;color:#177245">일지 ${(y.files.log||[]).length}</span>`:''}
        <span class="pcnt ${total?'':'no'}">${total?total+'장':'자료 없음'}</span></div>
      ${total?`<div class="pgrid">${flat.map((fl,fi)=>`
        <button class="pth" onclick="openView(SUMF['${s.id}'][0],${fi})">
@@ -1769,7 +2737,7 @@ function rdSum(){
    </div>`;
  document.getElementById('sumBd').innerHTML=
   `<div class="sumchips">${chips}</div>${modes}${finder}${stats}
-   ${N?(sumMode==='files'?`<div class="plist">${body}</div>`:body):'<div class="blank">해당하는 학교가 없습니다.</div>'}
+   ${N?(sumMode==='files'?`<div class="plist">${body}</div>`:body):'<div class="blank">해당하는 '+U()+'가 없습니다.</div>'}
    <div style="height:14px"></div>`;
  const el=document.getElementById('sumQi');
  if(sumQ&&el&&sumFocus){el.focus();el.setSelectionRange(sumQ.length,sumQ.length)}
@@ -1778,14 +2746,14 @@ function rdSum(){
 function fmtFull(t){const d=new Date(t);
  return d.getFullYear()+'-'+p2s(d.getMonth()+1)+'-'+p2s(d.getDate())+' '+p2s(d.getHours())+':'+p2s(d.getMinutes())}
 function rdLoginBar(){
- const on=onlineList(), el=document.getElementById('loginNow');
+ const on=onlineList().filter(o=>!ADM[String(o.id)]), el=document.getElementById('loginNow');
  const lk=document.querySelector('#loginBar .lk');
  if(on.length){
   lk.textContent='접속 중 '+on.length+'명';
   el.innerHTML=on.map(o=>`<span class="onm">${esc(o.u)}</span>`).join('<span class="ondot">·</span>')}
  else{
   lk.textContent='최근 로그인';
-  const a=(DB.logins||[]).slice().sort((x,y)=>y.t-x.t);
+  const a=(DB.logins||[]).filter(g=>!ADM[String(g&&g.ui)]).slice().sort((x,y)=>y.t-x.t);
   el.textContent=a.length?a[0].u+' , '+fmtFull(a[0].t):'기록 없음'}
  rdPend()}
 
@@ -1817,10 +2785,13 @@ function rdPend(){
   try{if(navigator.vibrate)navigator.vibrate([120,60,120])}catch(e){}
   notify('가입 승인 대기 '+fresh.length+'건',who+' 님이 가입을 신청했습니다')}}
 function openLogins(){
- const a=(DB.logins||[]).slice().sort((x,y)=>y.t-x.t).slice(0,200);
- document.getElementById('lgiCnt').textContent=(DB.logins||[]).length?(DB.logins||[]).length+'건':'';
+ purgeAdminTrace();
+ const A=adminIds();
+ const src=(DB.logins||[]).filter(g=>!A[String(g&&g.ui)]);
+ const a=src.slice().sort((x,y)=>y.t-x.t).slice(0,200);
+ document.getElementById('lgiCnt').textContent=src.length?src.length+'건':'';
  let last='';
- const on=onlineList();
+ const on=onlineList().filter(o=>!A[String(o.id)]);
  const onHtml=on.length?`<div class="hd2" style="color:var(--ok)">접속 중 · ${on.length}명</div>`
   +on.map(o=>`<div class="lgrow" style="grid-template-columns:auto 1fr auto;border-color:#BFE3D3;background:#FBFEFD">
      <span style="width:7px;height:7px;border-radius:50%;background:#12A150;align-self:center"></span>
@@ -1950,55 +2921,27 @@ async function delUser(id){
 
 /* ============== 업데이트 내역 ============== */
 const CHANGES=[
- {v:'v2.0',d:'2026-07-31',t:'이번 업데이트',n:[
-  '<b>확인창을 앱 안에서 직접 띄우도록</b> 바꿨습니다 — 주소가 위에 붙어 나오던 브라우저 기본 창이 사라집니다',
-  '삭제처럼 되돌릴 수 없는 동작은 <b>빨간 버튼</b>으로 구분해 표시합니다']},
- {v:'v1.9',d:'2026-07-31',t:'지난 업데이트',n:[
-  '전체 요약의 <b>자료 보기가 한 줄에 두 학교씩</b> 나오도록 바꿨습니다 — 한 화면에 두 배로 보입니다',
-  '상단 <b>미해결 이슈 칸이 얇아졌습니다</b> — 이슈가 없으면 아예 표시되지 않아 화면이 넓어집니다',
-  '<b>경과 기간</b>(6개월 경과)을 주황색으로 표시해 눈에 잘 띄도록 했습니다',
-  '점검 항목 오른쪽 자료 버튼을 <b>카메라 모양</b>으로 바꿨습니다 — 기기마다 다르게 보이던 문제도 해결됩니다',
-  '<b>미해결 이슈 → 이슈 전체보기</b> 로 이름을 바꿨습니다 (건수는 있을 때만 표시)',
-  '학교 카드의 미해결 이슈 옆에 <b>추후 조치가 필요하면 체크해주세요</b> 안내를 넣었습니다',
-  '이슈 내용 칸이 학교 카드의 <b>특이사항과 같은 칸</b>이라는 설명을 추가했습니다',
-  '점검 날짜의 <b>정상 · 임박 · 초과 색 구분을 없앴습니다</b> — 이제 얼마나 지났는지만 표시됩니다']},
- {v:'v1.8',d:'2026-07-31',t:'자료 보기 정리',n:[
-  '<b>전체 요약 → 자료 보기</b>가 훨씬 간단해졌습니다 — 학교명과 사진만 크게 보입니다',
-  '자료 보기 안에도 <b>학교 찾기</b>와 <b>전체보기</b> 버튼이 생겼습니다',
-  '간단 요약 표에도 날짜 옆에 경과 기간이 나옵니다']},
- {v:'v1.7',d:'2026-07-31',t:'학교 목록에서 고르기',n:[
-  '검색칸 오른쪽 <b>전체보기</b> — 등록된 학교를 펼쳐놓고 눌러서 고를 수 있습니다',
-  '목록에서 <b>설치순 / 가나다순</b>을 바꿀 수 있고, 완료된 학교는 초록 점 · 미해결 이슈는 빨간 점으로 표시됩니다']},
- {v:'v1.6',d:'2026-07-31',t:'메뉴 정리',n:[
-  '화면 오른쪽 위에 <b>메뉴</b> 버튼이 생겼습니다 — 매뉴얼 · 업데이트 내역 · 변경 이력 · 접속 현황 · 로그아웃',
-  '맨 아래까지 내려가지 않도록 하단 버튼 줄은 없앴습니다',
-  '<b>업데이트 내역 보기</b> 추가 — 새 기능이 들어오면 메뉴 버튼에 빨간 점으로 알려드립니다']},
- {v:'v1.5',d:'2026-07-31',t:'학교 찾기',n:[
-  '<b>줄임말 검색</b> — 체고 · 개일초 · 진선여고 처럼 짧게 입력해도 찾아집니다',
-  '<b>초성 검색</b> — ㅅㄱ 만 입력해도 숭곡중학교가 나옵니다',
-  '지역명과 설치 순서 번호로도 검색되고, 찾은 글자는 노란색으로 표시됩니다',
-  '검색칸이 <b>화면 위에 고정</b>되어 스크롤 중에도 바로 검색할 수 있습니다',
-  '<b>가나다순 정렬</b> 버튼 추가',
-  '줄임말은 학교마다 직접 등록·수정할 수 있습니다 (학교 카드 ⋯ → 검색 별칭)']},
- {v:'v1.4',d:'2026-07-31',t:'로그인 개선',n:[
-  '로그인할 때 <b>아이디만 입력</b>해도 됩니다 (@뒤 생략 가능)',
-  '승인 직후 바로 로그인되도록 고쳤습니다 — 승인 대기 중이라고 잘못 뜨던 문제']},
- {v:'v1.3',d:'2026-07-31',t:'앱 이름과 자동 갱신',n:[
-  '앱 이름이 <b>HR 현장 통합 관리</b> 로 바뀌었습니다',
-  '앱을 켤 때 <b>항상 최신 화면</b>을 받아오도록 개선했습니다',
-  '사용 중에 새 버전이 나오면 화면 가운데 안내 창이 뜹니다']},
- {v:'v1.2',d:'2026-07-31',t:'담당자와 날짜',n:[
-  '<b>담당자를 항목별로 분리</b> — 1차 점검과 2차 점검의 담당자를 따로 적습니다',
-  '여러 명을 쉼표로 구분해 적으면 칸이 자동으로 늘어납니다',
-  '<b>날짜를 숫자로 직접 입력</b>할 수 있습니다 — 20260731 또는 0731 만 눌러도 됩니다',
-  '엑셀 내보내기에도 항목별 담당자가 들어갑니다']},
- {v:'v1.1',d:'2026-07-31',t:'계정 알림',n:[
-  '승인이 완료되면 신청한 분에게 <b>안내 메일</b>이 발송됩니다',
-  '즉시 승인이 필요한 경우 문의처를 화면에 안내합니다']},
- {v:'v1.0',d:'2026-07-31',t:'접속 현황과 보안',n:[
-  '상단에 <b>지금 접속 중인 사람</b>이 표시됩니다',
-  '15분 동안 사용하지 않으면 자동으로 로그아웃됩니다',
-  '비밀번호는 저장하지 않고 앱을 켤 때마다 입력합니다']}
+ {v:'v4.4',d:'2026-08-02',t:'민간 화면 색 구분',n:[
+  '<b>민간</b> 탭으로 바꾸면 위쪽 화면이 <b>연두색</b>으로 바뀌어, 지금 어느 쪽을 보고 있는지 한눈에 알 수 있습니다.',
+  '탭을 누르면 색과 목록이 부드럽게 넘어갑니다.']},
+ {v:'v4.0',d:'2026-08-02',t:'내보내기',n:[
+  '업무일지를 <b>그림(PNG)</b>으로 저장합니다. 표와 현장 사진, 서명이 한 장에 담깁니다.',
+  '학교 하나의 업무일지 전체를 그림으로 묶어 <b>zip 파일</b> 하나로 받습니다.',
+  '일지를 열고 <b>내보내기</b> 를 누르면 그림과 PDF 중에 고를 수 있습니다.']},
+ {v:'v3.0',d:'2026-07-31',t:'업무일지',n:[
+  '앱에서 <b>업무일지</b>를 직접 작성합니다. 쓰던 일일점검 양식 그대로입니다.',
+  '확인자 칸의 <b>서명하기</b> 로 담당자가 화면에 직접 서명합니다.',
+  '<b>중식과 석식을 각각 따로</b> 작성하며, 인쇄물도 한 장씩 따로 나옵니다.',
+  '업무일지 전체를 <b>PDF</b> 한 문서로 묶어 인쇄하거나 저장합니다.',
+  '이미 만들어 둔 엑셀 · PDF · 사진 파일도 올려서 함께 보관합니다.',
+  '시간은 숫자만 눌러도 됩니다. 1414 를 치면 14:14 로 정리됩니다.']},
+ {v:'v1.0',d:'2026-07-31',t:'첫 배포',n:[
+  '학교와 민간 <b>현장을 나누어</b> 관리하며, 진행률과 이슈가 각각 집계됩니다.',
+  '1차 · 2차 점검과 교육을 <b>항목별 담당자와 날짜</b>로 기록하고 자료를 올립니다.',
+  '<b>줄임말과 초성</b>으로 학교를 찾습니다. 체고 · ㅅㄱ 처럼 짧게 입력해도 됩니다.',
+  '<b>이슈 전체보기</b> 에서 조치가 필요한 현장을 모아 봅니다.',
+  '아이디만 입력해 로그인하고, 15분 동안 쓰지 않으면 자동으로 로그아웃됩니다.',
+  '여러 사람이 함께 써도 기록이 <b>자동으로 동기화</b>됩니다.']}
 ];
 const SEENK='hrSeen.v1';
 function seenBuild(){try{return localStorage.getItem(SEENK)||''}catch(e){return ''}}
@@ -2017,7 +2960,7 @@ function hardReload(){
  try{if(window.caches&&caches.keys)caches.keys().then(ks=>ks.forEach(k=>caches.delete(k)))}catch(e){}
  const u=location.origin+location.pathname+'?v='+Date.now();
  setTimeout(()=>location.replace(u),200)}
-const NEEDVER=15;
+const NEEDVER=18;
 let SHEETVER=0;
 function diagLine(ok,t){return '<div class="'+(ok?'g':'r')+'">'+(ok?'✓ ':'✕ ')+t+'</div>'}
 async function runDiag(){
@@ -2072,30 +3015,49 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
     별도로 누를 버튼은 없습니다.</p>
  <p>다만 전송 전에 앱 데이터를 삭제하거나 브라우저 저장 공간을 비우면 해당 내용은 복구할 수 없습니다.
     또한 전송이 밀린 사이 다른 사용자가 같은 학교를 수정하면 나중에 전송된 내용이 남습니다.</p>
- <h4><i>4</i>특별점검</h4>
+ <h4><i>4</i>업무일지</h4>
+ <p>카드 아래 <span class="k">일일점검 및 특이사항 작성</span> 을 누르면 그 학교·현장의 일지가 <b>날짜별로</b> 모여 나옵니다.
+    <span class="k">최신순</span> <span class="k">오래된순</span> 으로 정렬을 바꿀 수 있습니다.</p>
+ <p><b>앱에서 바로 작성</b> — <span class="k">＋ 조리지원 일지 (중식)</span> 처럼 회차를 골라 누르면 일일점검 양식이 열립니다.
+    회차(중식·석식)마다 메뉴·사전협의·조리 시작/완료·총 조리량·자동조리횟수·최종 레시피를 입력하고,
+    오류사항·사용법 교육·개선 요구사항·다음 사용 일자·수정 작업을 적습니다. 현장 사진도 함께 올립니다.
+    필요하면 <span class="k">＋</span> 로 회차를 늘릴 수 있습니다.</p>
+ <p><b>확인자 서명</b> — 확인자 칸의 <span class="k">서명하기</span> 를 누르면 서명판이 열립니다.
+    담당자가 손가락으로 서명하고 <span class="k">완료</span> 를 누르면 이름·시각과 함께 저장됩니다.</p>
+ <p><b>내보내기</b> — 일지를 열고 아래 <span class="k">내보내기</span> 를 누르면 그림(PNG)·PDF로 받을 수 있습니다.
+ 엑셀은 관리자만 받을 수 있습니다. 엑셀은 기존 양식과 같은 표(연번·점검 내용·세부사항)로
+    파일이 만들어지고 서명 이미지도 함께 들어갑니다.</p>
+ <p>이미 만들어 둔 엑셀 파일이 있으면 <span class="k">＋ 작성된 엑셀 파일 올리기</span> 로 그대로 보관할 수 있습니다.
+    점검표 사진은 각 항목 오른쪽 <span class="k">카메라 버튼</span> 으로 올립니다.</p>
+ <h4><i>5</i>특별점검</h4>
  <p><span class="k">특별점검</span> 을 누르면 별도 창이 열립니다. 날짜·담당자·내용을 입력해 여러 건을 등록할 수 있고,
     건별로 자료를 첨부하거나 미해결 이슈로 표시할 수 있습니다.</p>
- <h4><i>5</i>현장에 문제가 발생하여 조치하지 못했을 경우, 미해결 이슈 체크</h4>
+ <h4><i>6</i>현장에 문제가 발생하여 조치하지 못했을 경우, 미해결 이슈 체크</h4>
  <p>카드 아래 <span class="k">미해결 이슈</span> 를 체크하고 특이사항에 내용을 기록합니다.
     상단 <b>이슈 전체보기</b> 를 누르면 해당 학교만 모아서 확인할 수 있으며,
     조치가 끝나면 <span class="k">해결 완료</span> 를 누릅니다. 처리 내역은 이력에 자동 보관됩니다.</p>
- <h4><i>6</i>연도별 관리</h4>
+ <h4><i>7</i>연도별 관리</h4>
  <p>제목 옆 <span class="k">연도</span> 를 변경하면 해당 연도의 기록만 표시됩니다.
     학교 목록은 그대로 유지되고 점검·교육·자료만 연도별로 구분되어 저장됩니다.
     해가 바뀌면 자동으로 새 연도가 추가되며 빈 상태에서 시작합니다.</p>
- <h4><i>7</i>전체 요약</h4>
+ <h4><i>8</i>전체 요약</h4>
  <p>상단 <span class="k">전체 요약</span> 에서 모든 학교의 진행 상황과 업로드한 자료를 한 화면에서 확인합니다.</p>
  <p><span class="k">자료 보기</span> 는 학교명과 사진만 크게 보여줍니다. 사진을 누르면 확대되고 좌우로 넘겨볼 수 있습니다.
     <span class="k">간단 요약</span> 은 날짜 · 담당자 · 진행률을 표로 보여줍니다.
     두 화면 모두 <span class="k">학교 찾기</span> 칸과 <span class="k">전체보기</span> 로 특정 학교만 볼 수 있습니다.</p>
- <h4><i>8</i>자동 로그아웃</h4>
+ <h4><i>9</i>자동 로그아웃</h4>
  <p>보안을 위해 <b>${IDLE_MIN}분간 앱을 사용하지 않으면 자동으로 로그아웃</b>됩니다.
     화면을 만지거나 앱을 다시 열면 시간이 초기화됩니다. 입력한 내용은 그대로 보관되며,
     다시 로그인하면 이어서 사용할 수 있습니다.</p>
- <h4><i>9</i>업데이트 내역</h4>
+ <h4><i>10</i>업데이트 내역</h4>
  <p>오른쪽 위 <span class="k">메뉴</span> → <span class="k">업데이트 내역 보기</span> 에서 업데이트 내용을 확인할 수 있습니다.
     새 기능이 추가되면 메뉴 버튼에 빨간 점이 표시됩니다.</p>
- <h4><i>10</i>학교 찾기</h4>
+ <h4><i>11</i>학교 · 민간 나누어 보기</h4>
+ <p>상단 <span class="k">학교</span> <span class="k">민간</span> 버튼으로 목록을 나누어 봅니다.
+    학교는 학교대로, 민간은 삼성·현대·커피로봇 같은 <b>현장</b>으로 따로 관리되며
+    진행률·지역 요약·이슈·전체 요약도 선택한 쪽만 집계됩니다.
+    마지막으로 본 쪽이 기억되어 앱을 다시 열면 그대로 열립니다.</p>
+ <h4><i>12</i>학교 찾기</h4>
  <p>상단 검색칸은 화면을 내려도 계속 따라옵니다.
     <b>학교명 일부</b>, <b>줄임말</b>, <b>지역</b>, <b>설치 순서 번호</b> 중 아무거나 입력하면 됩니다.
     <span class="k">체고</span> <span class="k">개일초</span> 같은 줄임말이 학교마다 등록되어 있고,
@@ -2104,12 +3066,12 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
     목록 위에서 <span class="k">설치순</span> 과 <span class="k">가나다순</span> 을 바꿀 수 있습니다.</p>
  <p>줄임말을 바꾸려면 학교 카드 오른쪽 위 <span class="k">⋯</span> 를 눌러
     <span class="k">검색 별칭</span> 칸에 쉼표로 구분해 적습니다.</p>
- <h4><i>11</i>학교 추가 · 삭제 <b style="color:var(--bad)">관리자 전용</b></h4>
+ <h4><i>13</i>학교 · 현장 추가 · 삭제 <b style="color:var(--bad)">관리자 전용</b></h4>
  <p>검색칸 아래 <span class="k">새 학교 추가</span> 칸에 학교명과 지역을 입력하고 <span class="k">추가</span> 를 누릅니다.
     지역은 목록에서 선택하거나 직접 입력할 수 있습니다.
     삭제는 오른쪽 위 <span class="k">메뉴</span> → <span class="k">학교 삭제</span> 에서 대상을 선택해 진행합니다.
     두 기능 모두 관리자 계정에서만 보입니다.</p>
- <h4><i>12</i>계정 신청 · 즉시 승인</h4>
+ <h4><i>14</i>계정 신청 · 즉시 승인</h4>
  <p>로그인 화면의 <span class="k">회원가입</span> 에서 아이디·이름·비밀번호를 입력해 신청합니다.
     아이디는 <b>한국로보틱스 메일 계정의 아이디</b>(@ 앞부분)를 사용합니다.
     관리자가 승인하면 신청한 아이디로 바로 로그인할 수 있습니다.
@@ -2122,8 +3084,8 @@ function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
 
 /* ============== 삭제 시트 ============== */
 let delSel=new Set();
-function openDel(){if(!isAdmin())return ts('학교 삭제는 관리자만 할 수 있습니다');delSel.clear();rdDel();op('ovD')}
-function rdDel(){const a=DB.schools.slice().sort((x,y)=>x.order-y.order);
+function openDel(){if(!isAdmin())return ts(U()+' 삭제는 관리자만 할 수 있습니다');delSel.clear();rdDel();op('ovD')}
+function rdDel(){const a=LIST().slice().sort((x,y)=>x.order-y.order);
  document.getElementById('dBd').innerHTML=
   `<div class="dtop"><label class="isw" style="margin:0"><input type="checkbox" ${delSel.size===a.length&&a.length?'checked':''} onchange="delAll(this.checked)"> 전체 선택</label>
    <span style="font-size:11.5px;font-weight:700;color:var(--ink3)">${a.length}개교</span></div>`
@@ -2131,15 +3093,15 @@ function rdDel(){const a=DB.schools.slice().sort((x,y)=>x.order-y.order);
    return `<label class="drow ${on?'on':''}"><input type="checkbox" ${on?'checked':''} onchange="delTog('${s.id}',this.checked)">
     <span class="dn"><b>${esc(s.name)}</b><i>${s.order}번 설치 · ${esc(s.region)}${cnt?' · 기록 '+cnt+'건':''}</i></span></label>`}).join('');
  const n=delSel.size,btn=document.getElementById('dBtn');
- btn.textContent=n?`선택한 ${n}개 학교 삭제`:'삭제할 학교를 선택하세요';
+ btn.textContent=n?`선택한 ${n}개 ${U()} 삭제`:'삭제할 '+UREUL()+' 선택하세요';
  btn.disabled=!n;btn.className='bdel'+(n?'':' off')}
 function delTog(id,v){v?delSel.add(id):delSel.delete(id);rdDel()}
-function delAll(v){delSel.clear();if(v)DB.schools.forEach(s=>delSel.add(s.id));rdDel()}
+function delAll(v){delSel.clear();if(v)LIST().forEach(s=>delSel.add(s.id));rdDel()}
 async function doDel(){if(!isAdmin())return ts('학교 삭제는 관리자만 할 수 있습니다');
  if(!delSel.size)return;
  const names=DB.schools.filter(s=>delSel.has(s.id)).map(s=>s.name);
  const list=names.slice(0,6).join('\n· ')+(names.length>6?`\n외 ${names.length-6}개교`:'');
- if(!await confirmBox(names.length+'개 학교 삭제','· '+list+'\n\n기록도 함께 삭제되며 되돌릴 수 없습니다.',{yes:'삭제',danger:1}))return;
+ if(!await confirmBox(names.length+'개 '+U()+' 삭제','· '+list+'\n\n기록도 함께 삭제되며 되돌릴 수 없습니다.',{yes:'삭제',danger:1}))return;
  delSel.forEach(id=>LOG(id,'학교 삭제'));
  DB.tomb=DB.tomb||{};const now=Date.now();delSel.forEach(id=>DB.tomb[id]=now);
  DB.schools=DB.schools.filter(s=>!delSel.has(s.id));
@@ -2155,7 +3117,8 @@ function dl(n,c,t){const u=URL.createObjectURL(new Blob([c],{type:t}));const a=d
  a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)}
 const cc=v=>{v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
 function exCSV(){
- const h=['연도','설치순서','학교명','지역',
+ if(!isAdmin())return ts('엑셀 내보내기는 관리자만 할 수 있습니다');
+ const h=['연도','구분','순서','이름','지역',
   '1차 점검','1차 점검일','1차 점검 담당자','자료','2차 점검','2차 점검일','2차 점검 담당자','자료',
   '1차 교육','1차 교육일','1차 교육 담당자','자료','2차 교육','2차 교육일','2차 교육 담당자','자료',
   '특별점검','미해결이슈','특이사항'];
@@ -2163,7 +3126,7 @@ function exCSV(){
  const allY=yearList().slice().sort();
  DB.schools.slice().sort((a,b)=>a.order-b.order).forEach(s=>{
   allY.forEach(yy=>{ if(!s.years||!s.years[yy])return; const y=Y(s,yy);
-   rows.push([yy,s.order,s.name,s.region,
+   rows.push([yy,secOf(s)==='priv'?'민간':'학교',s.order,s.name,s.region,
     y.p1?'O':'',y.p1Date,y.p1Who||'',(y.files.p1||[]).length||'',
     y.p2?'O':'',y.p2Date,y.p2Who||'',(y.files.p2||[]).length||'',
     y.e1?'O':'',y.e1Date,y.e1Who||'',(y.files.e1||[]).length||'',
@@ -2171,12 +3134,12 @@ function exCSV(){
     y.specials.length||'',y.issue?'있음':'',y.note]);
    y.specials.forEach(x=>r2.push([yy,s.name,x.date,x.who,x.issue?'있음':'',x.note]));
   })});
- const h2=['연도','학교명','날짜','담당자','미해결이슈','내용'];
+ const h2=['연도','이름','날짜','담당자','미해결이슈','내용'];
  r2.sort((a,b)=>String(b[2]).localeCompare(String(a[2])));
- const h3=['연도','학교명','구분','날짜','담당자','메모'];
+ const h3=['연도','이름','항목','날짜','담당자','메모'];
  const r3=DB.history.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(x=>{
   const s=S(x.schoolId)||{name:'(삭제됨)'};return [x.year||'',s.name,NM[x.type]||x.type,x.date,x.who,x.note]});
- dl('HR현장통합관리_'+iso(T)+'.csv','﻿'+['[학교별 현황]',h.map(cc).join(','),...rows.map(r=>r.map(cc).join(',')),
+ dl('HR현장통합관리_'+iso(T)+'.csv','﻿'+['[현황]',h.map(cc).join(','),...rows.map(r=>r.map(cc).join(',')),
   '','[특별점검]',h2.map(cc).join(','),...r2.map(r=>r.map(cc).join(',')),
   '','[지난 기록]',h3.map(cc).join(','),...r3.map(r=>r.map(cc).join(','))].join('\r\n'),'text/csv;charset=utf-8');
  ts('CSV를 내려받았습니다')}
@@ -2253,7 +3216,7 @@ document.getElementById('jLogo').src=document.querySelector('.hlogo img').src;
 document.getElementById('rLogo').src=document.querySelector('.hlogo img').src;
 if(ME && Date.now()-readAct() > IDLE_MIN*60*1000){
  try{sessionStorage.removeItem(UKEY)}catch(e){} ME=null}
-if(!ME)showLock(); else {document.getElementById('lock').classList.add('off');markAct();setTimeout(()=>{touchLogin(false);beat(true)},300)}
+if(!ME)showLock(); else {document.getElementById('lock').classList.add('off');secSkin();markAct();setTimeout(()=>{touchLogin(false);beat(true)},300)}
 document.getElementById('ver').textContent=BUILD+' · 구글 시트 연동 · 동기화 '+(SYNC_URL?'설정됨':'미설정');
 fillYears();chips();rd();startSync();
 
