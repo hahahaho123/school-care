@@ -544,6 +544,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .dbox p:empty{display:none}
 .dbox .inp{margin-top:14px;text-align:center;font-size:16px;font-weight:700}
 .dbtn{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
+.dbtn.one{grid-template-columns:minmax(150px,60%);justify-content:center}
 .dno{padding:13px;border-radius:11px;background:#fff;border:1px solid var(--line);
  font-size:14px;font-weight:700;color:var(--ink2)}
 .dyes{padding:13px;border-radius:11px;background:var(--navy);color:#fff;font-size:14px;font-weight:800}
@@ -612,6 +613,21 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 #ovEx{z-index:88}
 #ovDm{z-index:88}
 #ovNw{z-index:92}
+#ovTp{z-index:90}
+#ovTs{z-index:90}
+.tssum{font-size:13px;font-weight:800;color:var(--ink2);margin:0 2px 10px}
+.tssum b{color:var(--navy)}
+.tpc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 13px;margin-bottom:9px}
+.tpc.done{background:#FAFBFD;border-color:var(--line2)}
+.tpc .tt{font-size:13px;font-weight:700;color:var(--ink);line-height:1.7;white-space:pre-wrap;
+ overflow-wrap:anywhere;word-break:normal;max-height:none;overflow:visible}
+.tpc.done .tt{color:var(--ink3);text-decoration:line-through}
+.tpm{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:9px;font-size:11px;font-weight:700;color:var(--ink3)}
+.tpm .who{background:#FFF3D6;color:#8A5D0B;border-radius:5px;padding:2px 7px;font-weight:800}
+.tpb{margin-left:auto;display:flex;gap:6px}
+.tpb button{border:1px solid var(--line);border-radius:8px;background:#fff;font-size:11px;
+ font-weight:800;color:var(--ink2);padding:5px 10px}
+.tpb button.d{border-color:#F0C4C0;color:var(--bad);background:var(--badbg)}
 .nwit{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 13px 15px;margin-bottom:11px}
 .nwh{display:flex;align-items:center;gap:8px;margin-bottom:9px}
 .nwh span{width:21px;height:21px;flex:0 0 auto;border-radius:7px;background:var(--navy);color:#fff;
@@ -974,6 +990,14 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
   </div>
 </div>
 
+<div class="ov" id="ovTs" onclick="if(event.target===this)cl('ovTs')"><div class="sheet">
+  <div class="shd"><h3>한국로보틱스 건의사항 종합</h3><button class="cls" onclick="cl('ovTs')">✕</button></div>
+  <div class="sbd" id="tsBd"></div></div></div>
+
+<div class="ov" id="ovTp" onclick="if(event.target===this)cl('ovTp')"><div class="sheet">
+  <div class="shd"><h3>한국로보틱스 건의 (익명)</h3><button class="cls" onclick="cl('ovTp')">✕</button></div>
+  <div class="sbd" id="tpBd"></div></div></div>
+
 <div class="ov" id="ovNw"><div class="sheet">
   <div class="shd"><h3>업데이트 내역</h3><button class="cls" onclick="cl('ovNw')">✕</button></div>
   <div class="sbd" id="nwBd"></div></div></div>
@@ -999,7 +1023,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'v6.0';
+const BUILD = 'v6.5';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1043,7 +1067,7 @@ const DEFAULT_USERS=()=>[
  {id:'admin',pw:'admin',name:'관리자',role:'admin',mt:0},
  {id:'HR01', pw:'0000', name:'',      role:'user', mt:0}];
 const LOGCAP=3000, LOGINCAP=300;
-const fresh=()=>({works:[],wtomb:{},logs:[],logins:[],presence:{},schools:SEED.map((s,i)=>Object.assign({id:'s'+(i+1),order:i+1,name:s[0],region:s[1]},blank(),{years:{[Y0()]:yrec()}})),
+const fresh=()=>({works:[],wtomb:{},tips:[],ttomb:{},logs:[],logins:[],presence:{},schools:SEED.map((s,i)=>Object.assign({id:'s'+(i+1),order:i+1,name:s[0],region:s[1]},blank(),{years:{[Y0()]:yrec()}})),
  history:[],users:DEFAULT_USERS(),utomb:{},cycle:{p:6,r:12},tomb:{},v:5});
 
 const LS=(()=>{const K='hrCheck.v4';let mem=null;
@@ -1057,6 +1081,8 @@ function normalize(){
  if(!DB.utomb)DB.utomb={};
  if(!Array.isArray(DB.works))DB.works=[];
  if(!DB.wtomb||typeof DB.wtomb!=='object')DB.wtomb={};
+ if(!Array.isArray(DB.tips))DB.tips=[];
+ if(!DB.ttomb||typeof DB.ttomb!=='object')DB.ttomb={};
  if(!Array.isArray(DB.logs))DB.logs=[];
  if(!Array.isArray(DB.logins))DB.logins=[];
  if(!DB.presence||typeof DB.presence!=='object')DB.presence={};
@@ -1628,6 +1654,8 @@ function openMenu(){
    ${mItem('openWhat()','up','업데이트 내역 보기','업데이트 내용 확인',{dot:hasNew()})}
    ${mItem('openLog()','log','변경 이력','변경 내역 확인')}
    ${mItem('openLogins()','usr','접속 현황','접속 중 · 로그인 기록')}
+   ${mItem('openTips()','bell','한국로보틱스 건의 (익명)','바꿨으면 하는 점을 알려 주세요')}
+   ${canTip()?mItem('openTipSum()','log','한국로보틱스 건의사항 종합','받은 건의 확인'+(tipNew()?' · 새 건의 '+tipNew()+'건':''),{dot:!!tipNew()}):''}
   </div>
   ${admin?`<div class="mgrp">관리자</div>
   <div class="mlist">
@@ -1652,7 +1680,9 @@ function rdActs(){
  const tl=document.getElementById('tools'); if(tl)tl.style.display=admin?'':'none';
  rdPend();
  document.getElementById('whoNow').textContent=ME?((ME.name||ME.id)+' · '+ME.id+(ME.role==='admin'?' (관리자)':'')):''}
-function grow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,260)+'px'}
+function grow(el,mx){el.style.height='auto';
+ const bd=el.offsetHeight-el.clientHeight;   /* 테두리 두께 보정 */
+ el.style.height=Math.min(el.scrollHeight+bd,mx||260)+'px'}
 
 /* ============== 편집 ============== */
 function tog(id,k,v){const y=Y(S(id));y[k]=v;if(v&&!y[k+'Date'])y[k+'Date']=iso(T);
@@ -2493,6 +2523,92 @@ async function pngAll(sid,scope){
    +(drop?' · 사진 '+drop+'장 빠짐':'')+(fail?' · '+fail+'장 실패':''));
  }finally{pngBusy=false;setB(btn0)}}
 
+/* ===== 한국로보틱스 건의 (익명) =====
+   · 누구나 보낼 수 있고, 목록은 관리자와 열람 권한을 받은 계정만 봅니다.
+   · 작성자는 관리자에게만 보입니다.
+   · 이 기능의 어떤 동작도 변경 이력(LOG)에 남기지 않습니다. */
+const TIPSEEN='hrTipSeen.v1';
+const tipOn=()=>!(DB.cycle&&DB.cycle.tipOff===true);
+function tipToggle(v){
+ if(!isAdmin())return;
+ DB.cycle=DB.cycle||{p:6,r:12}; DB.cycle.tipOff=!v;
+ DB.updatedAt=Date.now();LS.set(DB);queuePush();
+ rdTipSum(); ts(v?'건의 기능을 켰습니다':'건의 기능을 껐습니다');}
+function canTip(){if(!ME)return false; if(ME.role==='admin')return true;
+ const u=(DB.users||[]).find(x=>String(x.id)===String(ME.id));
+ return !!(u&&u.tip===true)}
+function tipList(){return (DB.tips||[]).slice().sort((a,b)=>(b.at||0)-(a.at||0))}
+function tipNew(){
+ if(!canTip())return 0;
+ let seen=0;try{seen=+(localStorage.getItem(TIPSEEN)||0)}catch(e){}
+ return tipList().filter(t=>!t.done&&(t.at||0)>seen).length}
+function tipSave(){DB.updatedAt=Date.now();LS.set(DB);queuePush()}
+function openTips(){
+ if(!ME)return;
+ if(!tipOn())return ask({title:'한국로보틱스 건의',
+   msg:'해당 기능은 현재 사용할 수 없습니다.\n관리자에게 문의해주세요.',yes:'확인',only:1});
+ document.getElementById('tpBd').innerHTML=`
+  <div class="box">
+    <div class="d" style="margin-bottom:8px">건의하기</div>
+    <div class="fhint" style="margin:0 0 10px;line-height:1.75">익명성을 보장하기 위해 누군지 알 수 없으며,
+      회사에 바라는 점 · 불편한 점 · 좋은 점 등 무엇이든 작성해주시면 됩니다.</div>
+    <textarea class="inp ta" id="tpIn" rows="5" oninput="grow(this,900)" style="max-height:none"></textarea>
+    <button class="b" style="width:100%;margin-top:10px" onclick="sendTip()">보내기</button>
+  </div>
+  <div style="height:14px"></div>`;
+ const ta=document.getElementById('tpIn'); if(ta)grow(ta,900);
+ op('ovTp')}
+function sendTip(){
+ const el=document.getElementById('tpIn'); const v=(el.value||'').trim();
+ if(v.length<5)return ts('내용을 조금 더 적어 주세요');
+ DB.tips=DB.tips||[];
+ DB.tips.push({id:'t'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+  t:v.slice(0,2000),by:ME?ME.id:'',byName:ME?(ME.name||ME.id):'',at:Date.now(),done:false,mt:Date.now()});
+ tipSave(); el.value='';
+ grow(el,900); cl('ovTp'); ts('보내주셔서 감사합니다 · 익명으로 전달됩니다')}
+
+/* ── 건의사항 종합 (관리자 · 열람 권한자 전용) ── */
+let tipWho=false;
+function openTipSum(){
+ if(!canTip())return ts('열람 권한이 있는 계정만 볼 수 있습니다');
+ tipWho=false; rdTipSum();
+ try{localStorage.setItem(TIPSEEN,String(Date.now()))}catch(e){}
+ op('ovTs')}
+function tipWhoTgl(v){tipWho=!!v;rdTipSum()}
+function rdTipSum(){
+ const adm=isAdmin(), a=tipList();
+ const open=a.filter(t=>!t.done).length;
+ document.getElementById('tsBd').innerHTML=`
+  <div class="tssum">받은 건의 <b>${a.length}건</b>${a.length?` · 처리 전 <b>${open}건</b>`:''}</div>
+  ${adm?`<label class="isw" style="margin:0 2px 8px"><input type="checkbox" ${tipOn()?'checked':''}
+     onchange="tipToggle(this.checked)"> 건의 기능 사용
+     <span class="iwh">끄면 직원이 새 건의를 보낼 수 없습니다</span></label>
+   <label class="isw" style="margin:0 2px 12px"><input type="checkbox" ${tipWho?'checked':''}
+     onchange="tipWhoTgl(this.checked)"> 작성자 보기
+     <span class="iwh">관리자만 볼 수 있습니다</span></label>`
+   :`<div class="fhint" style="margin:0 2px 12px">작성자는 표시되지 않습니다.</div>`}
+  ${a.length?a.map(t=>`<div class="tpc ${t.done?'done':''}">
+     <div class="tt">${esc(t.t||'')}</div>
+     <div class="tpm">
+       <span>${fmtFull(t.at)}</span>
+       ${adm&&tipWho?`<span class="who">${esc(t.byName||t.by||'알 수 없음')}</span>`:'<span>익명</span>'}
+       <span class="tpb">
+         <button onclick="tipDone('${t.id}')">${t.done?'되돌리기':'처리 완료'}</button>
+         ${adm?`<button class="d" onclick="tipDel('${t.id}')">삭제</button>`:''}
+       </span></div></div>`).join('')
+   :'<div class="blank" style="padding:30px">아직 받은 건의가 없습니다.</div>'}
+  <div style="height:14px"></div>`}
+function tipDone(id){
+ if(!canTip())return;
+ const t=(DB.tips||[]).find(x=>x.id===id); if(!t)return;
+ t.done=!t.done; t.mt=Date.now(); tipSave(); rdTipSum()}
+async function tipDel(id){
+ if(!isAdmin())return ts('삭제는 관리자만 할 수 있습니다');
+ if(!await confirmBox('건의 삭제','이 건의를 지울까요?',{yes:'삭제',danger:1}))return;
+ DB.ttomb=DB.ttomb||{}; DB.ttomb[id]=Date.now();
+ DB.tips=(DB.tips||[]).filter(x=>x.id!==id);
+ tipSave(); rdTipSum(); ts('삭제했습니다')}
+
 /* ===== 새 기능 안내창 ===== */
 const NEWSK='hrNews.v1';
 /* ★ 안내 내용 번호 ★
@@ -2579,7 +2695,7 @@ async function runDump(sid){
  if(!isAdmin())return ts('자료 내보내기는 관리자만 할 수 있습니다');
  if(dumpBusy)return ts('이미 내려받는 중입니다');
  if(!SYNC_URL)return ts('동기화 설정 후 사용할 수 있습니다');
- if((SHEETVER||0)<19)return ts('시트코드를 새로 배포해야 사용할 수 있습니다 (v19)');
+ if((SHEETVER||0)<19)return ts('시트코드를 새로 배포해야 사용할 수 있습니다 (v19 이상)');
  const s=S(sid); const items=dumpFiles(sid);
  if(!items.length)return ts(DMCAT[dmCat].n+'에 올린 파일이 없습니다');
  dumpBusy=true;
@@ -2959,7 +3075,7 @@ function rdUsers(){
   ${list.map(u=>`<div class="box">
     <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
       <span class="d">${esc(u.id)}</span>
-      ${u.role==='admin'?'<span class="tg">관리자</span>':''}
+      ${u.role==='admin'?'<span class="tg">관리자</span>':''}${u.role!=='admin'&&u.tip?'<span class="tg" style="background:#FFF3D6;color:#8A5D0B">건의 열람</span>':''}
       ${ME&&ME.id===u.id?'<span class="tg" style="background:var(--okbg);color:var(--ok)">접속 중</span>':''}
       ${u.id!=='admin'?`<button class="act" style="margin-left:auto;padding:5px 10px;font-size:11.5px" onclick="delUser('${esc(u.id)}')">삭제</button>`:''}
     </div>
@@ -2971,6 +3087,9 @@ function rdUsers(){
       <select class="inp" onchange="editUser('${esc(u.id)}','role',this.value)">
         <option value="user" ${u.role!=='admin'?'selected':''}>일반</option>
         <option value="admin" ${u.role==='admin'?'selected':''}>관리자</option></select></div>`:''}
+      ${u.role!=='admin'?`<label class="isw" style="margin-top:10px"><input type="checkbox" ${u.tip?'checked':''}
+        onchange="editUser('${esc(u.id)}','tip',this.checked)"> 건의 열람 권한
+        <span class="iwh">건의 내용을 볼 수 있습니다 (작성자는 관리자만 확인)</span></label>`:''}
   </div>`).join('')}
   <div style="height:14px"></div>`}
 function saveUsers(){DB.updatedAt=Date.now();LS.set(DB);queuePush();rdActs()}
@@ -2990,6 +3109,8 @@ function addUser(){
  ['uId','uPw','uNm'].forEach(k=>document.getElementById(k).value='');
  saveUsers();rdUsers();ts(id+' 계정을 추가했습니다')}
 function editUser(id,k,v){const u=findUser(id);if(!u)return;
+ if(typeof v==='boolean'){u[k]=v;u.mt=Date.now();
+  saveUsers();rdUsers();ts(v?'건의 열람 권한을 주었습니다':'건의 열람 권한을 해제했습니다');return}
  v=String(v).trim();
  if(k==='pw'&&!v)return ts('비밀번호는 비울 수 없습니다');
  u[k]=v;u.mt=Date.now();
@@ -3293,7 +3414,9 @@ function ask(o){
   const i=document.getElementById('dlgI');
   if(o.input!==undefined){i.style.display='';i.value=o.input;i.inputMode=o.numeric?'numeric':'text'}
   else i.style.display='none';
-  document.getElementById('dlgNo').textContent=o.no||'취소';
+  const nb=document.getElementById('dlgNo');
+  nb.textContent=o.no||'취소'; nb.style.display=o.only?'none':'';
+  document.querySelector('#dlg .dbtn').classList.toggle('one',!!o.only);
   const y=document.getElementById('dlgYes');
   y.textContent=o.yes||'확인'; y.className='dyes'+(o.danger?' d':'');
   document.getElementById('dlg').classList.add('on');
