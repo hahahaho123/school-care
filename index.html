@@ -28,7 +28,7 @@ button{cursor:pointer;border:none;background:none;padding:0}
 .page{max-width:1000px;margin:0 auto;padding:0 0 calc(40px + var(--sb))}
 
 /* hero */
-/* 민간 탭 — 연두 계열 */
+/* 기업 탭 — 연두 계열 */
 body.priv{
  --navy:#3A6B1F;--navy2:#4E8B27;--blue:#5E9B2E;--blue2:#8FC463;--blue3:#7F8A72;
  --tint:#F2F8EC;}
@@ -473,7 +473,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 .lock{position:fixed;inset:0;z-index:200;background:#fff;
  display:flex;align-items:center;justify-content:center;padding:24px}
 .lock.off{display:none}
-/* 로그인 화면은 학교·민간과 무관하므로 항상 기본 색 */
+/* 로그인 화면은 학교·기업과 무관하므로 항상 기본 색 */
 .lock{--navy:#08204F;--navy2:#0C3070;--blue:#016394;--blue2:#3E7CA6;--blue3:#6B7C93;--tint:#EEF3F8}
 .lbox{width:100%;max-width:340px}
 .lhead{text-align:center;margin-bottom:26px}
@@ -784,7 +784,7 @@ body:not([data-tab=home]) .hbtns{display:none}
   <div class="askpi jkpi" id="jKpi"></div>
   <div class="secseg">
     <button id="secS" class="on" onclick="setSec('school')">학교 <em id="secNS">0</em></button>
-    <button id="secP" onclick="setSec('priv')">민간 <em id="secNP">0</em></button>
+    <button id="secP" onclick="setSec('priv')">기업 <em id="secNP">0</em></button>
   </div>
   <div class="rings">
     <div class="ring"><svg width="74" height="74" viewBox="0 0 74 74">
@@ -841,7 +841,7 @@ body:not([data-tab=home]) .hbtns{display:none}
 
 <div class="tools" id="tools" style="display:none">
   <div class="addrow">
-    <select class="inp" id="nSec"><option value="school">학교</option><option value="priv">민간</option></select>
+    <select class="inp" id="nSec"><option value="school">학교</option><option value="priv">기업</option></select>
     <input class="inp" type="text" id="nName" placeholder="새 현장 추가" autocomplete="off">
     <span class="rgwrap">
       <select class="inp rgsel" id="nRgSel" onchange="onRgSel(this.value)"></select>
@@ -934,7 +934,7 @@ body:not([data-tab=home]) .hbtns{display:none}
     <label class="fl">현장명</label><input class="inp" id="nsName" placeholder="예) 개원중학교" autocomplete="off">
     <div class="dtrow" style="margin-top:12px">
       <div><label class="fl">설치날짜</label><input class="inp" type="date" id="nsDate"></div>
-      <div><label class="fl">구분</label><select class="inp" id="nsSec"><option value="school">학교</option><option value="priv">민간</option></select></div>
+      <div><label class="fl">구분</label><select class="inp" id="nsSec"><option value="school">학교</option><option value="priv">기업</option></select></div>
     </div>
     <label class="fl" style="margin-top:12px">담당자명</label><input class="inp" id="nsMgr" placeholder="예) 김00" autocomplete="off">
     <label class="fl" style="margin-top:12px">지역</label><select class="inp" id="nsRg"></select>
@@ -945,6 +945,10 @@ body:not([data-tab=home]) .hbtns{display:none}
 <div class="ov" id="ovSh" onclick="if(event.target===this)cl('ovSh')"><div class="sheet" style="max-width:560px">
   <div class="shd"><button class="cls" id="shBack" style="margin-right:6px;display:none" onclick="rdSh('')">‹</button><h3 id="shTt">과거 이력</h3><span id="shCnt" style="font-size:12px;font-weight:700;color:var(--ink3)"></span><button class="cls" onclick="cl('ovSh')">✕</button></div>
   <div class="sbd" id="shBd"></div></div></div>
+
+<div class="ov" id="ovHs" onclick="if(event.target===this)cl('ovHs')"><div class="sheet" style="max-width:560px">
+  <div class="shd"><h3>전체 현장 히스토리</h3><span id="hsCnt" style="font-size:12px;font-weight:700;color:var(--ink3)"></span><button class="cls" onclick="cl('ovHs')">✕</button></div>
+  <div class="sbd" id="hsBd"></div></div></div>
 
 <div class="ov" id="ovCt" onclick="if(event.target===this)cl('ovCt')"><div class="sheet" style="max-width:520px">
   <div class="shd"><h3>현장 연락처</h3><button class="cls" onclick="cl('ovCt')">✕</button></div>
@@ -961,7 +965,7 @@ body:not([data-tab=home]) .hbtns{display:none}
   <label class="fl" style="margin-top:13px">비밀번호</label>
   <input class="inp" type="password" id="lPw" autocomplete="off" placeholder="초기 비밀번호 1111">
   <div class="fhint">첫 사용인 경우, 이름 입력 후 초기 비밀번호 1111 사용해주세요.<br>회원가입 진행했던 분들은 기존 비밀번호 입력해주세요.</div>
-  <label class="lsave"><input type="checkbox" id="lKeep" checked> 로그인 정보 저장 <span class="iwh" style="font-weight:600;color:var(--ink3)">다음부터 바로 입장</span></label>
+  <label class="lsave"><input type="checkbox" id="lKeep" checked> 로그인 정보 저장 <span class="iwh" style="font-weight:600;color:var(--ink3)">이름 · 비밀번호 기억, 다음부터 바로 입장</span></label>
   <div class="lerr" id="lErr"></div>
   <div class="lnote" id="lNote"></div>
   <button class="lbtn" onclick="doLogin()">시작하기</button>
@@ -1365,12 +1369,12 @@ const cyOf=c=>c==='r'?DB.cycle.r:DB.cycle.p;
 const OK=(y,k)=>!!(y[k]&&y[k+'Date']);
 const doneAll=s=>{const y=Y(s);return ITEMS.every(i=>OK(y,i.k))};
 const S=id=>DB.schools.find(x=>x.id===id);
-/* ===== 부문(학교 / 민간) ===== */
+/* ===== 부문(학교 / 기업) ===== */
 const SECK='hrSec.v1';
 let SEC='school';
 try{SEC=localStorage.getItem(SECK)==='priv'?'priv':'school'}catch(e){}
 const secOf=s=>(s&&s.sec==='priv')?'priv':'school';
-const LIST=()=>DB.schools;   /* v7.1: 학교·민간 통합 */
+const LIST=()=>DB.schools;   /* v7.1: 학교·기업 통합 */
 const U=()=>'현장';
 const UN=()=>'곳';
 const UGA=()=>'현장이';
@@ -1392,7 +1396,7 @@ function setSec(v){
  clearTimeout(secxT); secxT=setTimeout(()=>document.body.classList.remove('secx'),420);
  curRg='전체';flagK='';sumRg='전체';sumQ='';
  const q=document.getElementById('q'); if(q)q.value='';
- rdSec();fillYears();chips();rgrid();rd();ts((v==='priv'?'민간':'학교')+' 목록입니다')}
+ rdSec();fillYears();chips();rgrid();rd();ts((v==='priv'?'기업':'학교')+' 목록입니다')}
 function rdSec(){
  secSkin();
  const sg=document.querySelector('.secseg'); if(sg)sg.classList.toggle('p',SEC==='priv');
@@ -1439,7 +1443,8 @@ function save(id){const now=Date.now();if(id){const s=S(id);if(s)s.mt=now}
  DB.updatedAt=now;LS.set(DB);queuePush()}
 
 /* ============== 접속 ============== */
-const UKEY='hrUser.v1',NKEY='hrName.v1';let ME=null;
+const UKEY='hrUser.v1',NKEY='hrName.v1',PKEY2='hrPw.v1';let ME=null;
+function savedPw(){try{const v=localStorage.getItem(PKEY2);return v?decodeURIComponent(escape(atob(v))):''}catch(e){return ''}}
 /* 로그인 세션은 세션 저장소에만 둡니다.
    앱을 완전히 종료하면 비워져서 다음 실행 때 비밀번호를 다시 입력합니다. */
 try{ME=JSON.parse(sessionStorage.getItem(UKEY)||'null')}catch(e){}
@@ -1497,7 +1502,8 @@ idleT=setInterval(()=>{checkIdle();beat(false)},20000);
 function showLock(){
  let last='';try{last=localStorage.getItem(NKEY)||''}catch(e){}
  if(last){document.getElementById('lName').value=last.replace(DOMAIN,'');
-   document.getElementById('lKeep').checked=true}
+   document.getElementById('lKeep').checked=true;
+   const sp=savedPw();if(sp)document.getElementById('lPw').value=sp}
  else document.getElementById('lKeep').checked=true;
  document.getElementById('lock').classList.remove('off');
  try{secSkin()}catch(e){}
@@ -1614,8 +1620,8 @@ async function doLogin(){
    document.getElementById('lPw').value='';return}
  ME={id:u.id,name:u.name||u.id,role:u.role||'user',at:Date.now()};
  try{ sessionStorage.setItem(UKEY,JSON.stringify(ME));
-      if(keep){localStorage.setItem(NKEY,n);localStorage.setItem(UKEY,JSON.stringify(ME))}
-      else {localStorage.removeItem(NKEY);localStorage.removeItem(UKEY)} }catch(e){}
+      if(keep){localStorage.setItem(NKEY,n);localStorage.setItem(UKEY,JSON.stringify(ME));localStorage.setItem(PKEY2,btoa(unescape(encodeURIComponent(p))))}
+      else {localStorage.removeItem(NKEY);localStorage.removeItem(UKEY);localStorage.removeItem(PKEY2)} }catch(e){}
  err.textContent='';document.getElementById('lPw').value='';hideNote();
  document.getElementById('lock').classList.add('off');try{secSkin()}catch(e){}
  markAct();try{localStorage.setItem(AKEY,String(Date.now()))}catch(e){}
@@ -1656,6 +1662,7 @@ function savePwc(){
  if(nw!==nw2)return err.textContent='새 비밀번호가 서로 다릅니다';
  if(nw===String(cUser.pw))return err.textContent='현재 비밀번호와 다르게 정해 주세요';
  cUser.pw=nw;delete cUser.mustPw;cUser.mt=Date.now();
+ try{if(localStorage.getItem(PKEY2))localStorage.setItem(PKEY2,btoa(unescape(encodeURIComponent(nw))))}catch(e){}
  LOG('','비밀번호 변경: '+(cUser.name||cUser.id));
  DB.updatedAt=Date.now();LS.set(DB);queuePush();
  hidePwc();
@@ -1680,6 +1687,7 @@ function changePw(){if(!ME)return;
  if(nw!==nw2)return err.textContent='새 비밀번호가 서로 다릅니다';
  if(nw===cur)return err.textContent='현재 비밀번호와 다르게 정해 주세요';
  u.pw=nw;delete u.mustPw;u.mt=Date.now();
+ try{if(localStorage.getItem(PKEY2))localStorage.setItem(PKEY2,btoa(unescape(encodeURIComponent(nw))))}catch(e){}
  LOG('','비밀번호 변경: '+(u.name||u.id));
  DB.updatedAt=Date.now();LS.set(DB);queuePush();
  cl('ovPw');ts('비밀번호를 변경했습니다')}
@@ -1714,7 +1722,7 @@ function touchLogin(force){
  DB.updatedAt=now;LS.set(DB);queuePush();rdLoginBar()}
 async function logout(){if(!await confirmBox('로그아웃할까요?','',{yes:'로그아웃',danger:1}))return;
  dropBeat();
- try{sessionStorage.removeItem(UKEY);localStorage.removeItem(UKEY)}catch(e){}
+ try{sessionStorage.removeItem(UKEY);localStorage.removeItem(UKEY);localStorage.removeItem(PKEY2)}catch(e){}
  ME=null;cl('ovM');cl('ovMn');rdActs();document.getElementById('lPw').value='';showLock()}
 
 /* ============== 렌더 ============== */
@@ -1909,6 +1917,7 @@ function menuHtml(){
    ${mItem("openAl('t')",'log','AS 요청 건 이력','접수 · 진행 · 완료')}
    ${mItem("openAl('v')",'log','AS 처리 결과 이력','방문 · 조치 · 부품')}
    ${mItem('openCt()','usr','현장 연락처','현장별 전화번호 · 담당자 · 홈에서 바로 통화')}
+   ${mItem('openHs()','log','전체 현장 히스토리','설치일 · 담당자 · 지역 · AS · 일지 건수')}
    ${mItem('openTips()','bell','한국로보틱스 건의 (익명)','바꿨으면 하는 점을 알려 주세요')}
    ${canTip()?mItem('openTipSum()','log','한국로보틱스 건의사항 종합','받은 건의 확인'+(tipNew()?' · 새 건의 '+tipNew()+'건':''),{dot:!!tipNew()}):''}
   </div>
@@ -3407,7 +3416,7 @@ async function delUser(id){
 /* ============== 업데이트 내역 ============== */
 const CHANGES=[
  {v:'v7.1',d:'2026-09-01',t:'홈 · AS · 조리지원 일지 · 간편 로그인',n:[
-  '<b>하단 탭 4개</b> — 홈 · 재교육 및 점검 · 조리지원 일지 · 더보기. 학교 · 민간은 한 목록으로 합쳤습니다.',
+  '<b>하단 탭 4개</b> — 홈 · 재교육 및 점검 · 조리지원 일지 · 더보기. 학교 · 기업은 한 목록으로 합쳤습니다.',
   '<b>홈</b> — 이달 AS 처리 · 미처리 요청 · 긴급 건수, 오늘 방문, 미처리 AS 요청, 이번 주 정기점검, 최근 처리 결과. 상단 <b>과거 이력</b>에서 현장별 AS 타임라인.',
   '<b>AS 요청 접수</b> — 현장 검색(초성 가능) · 접수 일시 직접 입력 · 요청자 · 긴급도(긴급 · 일반 · 예약) · 요청 내용.',
   '<b>처리 결과 등록</b> — 미처리 요청의 <b>결과 등록</b> 버튼으로 방문 일시 · 처리자 · 구분 · 조치 · 사용 부품을 남기면 요청이 완료로 바뀝니다.',
@@ -3578,7 +3587,7 @@ function exCSV(){
  const allY=yearList().slice().sort();
  DB.schools.slice().sort((a,b)=>a.order-b.order).forEach(s=>{
   allY.forEach(yy=>{ if(!s.years||!s.years[yy])return; const y=Y(s,yy);
-   rows.push([yy,secOf(s)==='priv'?'민간':'학교',s.order,s.name,s.region,
+   rows.push([yy,secOf(s)==='priv'?'기업':'학교',s.order,s.name,s.region,
     y.p1?'O':'',y.p1Date,y.p1Who||'',(y.files.p1||[]).length||'',
     y.p2?'O':'',y.p2Date,y.p2Who||'',(y.files.p2||[]).length||'',
     y.e1?'O':'',y.e1Date,y.e1Who||'',(y.files.e1||[]).length||'',
@@ -3715,7 +3724,7 @@ function spFilter(pf){const q=document.getElementById(pf+'SiteQ').value.trim(),e
  if(x0&&q===x0.name){el.classList.remove('on');return}
  if(cur)document.getElementById(pf+'Site').value='',document.getElementById(pf+'SiteQ').classList.remove('ok');
  const L=DB.schools.slice().sort((a,b)=>(a.order||0)-(b.order||0)).filter(x=>hit(x,q)).slice(0,40);
- el.innerHTML=L.length?L.map(x=>`<button type="button" onclick="spSet('${pf}','${x.id}')">${esc(x.name)}${x.sec==='priv'?' <span class="tgu k">민간</span>':''}<i>${esc(x.region||'')}</i></button>`).join('')
+ el.innerHTML=L.length?L.map(x=>`<button type="button" onclick="spSet('${pf}','${x.id}')">${esc(x.name)}${x.sec==='priv'?' <span class="tgu k">기업</span>':''}<i>${esc(x.region||'')}</i></button>`).join('')
   :'<div class="none">일치하는 현장이 없습니다</div>';
  el.classList.add('on')}
 document.addEventListener('pointerdown',e=>{if(!e.target.closest('.sp'))document.querySelectorAll('.splist.on').forEach(l=>l.classList.remove('on'))});
@@ -3811,7 +3820,7 @@ function rdChk(){const el=document.getElementById('tabChk');if(!el)return;rdJKpi
    const my=ws.filter(w=>w.sid===x.id&&String(w.date||'').slice(0,4)===YEAR).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
    const last=my[0];const y=Y(x);
    return `<div class="hrow" onclick="openLogs('${x.id}')">
-    <div class="l1"><button class="fav ${FV.has(x.id)?'on':''}" onclick="event.stopPropagation();favTog('${x.id}')" aria-label="즐겨찾기">${favIco}</button><b>${esc(x.name)}${x.sec==='priv'?' <span class="tgu k">민간</span>':''}</b>
+    <div class="l1"><button class="fav ${FV.has(x.id)?'on':''}" onclick="event.stopPropagation();favTog('${x.id}')" aria-label="즐겨찾기">${favIco}</button><b>${esc(x.name)}${x.sec==='priv'?' <span class="tgu k">기업</span>':''}</b>
      ${my.length?`<span class="tgu k">${my.length}건</span>`:'<span class="tgu r">없음</span>'}
      ${y.issue?'<span class="tgu u">이슈</span>':''}</div>
     ${x.installDate||x.manager?`<div class="l2" style="-webkit-line-clamp:1">${x.installDate?'설치 '+esc(x.installDate):''}${x.installDate&&x.manager?' · ':''}${x.manager?'담당 '+esc(x.manager):''}</div>`:''}
@@ -3963,7 +3972,7 @@ function rdSh(sid){shSid=sid;const bd=document.getElementById('shBd'),tt=documen
   bd.innerHTML=`<div style="margin-bottom:10px"><input class="inp" type="text" placeholder="현장명 · 줄임말 · 초성 검색" value="${esc(window.__shq||'')}" oninput="window.__shq=this.value;rdSh('');const e=document.querySelector('#shBd input');e.focus();e.setSelectionRange(e.value.length,e.value.length)"></div>
    <div class="hcard" style="margin:0">${L.length?L.map(x=>{const nt=AS().tickets.filter(t=>t.sid===x.id).length,nv=AS().visits.filter(v=>v.sid===x.id).length;
     const last=AS().visits.filter(v=>v.sid===x.id).sort((a,b)=>String(b.d+b.t).localeCompare(String(a.d+a.t)))[0];
-    return `<div class="hrow" onclick="rdSh('${x.id}')"><div class="l1"><b>${esc(x.name)}${x.sec==='priv'?' <span class="tgu k">민간</span>':''}</b>
+    return `<div class="hrow" onclick="rdSh('${x.id}')"><div class="l1"><b>${esc(x.name)}${x.sec==='priv'?' <span class="tgu k">기업</span>':''}</b>
      ${nt?`<span class="tgu k">요청 ${nt}</span>`:''}${nv?`<span class="tgu done">처리 ${nv}</span>`:''}${!nt&&!nv?'<span class="tgu r">기록 없음</span>':''}</div>
      ${last?`<div class="l3"><span>최근 처리 ${fmtDT(last.d,last.t)} · ${esc((last.kind||[]).join('·'))} · ${esc(last.by||'')}</span></div>`:''}</div>`}).join('')
     :'<div class="hempty">검색 결과가 없습니다</div>'}</div><div style="height:14px"></div>`;return}
@@ -3979,6 +3988,38 @@ function rdSh(sid){shSid=sid;const bd=document.getElementById('shBd'),tt=documen
    ?tkRow(i.o,{lbl:'AS 요청'}).replace('class="hrow ','class="hrow tk '+(i.o.urg==='u'?'u ':''))
    :vsRow(i.o,{lbl:'처리 결과'}).replace('class="hrow"','class="hrow vs"')).join('')}</div></div>`
    :'<div class="hempty">이 현장의 AS 기록이 아직 없습니다</div>'}<div style="height:14px"></div>`}
+/* ---- 전체 현장 히스토리 ---- */
+let hsSort='order';
+function openHs(){rdHs();op('ovHs')}
+function setHs(k,sid,v){if(!isAdmin())return ts('관리자만 수정할 수 있습니다');const x=S(sid);if(!x)return;
+ const b0=x[k]||'';x[k]=String(v).trim();x.mt=Date.now();LOG(sid,(k==='installDate'?'설치날짜':'담당자')+' 변경: '+(b0||'-')+' → '+(x[k]||'-'));save(sid);rdHs();rdChk();ts('저장했습니다')}
+function rdHs(){const adm=isAdmin();
+ const q=(window.__hsq||'').trim();
+ let L=DB.schools.slice().filter(x=>!q||hit(x,q));
+ if(hsSort==='date')L.sort((a,b)=>String(b.installDate||'').localeCompare(String(a.installDate||''))||(a.order||0)-(b.order||0));
+ else if(hsSort==='name')L.sort((a,b)=>String(a.name).localeCompare(String(b.name),'ko'));
+ else L.sort((a,b)=>(a.order||0)-(b.order||0));
+ document.getElementById('hsCnt').textContent=DB.schools.length+'곳';
+ const ws=DB.works||[];
+ document.getElementById('hsBd').innerHTML=`
+  <div style="display:flex;gap:8px;margin-bottom:8px"><input class="inp" type="text" placeholder="현장명 · 지역 · 초성 검색" value="${esc(window.__hsq||'')}" oninput="window.__hsq=this.value;rdHs();const e=document.querySelector('#hsBd input');e.focus();e.setSelectionRange(e.value.length,e.value.length)"></div>
+  <div class="asfilt">${[['order','설치순'],['date','설치일 최신'],['name','가나다']].map(([k,n])=>`<button class="${hsSort===k?'on':''}" onclick="hsSort='${k}';rdHs()">${n}</button>`).join('')}</div>
+  ${L.length?L.map(x=>{const nt=AS().tickets.filter(t=>t.sid===x.id).length,nv=AS().visits.filter(v=>v.sid===x.id).length,nw=ws.filter(w=>w.sid===x.id).length;
+   const c=DB.contacts[x.id]||{};
+   return `<div class="box">
+    <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+      <span class="tgu k">${x.order||'-'}번</span><span class="d">${esc(x.name)}</span>
+      <span class="tgu ${x.sec==='priv'?'r':'k'}">${x.sec==='priv'?'기업':'학교'}</span><span class="tgu k">${esc(x.region||'-')}</span>
+      <span style="margin-left:auto">${telBtn(x.id)}</span></div>
+    <div class="two" style="margin-top:9px">
+      <div><label class="fl">설치날짜</label><input class="inp" type="date" value="${esc(x.installDate||'')}" ${adm?'':'readonly'} onchange="setHs('installDate','${x.id}',this.value)"></div>
+      <div><label class="fl">담당자</label><input class="inp" value="${esc(x.manager||'')}" ${adm?'':'readonly'} placeholder="예) 김00" onchange="setHs('manager','${x.id}',this.value)"></div></div>
+    <div class="fhint" style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap">
+      <span>AS 요청 <b>${nt}</b></span><span>처리 <b>${nv}</b></span><span>일지 <b>${nw}</b></span>
+      ${c.tel?`<span>연락처 <b>${esc(c.who?c.who+' ':'')}${esc(c.tel)}</b></span>`:''}
+      <span style="margin-left:auto;color:var(--blue);cursor:pointer" onclick="cl('ovHs');openSh();rdSh('${x.id}')">AS 이력 ›</span></div>
+   </div>`}).join(''):'<div class="hempty">검색 결과가 없습니다</div>'}
+  <div style="height:10px"></div>`}
 /* ---- 현장 연락처 ---- */
 function openCt(){rdCt();op('ovCt')}
 function rdCt(){const adm=!!ME;
