@@ -725,7 +725,9 @@ body.priv .fav.on{color:#639922}body.priv .fav.on svg{fill:#C0DD97}
 .tgu{font-size:10px;font-weight:800;padding:2px 7px;border-radius:8px}
 .tgu.u{background:#FCEBEB;color:#A32D2D}.tgu.r{background:#F1EFE8;color:#5F5E5A}.tgu.k{background:var(--tint);color:var(--navy)}
 .tgu.done{background:#EAF3DE;color:#3B6D11}
-.hbtns{position:fixed;left:0;right:0;bottom:calc(58px + var(--sb));z-index:39;max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:8px;padding:10px 16px 8px;background:var(--bg)}
+.hbtns{position:fixed;left:0;right:0;bottom:calc(58px + var(--sb));z-index:39;max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 16px 8px;background:var(--bg)}
+.hbtns #hbNs{padding-left:14px;padding-right:14px}
+body.nadm .hbtns{grid-template-columns:1fr}body.nadm #hbNs{display:none}
 body:not([data-tab=home]) .hbtns{display:none}
 .hbtns button{padding:13px 6px;border-radius:12px;font-size:13.5px;font-weight:800;border:1px solid var(--navy)}
 .hbtns .p{background:var(--navy);color:#fff}.hbtns .o{background:#fff;color:var(--navy)}
@@ -865,7 +867,7 @@ body:not([data-tab=home]) .hbtns{display:none}
 <input type="file" id="lgpick" style="display:none" multiple
  accept=".xlsx,.xls,.xlsm,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv,application/pdf,image/*">
 
-<div class="hbtns"><button class="p" onclick="openAq()">AS 요청 접수</button></div>
+<div class="hbtns"><button class="p" onclick="openAq()">AS 요청 접수</button><button class="o" id="hbNs" onclick="openNs()">신규 현장 추가</button></div>
 <nav class="tabbar" id="tabbar">
   <button id="tbHome" onclick="setTab('home')"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>홈<span class="nd"></span></button>
   <button id="tbSite" onclick="setTab('site')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 14l2 2 4-4"/></svg>재교육 및 점검</button>
@@ -1619,9 +1621,9 @@ async function doLogin(){
  markAct();try{localStorage.setItem(AKEY,String(Date.now()))}catch(e){}
  beat(true);touchLogin(true);maybeNews();
  if(u.role==='admin')askNoti();
- if(hasNew())setTimeout(()=>ts('앱이 업데이트되었습니다 · 오른쪽 위 메뉴에서 확인하세요'),1400);
+ if(hasNew())setTimeout(()=>{if(ME&&!document.querySelector('.ov.on'))openWhat()},900);
  rdActs();rdLoginBar();setTab(TAB);ts((ME.name||ME.id)+'님, 반갑습니다');
- if(String(u.pw)==='1111')setTimeout(()=>openPw(true),700)}
+ if(String(u.pw)==='1111')setTimeout(()=>{if(document.querySelector('.ov.on')){const t=setInterval(()=>{if(!document.querySelector('.ov.on')){clearInterval(t);openPw(true)}},500)}else openPw(true)},1400)}
 /* ============== 비밀번호 변경 (로그인 전) ============== */
 let cUser=null;
 function showPwc(){cUser=null;
@@ -1927,6 +1929,7 @@ function menuHtml(){
   <div style="height:16px"></div>`}
 function rdActs(){
  const admin=ME&&ME.role==='admin';
+ document.body.classList.toggle('nadm',!admin);
  const pend=(DB.users||[]).filter(u=>u.status==='pending').length;
  const d=document.getElementById('mnDot');
  if(d)d.classList.toggle('on',hasNew()||(admin&&pend>0));
@@ -2911,6 +2914,7 @@ function openNews(){
  try{localStorage.setItem(NEWSK,NEWSVER)}catch(e){}
  op('ovNw')}
 function maybeNews(){
+ return; /* 옛 그림 안내는 자동으로 띄우지 않음 — 업데이트 내역에서 "그림으로 보기"로만 */
  if(!ME)return;
  let seen='';
  try{seen=localStorage.getItem(NEWSK)||''}catch(e){}
@@ -3402,11 +3406,16 @@ async function delUser(id){
 
 /* ============== 업데이트 내역 ============== */
 const CHANGES=[
- {v:'v7.1',d:'2026-08-31',t:'홈 · AS · 간편 로그인',n:[
-  '<b>하단 탭 4개</b> — 홈 · 현장 · 점검·일지 · 더보기',
-  '<b>홈</b> — AS 현황 · 오늘 방문 · 이번 주 점검',
-  '<b>AS 요청 접수 · 처리 결과 등록</b>',
-  '<b>로그인</b> — 이름만 입력']},
+ {v:'v7.1',d:'2026-09-01',t:'홈 · AS · 조리지원 일지 · 간편 로그인',n:[
+  '<b>하단 탭 4개</b> — 홈 · 재교육 및 점검 · 조리지원 일지 · 더보기. 학교 · 민간은 한 목록으로 합쳤습니다.',
+  '<b>홈</b> — 이달 AS 처리 · 미처리 요청 · 긴급 건수, 오늘 방문, 미처리 AS 요청, 이번 주 정기점검, 최근 처리 결과. 상단 <b>과거 이력</b>에서 현장별 AS 타임라인.',
+  '<b>AS 요청 접수</b> — 현장 검색(초성 가능) · 접수 일시 직접 입력 · 요청자 · 긴급도(긴급 · 일반 · 예약) · 요청 내용.',
+  '<b>처리 결과 등록</b> — 미처리 요청의 <b>결과 등록</b> 버튼으로 방문 일시 · 처리자 · 구분 · 조치 · 사용 부품을 남기면 요청이 완료로 바뀝니다.',
+  '<b>조리지원 일지 탭</b> — 현장별 일지 목록, ＋ 중식 · ＋ 석식 바로 작성, 즐겨찾기(별) · 검색 · 현장 추가(현장명 · 설치날짜 · 담당자).',
+  '<b>재교육 및 점검 탭</b> — 기존 점검 · 교육 체크 화면. 진행률 링과 카운트는 여기에.',
+  '<b>현장 연락처</b> — 더보기에서 번호를 넣으면 전화 아이콘으로 바로 통화. 누구나 등록 가능.',
+  '<b>로그인</b> — 이름만 입력(성을 빼도 됨), 회원가입 · 승인 없음, 비밀번호는 로그인 화면 · 메뉴에서 직접 변경. 로그인 정보 저장을 켜면 다음부터 바로 입장.',
+  '접속 현황은 이름만 표시, 시간은 숫자로 직접 입력(1330 → 13:30), 연도는 해가 바뀌면 자동 전환.']},
  {v:'v5.1',d:'2026-08-03',t:'새로 바뀐 점',n:[
   '<b>민간 현장</b>을 함께 관리합니다 — 상단 학교 · 민간을 눌러 바꿉니다 (삼성 · 현대차 · 피자로봇 등).',
   '점검 항목의 <b>카메라 버튼 → ＋ 자료 올리기</b> 로 카메라 촬영과 내 파일 중에 골라 올립니다.',
@@ -3418,7 +3427,7 @@ const SEENK='hrSeen.v1';
 function seenBuild(){try{return localStorage.getItem(SEENK)||''}catch(e){return ''}}
 function hasNew(){return seenBuild()!==BUILD}
 function openWhat(){
- document.getElementById('wBd').innerHTML='<button class="b" style="width:100%;margin-bottom:14px" onclick="cl(\'ovW\');openNews()">그림으로 보기</button><div class="cl">'+CHANGES.map((c,i)=>
+ document.getElementById('wBd').innerHTML='<div class="cl">'+CHANGES.map((c,i)=>
   `<div class="clv"><b>${esc(c.t||c.v)}</b>${i===0?'<u>최신</u>':''}<span>${esc(kdate(c.d))}</span></div>
    <div class="cli">${c.n.map(t=>'<div>'+t+'</div>').join('')}</div>`).join('')
   +'<div style="height:14px"></div></div>';
@@ -3464,76 +3473,66 @@ async function testMail(){
 
 /* ============== 사용법 ============== */
 function openMan(){document.getElementById('mBd').innerHTML=`<div class="man">
- <h4><i>1</i>점검 · 교육 체크</h4>
- <p>카드에서 <span class="k">1차 점검</span> <span class="k">2차 점검</span> <span class="k">1차 교육</span> <span class="k">2차 교육</span>
-    중 완료한 항목을 체크합니다. 체크하면 오늘 날짜와 접속한 분의 이름이 자동으로 들어갑니다.</p>
- <p>담당자는 항목마다 따로 적습니다. 여러 명이면 쉼표로 구분합니다.</p>
- <p>날짜는 숫자만 눌러도 됩니다. <span class="k">20260731</span> 또는 올해 날짜는 <span class="k">0731</span> 만 눌러도 되고,
-    오른쪽 달력 아이콘으로 고를 수도 있습니다.</p>
+ <h4><i>1</i>로그인</h4>
+ <p><b>이름만</b> 입력하면 됩니다. 성을 빼고 <span class="k">도영</span> 처럼 써도 되고, 아이디로도 됩니다.
+    처음 받은 계정은 비밀번호 <span class="k">1111</span> 로 들어온 뒤 안내창에서 바꾸면 됩니다 (바꾸지 않아도 됩니다).</p>
+ <p><span class="k">로그인 정보 저장</span> 을 켜두면 다음부터는 링크만 열어도 바로 들어갑니다.
+    비밀번호는 로그인 화면의 <span class="k">비밀번호 변경</span> 또는 더보기 → <span class="k">비밀번호 변경</span> 에서 직접 바꿉니다. 글자 수 · 종류 제한은 없습니다.</p>
 
- <h4><i>2</i>사진 · 문서 올리기</h4>
- <div class="mg">${NEWS[1].g}</div>
- <p>항목 오른쪽 <span class="k">카메라 버튼</span> → <span class="k">＋ 자료 올리기</span> 를 누르고
-    <b>카메라로 찍기</b> 와 <b>내 파일에서 고르기</b> 중에 선택합니다. 여러 장을 한 번에 고를 수 있습니다.</p>
- <p>자료를 올리면 그 항목은 <b>자동으로 완료 처리</b>됩니다. 올린 자료는 같은 카메라 버튼에서 다시 볼 수 있습니다.</p>
+ <h4><i>2</i>화면 구성 — 아래 탭 4개</h4>
+ <p><span class="k">홈</span> AS 현황과 오늘 할 일 &nbsp;·&nbsp; <span class="k">재교육 및 점검</span> 현장별 점검 · 교육 체크 &nbsp;·&nbsp;
+    <span class="k">조리지원 일지</span> 현장별 일지 &nbsp;·&nbsp; <span class="k">더보기</span> 이력 · 연락처 · 설정</p>
+ <p>탭은 스크롤해도 항상 아래에 고정돼 있습니다. 연도는 제목 옆에서 바꾸고, 해가 바뀌면 자동으로 새 연도가 됩니다.</p>
 
- <h4><i>3</i>일일점검 및 특이사항 작성</h4>
+ <h4><i>3</i>홈 — 한눈에 보기</h4>
+ <p>상단 세 칸은 <b>이달 AS 처리</b> · <b>미처리 요청</b> · <b>긴급</b> 건수입니다. 누르면 해당 목록이 열립니다.</p>
+ <p>그 아래로 <b>오늘 방문</b> → <b>미처리 AS 요청</b> → <b>이번 주 정기점검</b> → <b>최근 처리 결과</b> 순서로 급한 것부터 보입니다.
+    현장 이름 옆 <b>전화 아이콘</b>을 누르면 바로 전화가 걸립니다 (번호가 없으면 안내만 뜹니다).</p>
+ <p>상단 <span class="k">과거 이력</span> 을 누르면 현장을 골라 그곳의 AS 요청과 처리 결과를 시간순으로 볼 수 있습니다.</p>
+
+ <h4><i>4</i>AS 요청 접수 — 전화 받았을 때</h4>
+ <p>홈 아래 <span class="k">AS 요청 접수</span> 를 누릅니다. 현장 칸에 <b>이름 일부 · 줄임말 · 초성</b>(예: <span class="k">ㄱㅇ</span>)을 치면 바로 골라집니다.</p>
+ <p>접수 일시는 자동으로 지금 시각이 들어가고, 필요하면 고칩니다. 시간은 <span class="k">1330</span> 처럼 숫자만 쳐도 됩니다.
+    접수자는 로그인한 이름이 자동으로 들어갑니다. 요청자에는 학교 담당자 이름을 적습니다.</p>
+ <p>긴급도는 <span class="k">긴급</span> 당일 대응 · <span class="k">일반</span> 며칠 내 · <span class="k">예약</span> 다음 점검 때 중에 고르고,
+    요청 내용은 학교에서 말한 그대로 길게 적어도 됩니다. <span class="k">접수</span> 를 누르면 홈 미처리 목록에 올라갑니다.</p>
+
+ <h4><i>5</i>처리 결과 등록 — 다녀온 뒤</h4>
+ <p>홈 미처리 요청에서 <span class="k">결과 등록</span> 을 누릅니다. 위에 어떤 요청인지 파란 박스로 보이고,
+    방문 일시 · 처리자(수정 가능, 여러 명은 쉼표) · 구분(정기점검 · 고장수리 · 부품교체 · SW업데이트, 여러 개 가능) · 조치 내용 · 사용 부품을 적습니다.</p>
+ <p><span class="k">저장</span> 하면 그 요청은 <b>완료</b>로 바뀌어 미처리 목록에서 빠지고, 최근 처리 결과와 이력에 남습니다.
+    잘못 넣었으면 항목을 눌러 수정하거나 삭제할 수 있습니다 (본인 것 또는 관리자).</p>
+
+ <h4><i>6</i>재교육 및 점검</h4>
+ <p>상단 링은 <b>1차 · 2차 점검 · 교육</b> 과 <b>특별점검</b> 진행률입니다.
+    현장 카드에서 <span class="k">1차 점검</span> <span class="k">2차 점검</span> <span class="k">1차 교육</span> <span class="k">2차 교육</span> 중 완료한 항목을 체크하면 오늘 날짜와 이름이 자동으로 들어갑니다.</p>
+ <p>항목 오른쪽 <span class="k">카메라 버튼</span> 으로 사진 · 문서를 올리면 자동 완료됩니다.
+    카드 아래 <span class="k">특별점검 추가</span>, <span class="k">미해결 이슈</span> 체크도 여기서 합니다. 이슈는 상단 <span class="k">이슈 전체보기</span> 에 모입니다.</p>
+ <p>검색칸에 이름 · 줄임말 · 초성 · 지역을 치면 바로 찾아지고, 관리자는 아래 <span class="k">새 현장 추가</span> 로 현장을 등록합니다.</p>
+
+ <h4><i>7</i>조리지원 일지</h4>
  <div class="mg">${NEWS[3].g}</div>
- <p>카드 아래 <span class="k">일일점검 및 특이사항 작성</span> 을 누른 뒤
-    <span class="k">＋ 조리지원 일지 (중식)</span> 처럼 회차를 골라 시작합니다.
-    <b>중식과 석식은 각각 따로</b> 작성합니다.</p>
- <p>메뉴 · 사전협의 · 조리 시작과 완료 · 총 조리량 · 자동조리횟수 · 투입 시 무게 평균 · 최종 레시피를 적고,
-    오류사항 · 사용법 교육 · 개선 요구사항 · 다음 사용 일자 · 수정 작업을 채웁니다.</p>
- <p>시간은 숫자만 눌러도 됩니다. <span class="k">1414</span> 를 치면 <span class="k">14:14</span> 로 정리됩니다.</p>
- <p>확인자 칸의 <span class="k">서명하기</span> 를 누르면 서명판이 열립니다.
-    담당자가 손가락으로 서명하고 <span class="k">완료</span> 를 누르면 이름 · 시각과 함께 저장됩니다.</p>
- <p>마지막으로 <span class="k">＋ 사진 추가</span> 로 현장 조리사진을 붙이고 <span class="k">저장</span> 을 누릅니다.</p>
+ <p>현장별로 일지 건수와 최근 작성일이 보입니다. <span class="k">＋ 중식</span> <span class="k">＋ 석식</span> 을 누르면 바로 작성이 시작되고,
+    현장을 누르면 그 현장의 일지 목록 · 파일 올리기 · PDF 내보내기가 열립니다.</p>
+ <p>자주 가는 현장은 왼쪽 <b>별</b>을 눌러 즐겨찾기하면 맨 위로 올라옵니다. 상단 세 칸(<b>이달 작성 · 미서명 · 오늘 작성</b>)을 누르면 그 조건으로 걸러집니다.</p>
+ <p>일지 작성 중 확인자 칸의 <span class="k">서명하기</span> 로 담당자 서명을 받고, <span class="k">＋ 사진 추가</span> 로 조리사진을 붙인 뒤 <span class="k">저장</span> 합니다.
+    시간은 <span class="k">1414</span> 처럼 숫자만 쳐도 됩니다.</p>
+ <p>관리자는 검색칸 옆 <span class="k">＋ 현장 추가</span> 에서 현장명 · 설치날짜 · 담당자를 넣어 새 현장을 등록합니다. 새 현장은 목록 맨 아래에 붙습니다.</p>
 
- <h4><i>4</i>일지 내보내기</h4>
- <p>일지를 열고 아래 <span class="k">내보내기</span> 를 누르면 <b>그림(PNG)</b> 과 <b>PDF</b> 중에 고를 수 있습니다.
-    그림은 바로 내려받아지고, PDF는 인쇄 화면에서 <b>PDF로 저장</b> 을 고릅니다.</p>
- <p>목록 위 <span class="k">업무일지 전체 PDF 내보내기</span> 는 그 현장의 일지를 한 문서로 묶고,
-    <span class="k">그림(PNG) 전체 저장</span> 은 일지마다 그림 한 장씩 만들어 <b>zip 한 파일</b>로 내려받습니다.</p>
- <p>이미 만들어 둔 엑셀 파일은 <span class="k">＋ 작성된 엑셀 파일 올리기</span> 로 그대로 보관합니다.</p>
+ <h4><i>8</i>현장 연락처</h4>
+ <p>더보기 → <span class="k">현장 연락처</span> 에서 현장마다 전화번호와 담당자를 넣습니다. 누구나 넣을 수 있고,
+    넣어두면 홈 · 이력 · 과거 이력의 전화 아이콘이 켜져 한 번에 통화됩니다.</p>
 
- <h4><i>5</i>특별점검</h4>
- <p>카드 아래 <span class="k">특별점검 추가</span> 를 누르고 날짜 · 담당자 · 내용을 적습니다.
-    사진이나 문서를 함께 올리려면 <span class="k">추가 · 자료 첨부</span> 를 누릅니다.
-    저장한 뒤 파일 선택 창이 바로 열립니다.</p>
+ <h4><i>9</i>더보기</h4>
+ <p><b>AS 요청 건 이력</b>(미처리 · 긴급 · 완료 · 전체) · <b>AS 처리 결과 이력</b>(구분별) · 접속 현황 · 변경 이력 · 건의(익명) · 비밀번호 변경 · 로그아웃.
+    관리자는 계정 관리(계정 추가 · 별칭 · 비밀번호 확인) · 내보내기 · 백업 · 현장 삭제가 추가로 보입니다.</p>
 
- <h4><i>6</i>미해결 이슈</h4>
- <p>조치가 남은 현장은 카드 아래 <span class="k">미해결 이슈</span> 를 체크하고 특이사항에 내용을 적습니다.
-    상단 <span class="k">이슈 전체보기</span> 에서 모아 보고, 조치가 끝나면 <span class="k">해결 완료</span> 를 누릅니다.</p>
+ <h4><i>10</i>저장</h4>
+ <p>입력하면 자동으로 저장되어 모든 사람이 같은 데이터를 봅니다. 상단 표시가 <b>초록색</b>이면 저장 완료,
+    <b>빨간색</b>이면 연결이 돌아올 때 자동으로 다시 보냅니다. ${IDLE_MIN}분 동안 쓰지 않으면 자동 로그아웃되지만 입력한 내용은 남아 있습니다.</p>
 
- <h4><i>7</i>학교 · 민간 나누어 보기</h4>
- <div class="mg">${NEWS[0].g}</div>
- <p>상단 <span class="k">학교</span> <span class="k">민간</span> 을 눌러 목록을 바꿉니다.
-    진행률 · 지역 요약 · 이슈 · 전체 요약도 고른 쪽만 집계됩니다.
-    마지막으로 본 쪽이 기억되어 앱을 다시 열면 그대로 열립니다.</p>
-
- <h4><i>8</i>학교 찾기</h4>
- <div class="mg">${NEWS[2].g}</div>
- <p>검색칸에 <b>이름 일부</b> · <b>줄임말</b> · <b>초성</b> · <b>지역</b> · <b>설치 번호</b> 중 아무거나 입력합니다.
-    찾은 글자는 노란색으로 표시됩니다.</p>
- <p>오른쪽 <span class="k">전체보기</span> 를 누르면 등록된 곳이 모두 펼쳐지고 눌러서 바로 고를 수 있습니다.
-    목록 위에서 <span class="k">설치순</span> 과 <span class="k">가나다순</span> 을 바꿉니다.</p>
- <p>줄임말은 카드 오른쪽 위 <span class="k">⋯</span> → <span class="k">검색 별칭</span> 에서 쉼표로 구분해 적습니다.</p>
-
- <h4><i>9</i>연도 바꾸기</h4>
- <p>제목 옆 <span class="k">연도</span> 를 바꾸면 그 해 기록만 나옵니다.
-    목록은 그대로 유지되고 점검 · 교육 · 자료만 해마다 나뉘어 저장됩니다.</p>
-
- <h4><i>10</i>전체 요약</h4>
- <p>상단 <span class="k">전체 요약</span> 에서 모든 현장을 한 화면에서 봅니다.
-    <span class="k">자료 보기</span> 는 이름과 사진만 크게 보여 주고, 사진을 누르면 확대되며 좌우로 넘겨봅니다.
-    <span class="k">간단 요약</span> 은 날짜 · 담당자 · 진행률을 표로 보여 줍니다.</p>
-
- <h4><i>11</i>저장과 로그인</h4>
- <p>입력하면 자동으로 저장됩니다. 상단 표시가 <b>초록색</b>이면 저장이 끝난 상태이고,
-    <b>빨간색</b>이면 연결이 돌아올 때 자동으로 다시 보냅니다. 따로 누를 버튼은 없습니다.</p>
- <p>${IDLE_MIN}분 동안 앱을 쓰지 않으면 자동으로 로그아웃됩니다. 입력한 내용은 그대로 남아 있습니다.</p>
-
- <div style="height:12px"></div></div>`;op('ovM')}
+ <div style="height:12px"></div></div>`;
+op('ovM')}
 
 /* ============== 삭제 시트 ============== */
 let delSel=new Set();
@@ -3952,7 +3951,7 @@ function saveNs(){const err=document.getElementById('nsErr');
   order:DB.schools.reduce((a,x)=>Math.max(a,x.order||0),0)+1,sec,name:n,region:rg,installDate:d,manager:m},blank(),{mt:Date.now()});
  if(ALIAS[n])ns.alias=ALIAS[n];
  Y(ns);DB.schools.push(ns);LOG(ns.id,'현장 등록 ('+rg+(d?' · 설치 '+d:'')+(m?' · 담당 '+m:'')+')');
- save();chips();rd();cl('ovNs');rdChk();ts(n+' 추가 완료')}
+ save();chips();rd();cl('ovNs');try{rdChk()}catch(e){}ts(n+' 추가 완료')}
 /* ---- 과거 이력 (현장별 AS 타임라인) ---- */
 let shSid='';
 function openSh(){rdSh('');op('ovSh')}
