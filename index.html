@@ -937,6 +937,10 @@ body:not([data-tab=home]) .hbtns{display:none}
       <div><label class="fl">구분</label><select class="inp" id="nsSec"><option value="school">학교</option><option value="priv">기업</option></select></div>
     </div>
     <label class="fl" style="margin-top:12px">담당자명</label><input class="inp" id="nsMgr" placeholder="예) 김00" autocomplete="off">
+    <div class="dtrow" style="margin-top:12px">
+      <div><label class="fl">로봇명</label><input class="inp" id="nsRobot" placeholder="예) 두산 H2017" autocomplete="off"></div>
+      <div><label class="fl">로봇대수</label><input class="inp" id="nsRobotN" placeholder="예) 1대" autocomplete="off"></div>
+    </div>
     <label class="fl" style="margin-top:12px">지역</label><select class="inp" id="nsRg"></select>
     <div class="lerr" id="nsErr"></div>
     <div class="two" style="margin-top:6px"><button class="act" style="padding:13px" onclick="cl('ovNs')">취소</button><button class="b" onclick="saveNs()">저장</button></div>
@@ -965,7 +969,7 @@ body:not([data-tab=home]) .hbtns{display:none}
   <label class="fl" style="margin-top:13px">비밀번호</label>
   <input class="inp" type="password" id="lPw" autocomplete="off" placeholder="초기 비밀번호 1111">
   <div class="fhint">첫 사용인 경우, 이름 입력 후 초기 비밀번호 1111 사용해주세요.<br>회원가입 진행했던 분들은 기존 비밀번호 입력해주세요.</div>
-  <label class="lsave"><input type="checkbox" id="lKeep" checked> 로그인 정보 저장 <span class="iwh" style="font-weight:600;color:var(--ink3)">이름 · 비밀번호 기억, 다음부터 바로 입장</span></label>
+  <label class="lsave"><input type="checkbox" id="lKeep" checked> 로그인 정보 저장 <span class="iwh" style="font-weight:600;color:var(--ink3)">이름 및 비밀번호 기억</span></label>
   <div class="lerr" id="lErr"></div>
   <div class="lnote" id="lNote"></div>
   <button class="lbtn" onclick="doLogin()">시작하기</button>
@@ -3823,7 +3827,7 @@ function rdChk(){const el=document.getElementById('tabChk');if(!el)return;rdJKpi
     <div class="l1"><button class="fav ${FV.has(x.id)?'on':''}" onclick="event.stopPropagation();favTog('${x.id}')" aria-label="즐겨찾기">${favIco}</button><b>${esc(x.name)}${x.sec==='priv'?' <span class="tgu k">기업</span>':''}</b>
      ${my.length?`<span class="tgu k">${my.length}건</span>`:'<span class="tgu r">없음</span>'}
      ${y.issue?'<span class="tgu u">이슈</span>':''}</div>
-    ${x.installDate||x.manager?`<div class="l2" style="-webkit-line-clamp:1">${x.installDate?'설치 '+esc(x.installDate):''}${x.installDate&&x.manager?' · ':''}${x.manager?'담당 '+esc(x.manager):''}</div>`:''}
+    ${x.installDate||x.manager||x.robot?`<div class="l2" style="-webkit-line-clamp:1">${[x.installDate?'설치 '+esc(x.installDate):'',x.manager?'담당 '+esc(x.manager):'',x.robot?esc(x.robot)+(x.robotN?' '+esc(x.robotN):''):''].filter(Boolean).join(' · ')}</div>`:''}
     <div class="l3"><span>${last?'최근 '+esc((last.date||'').slice(5).replace('-','/'))+' · '+esc(last.by||'')+(last.sign?' · 서명':' · 미서명'):'아직 작성된 일지가 없습니다'}</span>
      <button class="sb" onclick="event.stopPropagation();newWork('${x.id}','중식')">＋ 중식</button>
      <button class="sb" onclick="event.stopPropagation();newWork('${x.id}','석식')">＋ 석식</button></div></div>`}).join('')
@@ -3946,7 +3950,7 @@ function rdAl(){const tt=document.getElementById('alTt'),bd=document.getElementB
 
 /* ---- 현장 추가 (조리지원 일지 탭) ---- */
 function openNs(){if(!isAdmin())return ts('현장 추가는 관리자만 할 수 있습니다');
- ['nsName','nsDate','nsMgr'].forEach(k=>document.getElementById(k).value='');
+ ['nsName','nsDate','nsMgr','nsRobot','nsRobotN'].forEach(k=>document.getElementById(k).value='');
  document.getElementById('nsErr').textContent='';
  const rs=new Set(RG_PRESET);DB.schools.forEach(x=>{if(x.region)rs.add(x.region)});
  document.getElementById('nsRg').innerHTML=[...rs].map(r=>`<option value="${esc(r)}">${esc(r)}</option>`).join('');
@@ -3954,12 +3958,13 @@ function openNs(){if(!isAdmin())return ts('현장 추가는 관리자만 할 수
 function saveNs(){const err=document.getElementById('nsErr');
  const n=document.getElementById('nsName').value.trim(),d=document.getElementById('nsDate').value,m=document.getElementById('nsMgr').value.trim();
  const rg=document.getElementById('nsRg').value,sec=document.getElementById('nsSec').value;
+ const robot=document.getElementById('nsRobot').value.trim(),robotN=document.getElementById('nsRobotN').value.trim();
  if(!n)return err.textContent='현장명을 입력해 주세요';
  if(DB.schools.some(x=>x.name===n))return err.textContent='이미 등록된 현장입니다';
  const ns=Object.assign({id:'s'+Date.now()+Math.random().toString(36).slice(2,5),
-  order:DB.schools.reduce((a,x)=>Math.max(a,x.order||0),0)+1,sec,name:n,region:rg,installDate:d,manager:m},blank(),{mt:Date.now()});
+  order:DB.schools.reduce((a,x)=>Math.max(a,x.order||0),0)+1,sec,name:n,region:rg,installDate:d,manager:m,robot,robotN},blank(),{mt:Date.now()});
  if(ALIAS[n])ns.alias=ALIAS[n];
- Y(ns);DB.schools.push(ns);LOG(ns.id,'현장 등록 ('+rg+(d?' · 설치 '+d:'')+(m?' · 담당 '+m:'')+')');
+ Y(ns);DB.schools.push(ns);LOG(ns.id,'현장 등록 ('+rg+(d?' · 설치 '+d:'')+(m?' · 담당 '+m:'')+(robot?' · '+robot+(robotN?' '+robotN:''):'')+')');
  save();chips();rd();cl('ovNs');try{rdChk()}catch(e){}ts(n+' 추가 완료')}
 /* ---- 과거 이력 (현장별 AS 타임라인) ---- */
 let shSid='';
@@ -3983,7 +3988,7 @@ function rdSh(sid){shSid=sid;const bd=document.getElementById('shBd'),tt=documen
  items.sort((a,b)=>String(b.d+(b.t||'')).localeCompare(String(a.d+(a.t||''))));
  document.getElementById('shCnt').textContent=items.length+'건';
  const c=DB.contacts[sid]||{};
- bd.innerHTML=`<div class="box" style="display:flex;align-items:center;gap:8px"><div style="flex:1"><div class="d">${esc(x?x.name:'')}</div><div class="fhint" style="margin-top:2px">${c.who?esc(c.who)+' · ':''}${c.tel?esc(c.tel):'등록된 번호 없음'}${x&&x.installDate?' · 설치 '+esc(x.installDate):''}${x&&x.manager?' · 담당 '+esc(x.manager):''}</div></div>${telBtn(sid)}</div>
+ bd.innerHTML=`<div class="box" style="display:flex;align-items:center;gap:8px"><div style="flex:1"><div class="d">${esc(x?x.name:'')}</div><div class="fhint" style="margin-top:2px">${c.who?esc(c.who)+' · ':''}${c.tel?esc(c.tel):'등록된 번호 없음'}${x&&x.installDate?' · 설치 '+esc(x.installDate):''}${x&&x.manager?' · 담당 '+esc(x.manager):''}${x&&x.robot?' · '+esc(x.robot)+(x.robotN?' '+esc(x.robotN):''):''}</div></div>${telBtn(sid)}</div>
   ${items.length?`<div class="tl"><div class="hcard" style="margin:0">${items.map(i=>i.k==='tk'
    ?tkRow(i.o,{lbl:'AS 요청'}).replace('class="hrow ','class="hrow tk '+(i.o.urg==='u'?'u ':''))
    :vsRow(i.o,{lbl:'처리 결과'}).replace('class="hrow"','class="hrow vs"')).join('')}</div></div>`
@@ -3992,7 +3997,7 @@ function rdSh(sid){shSid=sid;const bd=document.getElementById('shBd'),tt=documen
 let hsSort='order';
 function openHs(){rdHs();op('ovHs')}
 function setHs(k,sid,v){if(!isAdmin())return ts('관리자만 수정할 수 있습니다');const x=S(sid);if(!x)return;
- const b0=x[k]||'';x[k]=String(v).trim();x.mt=Date.now();LOG(sid,(k==='installDate'?'설치날짜':'담당자')+' 변경: '+(b0||'-')+' → '+(x[k]||'-'));save(sid);rdHs();rdChk();ts('저장했습니다')}
+ const b0=x[k]||'';x[k]=String(v).trim();x.mt=Date.now();LOG(sid,({installDate:'설치날짜',manager:'담당자',robot:'로봇명',robotN:'로봇대수'}[k]||k)+' 변경: '+(b0||'-')+' → '+(x[k]||'-'));save(sid);rdHs();rdChk();ts('저장했습니다')}
 function rdHs(){const adm=isAdmin();
  const q=(window.__hsq||'').trim();
  let L=DB.schools.slice().filter(x=>!q||hit(x,q));
@@ -4005,18 +4010,18 @@ function rdHs(){const adm=isAdmin();
   <div style="display:flex;gap:8px;margin-bottom:8px"><input class="inp" type="text" placeholder="현장명 · 지역 · 초성 검색" value="${esc(window.__hsq||'')}" oninput="window.__hsq=this.value;rdHs();const e=document.querySelector('#hsBd input');e.focus();e.setSelectionRange(e.value.length,e.value.length)"></div>
   <div class="asfilt">${[['order','설치순'],['date','설치일 최신'],['name','가나다']].map(([k,n])=>`<button class="${hsSort===k?'on':''}" onclick="hsSort='${k}';rdHs()">${n}</button>`).join('')}</div>
   ${L.length?L.map(x=>{const nt=AS().tickets.filter(t=>t.sid===x.id).length,nv=AS().visits.filter(v=>v.sid===x.id).length,nw=ws.filter(w=>w.sid===x.id).length;
-   const c=DB.contacts[x.id]||{};
    return `<div class="box">
     <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
       <span class="tgu k">${x.order||'-'}번</span><span class="d">${esc(x.name)}</span>
-      <span class="tgu ${x.sec==='priv'?'r':'k'}">${x.sec==='priv'?'기업':'학교'}</span><span class="tgu k">${esc(x.region||'-')}</span>
-      <span style="margin-left:auto">${telBtn(x.id)}</span></div>
+      <span class="tgu ${x.sec==='priv'?'r':'k'}">${x.sec==='priv'?'기업':'학교'}</span><span class="tgu k">${esc(x.region||'-')}</span></div>
     <div class="two" style="margin-top:9px">
       <div><label class="fl">설치날짜</label><input class="inp" type="date" value="${esc(x.installDate||'')}" ${adm?'':'readonly'} onchange="setHs('installDate','${x.id}',this.value)"></div>
       <div><label class="fl">담당자</label><input class="inp" value="${esc(x.manager||'')}" ${adm?'':'readonly'} placeholder="예) 김00" onchange="setHs('manager','${x.id}',this.value)"></div></div>
+    <div class="two" style="margin-top:8px">
+      <div><label class="fl">로봇명</label><input class="inp" value="${esc(x.robot||'')}" ${adm?'':'readonly'} placeholder="예) 두산 H2017" onchange="setHs('robot','${x.id}',this.value)"></div>
+      <div><label class="fl">로봇대수</label><input class="inp" value="${esc(x.robotN||'')}" ${adm?'':'readonly'} placeholder="예) 1대" onchange="setHs('robotN','${x.id}',this.value)"></div></div>
     <div class="fhint" style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap">
       <span>AS 요청 <b>${nt}</b></span><span>처리 <b>${nv}</b></span><span>일지 <b>${nw}</b></span>
-      ${c.tel?`<span>연락처 <b>${esc(c.who?c.who+' ':'')}${esc(c.tel)}</b></span>`:''}
       <span style="margin-left:auto;color:var(--blue);cursor:pointer" onclick="cl('ovHs');openSh();rdSh('${x.id}')">AS 이력 ›</span></div>
    </div>`}).join(''):'<div class="hempty">검색 결과가 없습니다</div>'}
   <div style="height:10px"></div>`}
