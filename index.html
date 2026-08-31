@@ -180,7 +180,8 @@ textarea.inp{resize:none;overflow:hidden;line-height:1.6;min-height:44px}
 .shint{margin-top:6px;font-size:10.5px;font-weight:700;color:var(--ink3)}
 .shint b{color:var(--blue)}
 mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weight:800}
-.addrow{display:grid;grid-template-columns:1fr 104px 62px;gap:7px}
+.addrow{display:grid;grid-template-columns:76px 1fr 62px;grid-template-areas:"sec name name" "rg rg add";gap:7px}
+#nSec{grid-area:sec}#nName{grid-area:name}.addrow .rgwrap{grid-area:rg}.addrow .badd{grid-area:add}
 .addrow .inp{padding:10px 11px;font-size:14px}
 .badd{padding:10px;border-radius:9px;background:var(--navy);color:#fff;font-weight:700;font-size:13.5px}
 .rgwrap{position:relative;display:block;min-width:0}
@@ -684,6 +685,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 body[data-tab=home] #tabHome,body[data-tab=site] #tabSite,body[data-tab=chk] #tabChk,body[data-tab=more] #tabMore{display:block}
 body:not([data-tab=chk]) .rings,body:not([data-tab=chk]) .hstats{display:none}
 body:not([data-tab=home]) .askpi{display:none}
+body:not([data-tab=home]) #loginBar{display:none}
 .page{padding-bottom:calc(150px + var(--sb))}
 body[data-tab=home] .page{padding-bottom:calc(210px + var(--sb))}
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);
@@ -786,13 +788,13 @@ body:not([data-tab=home]) .hbtns{display:none}
 </div>
 
 <div class="pastbar" id="pastBar" style="display:none">선택한 연도: <span id="pastY"></span><button onclick="setYear(Y0())">올해로</button></div>
-<div class="tab" id="tabHome"></div>
-<div class="tab" id="tabSite">
 <button class="loginbar" id="loginBar" onclick="openLogins()">
   <span class="lk">최근 로그인</span>
   <span class="lv" id="loginNow">-</span>
   <span class="lg">전체 ›</span>
 </button>
+<div class="tab" id="tabHome"></div>
+<div class="tab" id="tabSite">
 <button class="pendbar" id="pendBar" onclick="openUsers()">
   <span class="pd"></span>
   <span class="pt" id="pendTxt"></span>
@@ -805,7 +807,7 @@ body:not([data-tab=home]) .hbtns{display:none}
 <div class="sbar" id="sBar">
   <div class="srow">
     <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-      <input type="text" id="q" placeholder="학교명 · 지역 · 초성 검색" autocomplete="off">
+      <input type="text" id="q" placeholder="현장명 · 지역 · 초성 검색" autocomplete="off">
       <button class="sclr" id="qClr" onclick="clrQ()">✕</button></div>
     <button class="sortb" id="sortB" onclick="openPick()">전체보기</button>
   </div>
@@ -814,7 +816,7 @@ body:not([data-tab=home]) .hbtns{display:none}
 
 <div class="tools" id="tools" style="display:none">
   <div class="addrow">
-    <select class="inp" id="nSec" style="width:auto;flex:0 0 auto"><option value="school">학교</option><option value="priv">민간</option></select>
+    <select class="inp" id="nSec"><option value="school">학교</option><option value="priv">민간</option></select>
     <input class="inp" type="text" id="nName" placeholder="새 현장 추가" autocomplete="off">
     <span class="rgwrap">
       <select class="inp rgsel" id="nRgSel" onchange="onRgSel(this.value)"></select>
@@ -825,7 +827,7 @@ body:not([data-tab=home]) .hbtns{display:none}
   </div>
 </div>
 
-<div class="sec"><div><div class="c">관리 목록</div><h2 data-u="OO별 체크">학교별 체크</h2></div><div class="r" id="cnt"></div></div>
+<div class="sec"><div><div class="c">관리 목록</div><h2 data-u="OO별 체크">현장별 체크</h2></div><div class="r" id="cnt"></div></div>
 <div class="grid" id="grid"></div>
 
 <div id="acts" style="display:none"></div>
@@ -844,7 +846,7 @@ body:not([data-tab=home]) .hbtns{display:none}
 <nav class="tabbar" id="tabbar">
   <button id="tbHome" onclick="setTab('home')"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>홈<span class="nd"></span></button>
   <button id="tbSite" onclick="setTab('site')"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M15 9h3a1 1 0 0 1 1 1v11M9 8h2M9 12h2M9 16h2"/></svg>현장</button>
-  <button id="tbChk" onclick="setTab('chk')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 14l2 2 4-4"/></svg>점검·일지</button>
+  <button id="tbChk" onclick="setTab('chk')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 14l2 2 4-4"/></svg>조리지원 일지</button>
   <button id="tbMore" onclick="setTab('more')"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>더보기<span class="nd"></span></button>
 </nav>
 
@@ -1223,7 +1225,13 @@ let DB=LS.get()||fresh();
 /* v7.1 팀원 계정 일괄 생성 — 같은 이름이 없을 때만 한 번 추가 (초기 비번 1111, 첫 로그인 때 변경) */
 const SEED_USERS=['진혁진','고우현','원서연','정진기','김경홍','정도영','라훌란잔'];
 function seedUsers(){if(!Array.isArray(DB.users))return;let n=0;
- SEED_USERS.forEach(nm=>{if(DB.users.some(u=>String(u.name||'').trim()===nm))return;
+ const NM=u=>String(u.name||'').replace(/\s+/g,'').trim();
+ /* 기존 가입 계정과 이름이 겹치는 시드 계정은 제거 (기존 계정 · 비밀번호 우선) */
+ const before=DB.users.length;
+ DB.users=DB.users.filter(u=>!(u.seed&&DB.users.some(o=>o!==u&&!o.seed&&NM(o)===NM(u))));
+ if(DB.users.length!==before)n++;
+ if(!DB.updatedAt)return;   /* 아직 서버 데이터를 받기 전(빈 DB)에는 만들지 않음 */
+ SEED_USERS.forEach(nm=>{if(DB.users.some(u=>NM(u)===nm))return;
   const id=nm;if(DB.users.some(u=>String(u.id||'')===id))return;
   if((DB.utomb||{})[id])return;
   DB.users.push({id,pw:'1111',name:nm,role:'user',mustPw:true,seed:'v7.1',mt:Date.now()});n++});
@@ -1306,10 +1314,10 @@ let SEC='school';
 try{SEC=localStorage.getItem(SECK)==='priv'?'priv':'school'}catch(e){}
 const secOf=s=>(s&&s.sec==='priv')?'priv':'school';
 const LIST=()=>DB.schools;   /* v7.1: 학교·민간 통합 */
-const U=()=>SEC==='priv'?'현장':'학교';
-const UN=()=>SEC==='priv'?'곳':'개교';
-const UGA=()=>SEC==='priv'?'현장이':'학교가';
-const UREUL=()=>SEC==='priv'?'현장을':'학교를';
+const U=()=>'현장';
+const UN=()=>'곳';
+const UGA=()=>'현장이';
+const UREUL=()=>'현장을';
 let secxT=null;
 function secSkin(){
  const lk=document.getElementById('lock');
@@ -1444,7 +1452,8 @@ function findUser(id){
  const L=u=>String(u.id||'').trim().toLowerCase();
  const N=u=>String(u.name||'').trim().toLowerCase().replace(/\s+/g,'');
  const local=id.split('@')[0];
- return us.find(u=>L(u)===id)                    /* 전체 일치 */
+ return us.find(u=>!u.seed&&N(u)&&N(u)===id)    /* 기존 가입자 이름 일치 우선 */
+     || us.find(u=>L(u)===id)                    /* 전체 일치 */
      || us.find(u=>L(u)===id+DOMAIN)             /* 도메인 붙여서 */
      || us.find(u=>L(u).split('@')[0]===local)   /* 아이디 앞부분만 일치 */
      || us.find(u=>N(u)&&N(u)===id)              /* 이름 일치 */
@@ -1792,9 +1801,6 @@ function rd(){
      <textarea class="inp ta" rows="1" placeholder="특이사항" onchange="setF('${s.id}','note',this.value)" oninput="grow(this)">${esc(y.note)}</textarea>
      <div class="brow">
        <button class="mini ${nsp?'on':''}" onclick="openSpecial('${s.id}')">특별점검 ${nsp?`<em>${nsp}</em>`:'추가'}</button>
-       <button class="mini lg ${nlg?'on':''}" onclick="openLogs('${s.id}')">
-         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h9l5 5V20.5H5z"/><path d="M14 3.5v5h5"/><path d="M8.5 13h7M8.5 16.5h4.5"/></svg>
-         <span>일일점검 및 특이사항 ${nlg?`<em>${nlg}</em>`:'작성'}</span></button>
      </div>
      <label class="isw"><input type="checkbox" ${y.issue?'checked':''} onchange="setI('${s.id}',this.checked)"> 미해결 이슈
        <span class="iwh">추후 조치가 필요하면 체크해주세요.</span></label>
@@ -3270,7 +3276,7 @@ function rdUsers(){
     </div>
     <div class="two" style="margin-top:10px">
       <div><label class="fl">이름</label><input class="inp" value="${esc(u.name||'')}" onchange="editUser('${esc(u.id)}','name',this.value)"></div>
-      <div><label class="fl">비밀번호 초기화</label><input class="inp" placeholder="새 초기 비밀번호" onchange="editUser('${esc(u.id)}','pw',this.value);this.value=''"></div>
+      <div><label class="fl">비밀번호 <span class="iwh">현재 값 · 바꾸면 초기화</span></label><input class="inp" value="${esc(u.pw||'')}" onchange="editUser('${esc(u.id)}','pw',this.value)"></div>
     </div>
     ${u.id!=='admin'?`<div style="margin-top:10px"><label class="fl">권한</label>
       <select class="inp" onchange="editUser('${esc(u.id)}','role',this.value)">
@@ -3673,21 +3679,26 @@ function rdHome(){const el=document.getElementById('tabHome');if(!el)return;rdKp
 
 /* ---- 점검·일지 탭 ---- */
 function rdChk(){const el=document.getElementById('tabChk');if(!el)return;
- const ws=(DB.works||[]).slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))||(b.mt||0)-(a.mt||0)).slice(0,8);
- const iss=DB.schools.filter(s=>Y(s).issue).length;
- const sp=DB.schools.filter(s=>Y(s).specials.length).length;
+ const q=(window.__jq||'').trim().toLowerCase();
+ const L=DB.schools.slice().sort((a,b)=>(a.order||0)-(b.order||0))
+  .filter(x=>!q||String(x.name).toLowerCase().indexOf(q)>=0||String(ALIAS[x.name]||x.alias||'').toLowerCase().indexOf(q)>=0);
+ const ws=DB.works||[];
+ const tot=ws.filter(w=>String(w.date||'').slice(0,4)===YEAR).length;
  el.innerHTML=`
-  <div class="hsec"><b>바로 가기</b></div>
-  <div class="hcard">
-   <div class="hrow" onclick="openSum()"><div class="l1"><b>${U()} 전체 요약</b><span class="tgu k">${DB.schools.length}곳</span></div></div>
-   <div class="hrow" onclick="openIssues()"><div class="l1"><b>미해결 이슈</b>${iss?`<span class="tgu u">${iss}건</span>`:'<span class="tgu k">없음</span>'}</div></div>
-   <div class="hrow" onclick="setTab('site')"><div class="l1"><b>${U()}별 점검 · 교육 체크</b><span class="tgu k">현장 탭</span></div></div>
-  </div>
-  <div class="hsec"><b>최근 업무일지</b><span>${(DB.works||[]).length}건</span></div>
-  <div class="hcard">${ws.length?ws.map(w=>`<div class="hrow" onclick="editWork('${w.id}')"><div class="l1"><span class="tgu k">${esc((w.date||'').slice(5).replace('-','/'))}</span><b>${esc(sName(w.sid))}</b>${w.sign?'<span class="tgu done">서명</span>':'<span class="tgu r">미서명</span>'}<span class="tgu k">${esc(w.by||'')}</span></div></div>`).join('')
-   :'<div class="hempty">작성된 업무일지가 없습니다. 현장 탭의 학교 카드에서 작성합니다.</div>'}</div>
-  <div class="hsec"><b>특별점검</b><span>실시 ${sp}곳</span></div>
-  <div class="hcard"><div class="hrow" onclick="setTab('site')"><div class="l1"><b>현장별 특별점검 기록 보기</b><span class="tgu k">현장 탭</span></div></div></div>`}
+  <div class="hsec"><b>조리지원 일지 · 현장별</b><span>${YEAR}년 ${tot}건</span></div>
+  <div style="margin:0 16px 8px"><input class="inp" type="text" placeholder="현장명 검색" value="${esc(window.__jq||'')}" oninput="window.__jq=this.value;rdChk();this.focus();this.setSelectionRange(this.value.length,this.value.length)"></div>
+  <div class="hcard">${L.length?L.map(x=>{
+   const my=ws.filter(w=>w.sid===x.id&&String(w.date||'').slice(0,4)===YEAR).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+   const last=my[0];const y=Y(x);
+   return `<div class="hrow" onclick="openLogs('${x.id}')">
+    <div class="l1"><b>${esc(x.name)}${x.sec==='priv'?' <span class="tgu k">민간</span>':''}</b>
+     ${my.length?`<span class="tgu k">${my.length}건</span>`:'<span class="tgu r">없음</span>'}
+     ${y.issue?'<span class="tgu u">이슈</span>':''}</div>
+    <div class="l3"><span>${last?'최근 '+esc((last.date||'').slice(5).replace('-','/'))+' · '+esc(last.by||'')+(last.sign?' · 서명':' · 미서명'):'아직 작성된 일지가 없습니다'}</span>
+     <button class="sb" onclick="event.stopPropagation();newWork('${x.id}','중식')">＋ 중식</button>
+     <button class="sb" onclick="event.stopPropagation();newWork('${x.id}','석식')">＋ 석식</button></div></div>`}).join('')
+   :'<div class="hempty">검색 결과가 없습니다</div>'}</div>
+  <div class="fhint" style="margin:10px 18px 0">현장을 누르면 그 현장의 일지 목록 · 작성 · 파일 올리기 · PDF 내보내기가 열립니다.</div>`}
 function rdMore(){const el=document.getElementById('tabMore');if(!el)return;
  el.innerHTML='<div style="padding:0 16px">'+menuHtml()+'</div>'}
 
