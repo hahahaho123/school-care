@@ -678,6 +678,64 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
  padding:11px 17px;border-radius:9px;font-size:13px;font-weight:600;z-index:210;opacity:0;pointer-events:none;transition:opacity .18s;max-width:86%;text-align:center}
 .tst.on{opacity:1}
 .foot{text-align:center;font-size:10.5px;color:var(--ink3);padding:26px 0 0;line-height:1.7}
+/* ===== v7.1 하단 탭 · 홈 · AS ===== */
+.secseg{display:none!important}
+.tab{display:none}
+body[data-tab=home] #tabHome,body[data-tab=site] #tabSite,body[data-tab=chk] #tabChk,body[data-tab=more] #tabMore{display:block}
+body:not([data-tab=chk]) .rings,body:not([data-tab=chk]) .hstats{display:none}
+body:not([data-tab=home]) .askpi{display:none}
+.page{padding-bottom:calc(150px + var(--sb))}
+body[data-tab=home] .page{padding-bottom:calc(210px + var(--sb))}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);
+ display:grid;grid-template-columns:repeat(4,1fr);padding:6px 0 calc(6px + var(--sb))}
+.tabbar button{background:none;border:none;font:inherit;font-size:10.5px;font-weight:700;color:var(--ink3);padding:4px 0;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.tabbar button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tabbar button.on{color:var(--navy)}
+.tabbar button .nd{position:absolute;margin-left:22px;width:7px;height:7px;border-radius:50%;background:#E24B4A;display:none}
+.tabbar button.dot .nd{display:block}
+.askpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;position:relative;z-index:1}
+.askpi .k{background:rgba(255,255,255,.11);border-radius:11px;padding:10px 9px;text-align:left}
+.askpi .k .t{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.75)}
+.askpi .k .v{font-size:22px;font-weight:800;margin-top:2px;line-height:1.1}
+.askpi .k.bad{background:rgba(226,75,74,.28)}.askpi .k.bad .t,.askpi .k.bad .v{color:#F7C1C1}
+.askpi .k.gray{background:rgba(255,255,255,.08)}
+.hsec{display:flex;align-items:baseline;justify-content:space-between;margin:18px 16px 7px}
+.hsec b{font-size:13px;font-weight:800;color:var(--ink)}.hsec span{font-size:11px;font-weight:700;color:var(--ink3)}
+.hsec a{font-size:11px;font-weight:700;color:var(--blue);cursor:pointer}
+.hcard{margin:0 16px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.hrow{padding:11px 13px;border-bottom:1px solid var(--line)}.hrow:last-child{border-bottom:none}
+.hrow.urg{border-left:3px solid #E24B4A}
+.hrow .l1{display:flex;align-items:center;gap:6px}.hrow .l1 b{font-size:13.5px;font-weight:800;flex:1;color:var(--ink)}
+.hrow .l2{font-size:12px;color:var(--ink2);margin-top:4px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line}
+.hrow .l3{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:11px;font-weight:700;color:var(--ink3)}
+.hrow .l3 span:first-child{flex:1}
+.tel{width:28px;height:28px;border-radius:50%;background:var(--tint);display:inline-flex;align-items:center;justify-content:center;color:var(--navy);text-decoration:none}
+.tel svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tel.off{opacity:.3;pointer-events:none}
+.sb{font-size:11px;font-weight:700;padding:6px 10px;border-radius:8px;border:1px solid var(--navy);color:var(--navy);background:#fff}
+.sb.p{background:var(--navy);color:#fff}
+.tgu{font-size:10px;font-weight:800;padding:2px 7px;border-radius:8px}
+.tgu.u{background:#FCEBEB;color:#A32D2D}.tgu.r{background:#F1EFE8;color:#5F5E5A}.tgu.k{background:var(--tint);color:var(--navy)}
+.tgu.done{background:#EAF3DE;color:#3B6D11}
+.hbtns{position:fixed;left:0;right:0;bottom:calc(58px + var(--sb));z-index:39;max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 16px 8px;background:var(--bg)}
+body:not([data-tab=home]) .hbtns{display:none}
+.hbtns button{padding:13px 6px;border-radius:12px;font-size:13.5px;font-weight:800;border:1px solid var(--navy)}
+.hbtns .p{background:var(--navy);color:#fff}.hbtns .o{background:#fff;color:var(--navy)}
+.hempty{padding:16px 13px;font-size:12px;font-weight:700;color:var(--ink3);text-align:center}
+.urgsel{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.urgsel button{padding:10px 6px;border-radius:10px;border:1px solid var(--line);background:#fff;text-align:center;font-weight:800;font-size:13px;color:#5F5E5A}
+.urgsel button i{display:block;font-style:normal;font-size:10px;font-weight:700;margin-top:2px;color:var(--ink3)}
+.urgsel button.on{border:2px solid var(--navy);color:var(--navy)}
+.urgsel button.u.on{border-color:#E24B4A;background:#FCEBEB;color:#A32D2D}.urgsel button.u.on i{color:#A32D2D}
+.kindsel{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.kindsel button{padding:10px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:12.5px;color:var(--ink2)}
+.kindsel button.on{border-color:var(--navy);background:var(--tint);color:var(--navy)}
+.dtrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lockf{background:var(--tint);color:var(--ink)}
+.asfilt{display:flex;gap:6px;padding:0 0 10px;flex-wrap:wrap}
+.asfilt button{font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink2)}
+.asfilt button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+
 </style>
 </head>
 <body>
@@ -696,6 +754,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
     <div><div class="eyebrow">(주)한국로보틱스</div><h1>HR 현장 통합 관리</h1></div>
     <select class="yrsel" id="yrSel" onchange="setYear(this.value)"></select>
   </div>
+  <div class="askpi" id="asKpi"></div>
   <div class="secseg">
     <button id="secS" class="on" onclick="setSec('school')">학교 <em id="secNS">0</em></button>
     <button id="secP" onclick="setSec('priv')">민간 <em id="secNP">0</em></button>
@@ -727,6 +786,8 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 </div>
 
 <div class="pastbar" id="pastBar" style="display:none">선택한 연도: <span id="pastY"></span><button onclick="setYear(Y0())">올해로</button></div>
+<div class="tab" id="tabHome"></div>
+<div class="tab" id="tabSite">
 <button class="loginbar" id="loginBar" onclick="openLogins()">
   <span class="lk">최근 로그인</span>
   <span class="lv" id="loginNow">-</span>
@@ -753,7 +814,8 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 
 <div class="tools" id="tools" style="display:none">
   <div class="addrow">
-    <input class="inp" type="text" id="nName" placeholder="새 학교 추가" autocomplete="off">
+    <select class="inp" id="nSec" style="width:auto;flex:0 0 auto"><option value="school">학교</option><option value="priv">민간</option></select>
+    <input class="inp" type="text" id="nName" placeholder="새 현장 추가" autocomplete="off">
     <span class="rgwrap">
       <select class="inp rgsel" id="nRgSel" onchange="onRgSel(this.value)"></select>
       <input class="inp" type="text" id="nRgTxt" placeholder="지역 입력" autocomplete="off" style="display:none">
@@ -768,6 +830,9 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 
 <div id="acts" style="display:none"></div>
 <input type="file" id="imp" accept=".json" style="display:none" onchange="imJSON(this)">
+</div>
+<div class="tab" id="tabChk"></div>
+<div class="tab" id="tabMore"></div>
 <div class="foot"><span id="whoNow" style="font-weight:700;color:var(--ink2)"></span><br>(주)한국로보틱스<br><span id="ver"></span></div>
 </div>
 
@@ -775,13 +840,77 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 <input type="file" id="lgpick" style="display:none" multiple
  accept=".xlsx,.xls,.xlsm,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv,application/pdf,image/*">
 
+<div class="hbtns"><button class="p" onclick="openAq()">AS 요청 접수</button><button class="o" onclick="openAr('')">처리 결과 등록</button></div>
+<nav class="tabbar" id="tabbar">
+  <button id="tbHome" onclick="setTab('home')"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>홈<span class="nd"></span></button>
+  <button id="tbSite" onclick="setTab('site')"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M15 9h3a1 1 0 0 1 1 1v11M9 8h2M9 12h2M9 16h2"/></svg>현장</button>
+  <button id="tbChk" onclick="setTab('chk')"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 14l2 2 4-4"/></svg>점검·일지</button>
+  <button id="tbMore" onclick="setTab('more')"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg>더보기<span class="nd"></span></button>
+</nav>
+
+<div class="ov" id="ovAq" onclick="if(event.target===this)cl('ovAq')"><div class="sheet" style="max-width:480px">
+  <div class="shd"><h3 id="aqTt">AS 요청 접수</h3><button class="cls" onclick="cl('ovAq')">✕</button></div>
+  <div class="sbd">
+    <label class="fl">현장</label><select class="inp" id="aqSite"></select>
+    <label class="fl" style="margin-top:12px">접수 일시</label>
+    <div class="dtrow" style="gap:6px"><input class="inp" type="date" id="aqD"><input class="inp" type="time" id="aqT"></div>
+    <div class="dtrow" style="margin-top:12px">
+      <div><label class="fl">접수자</label><input class="inp lockf" id="aqBy" readonly></div>
+      <div><label class="fl">요청자</label><input class="inp" id="aqWho" placeholder="예) 이00 영양사님" autocomplete="off"></div>
+    </div>
+    <label class="fl" style="margin-top:12px">긴급도</label>
+    <div class="urgsel" id="aqUrg">
+      <button class="u" onclick="pickUrg('u')">긴급<i>당일 대응</i></button>
+      <button class="n on" onclick="pickUrg('n')">일반<i>며칠 내 조치</i></button>
+      <button class="r" onclick="pickUrg('r')">예약<i>다음 점검 때</i></button></div>
+    <label class="fl" style="margin-top:12px">요청 내용</label>
+    <textarea class="inp" id="aqTxt" style="min-height:110px" placeholder="학교에서 말한 내용을 그대로 적어주세요.
+예) 조리 중 3번 로봇이 멈추고 알람이 뜸, 재시작해도 안 됨. 점심 배식 전 복구 요청"></textarea>
+    <div class="lerr" id="aqErr"></div>
+    <div class="two" style="margin-top:6px"><button class="act" style="padding:13px" onclick="cl('ovAq')">취소</button><button class="b" onclick="saveAq()">접수</button></div>
+    <div id="aqDel" style="display:none;margin-top:10px"><button class="act d" style="width:100%" onclick="delAq()">이 요청 삭제</button></div>
+    <div style="height:8px"></div></div></div></div>
+
+<div class="ov" id="ovAr" onclick="if(event.target===this)cl('ovAr')"><div class="sheet" style="max-width:480px">
+  <div class="shd"><h3 id="arTt">처리 결과 등록</h3><button class="cls" onclick="cl('ovAr')">✕</button></div>
+  <div class="sbd">
+    <label class="fl">현장</label><select class="inp" id="arSite" onchange="arSiteChg()"></select>
+    <label class="fl" style="margin-top:12px">연동할 AS 요청 <span class="iwh">선택하면 그 요청이 처리 완료로 바뀝니다</span></label>
+    <select class="inp" id="arTk"></select>
+    <div id="arTkInfo" class="fhint" style="display:none;white-space:pre-line"></div>
+    <div class="dtrow" style="margin-top:12px">
+      <div><label class="fl">방문 일시</label><input class="inp" type="date" id="arD"></div>
+      <div><label class="fl">&nbsp;</label><input class="inp" type="time" id="arT"></div>
+    </div>
+    <label class="fl" style="margin-top:12px">처리자</label><input class="inp lockf" id="arBy" readonly>
+    <label class="fl" style="margin-top:12px">구분 <span class="iwh">여러 개 선택 가능</span></label>
+    <div class="kindsel" id="arKind">
+      <button onclick="pickKind(this,'정기점검')">정기점검</button><button onclick="pickKind(this,'고장수리')">고장수리</button>
+      <button onclick="pickKind(this,'부품교체')">부품교체</button><button onclick="pickKind(this,'SW업데이트')">SW업데이트</button></div>
+    <label class="fl" style="margin-top:12px">조치 내용</label>
+    <textarea class="inp" id="arTxt" style="min-height:100px" placeholder="예) 소스 펌프 교체, 배관 세척 후 정상 토출 확인"></textarea>
+    <label class="fl" style="margin-top:12px">사용 부품 <span class="iwh">쉼표로 구분</span></label>
+    <input class="inp" id="arParts" placeholder="예) 소스펌프, 그리퍼 패드 2" autocomplete="off">
+    <div class="lerr" id="arErr"></div>
+    <div class="two" style="margin-top:6px"><button class="act" style="padding:13px" onclick="cl('ovAr')">취소</button><button class="b" onclick="saveAr()">저장</button></div>
+    <div id="arDel" style="display:none;margin-top:10px"><button class="act d" style="width:100%" onclick="delAr()">이 처리 결과 삭제</button></div>
+    <div style="height:8px"></div></div></div></div>
+
+<div class="ov" id="ovAl" onclick="if(event.target===this)cl('ovAl')"><div class="sheet" style="max-width:560px">
+  <div class="shd"><h3 id="alTt">AS 요청 건 이력</h3><span id="alCnt" style="font-size:12px;font-weight:700;color:var(--ink3)"></span><button class="cls" onclick="cl('ovAl')">✕</button></div>
+  <div class="sbd" id="alBd"></div></div></div>
+
+<div class="ov" id="ovCt" onclick="if(event.target===this)cl('ovCt')"><div class="sheet" style="max-width:520px">
+  <div class="shd"><h3>현장 연락처</h3><button class="cls" onclick="cl('ovCt')">✕</button></div>
+  <div class="sbd" id="ctBd"></div></div></div>
+
 <div class="lock" id="lock"><div class="lbox">
   <div class="lhead">
     <img class="llogo" id="lLogo" src="" alt="한국로보틱스">
     <div class="lt">HR 현장 통합 관리</div><div class="ls">(주)한국로보틱스</div>
   </div>
   <div class="flrow"><label class="fl">아이디 또는 이름</label><span class="flx">로그인 간편화 · 이름 또는 아이디만 입력</span></div>
-  <input class="inp" type="text" id="lName"
+  <input class="inp" type="text" id="lName" placeholder="예) 안성용"
     autocomplete="off" autocapitalize="off" spellcheck="false">
   <label class="fl" style="margin-top:13px">비밀번호</label>
   <input class="inp" type="password" id="lPw" autocomplete="off" placeholder="초기 비밀번호 1111">
@@ -1038,7 +1167,7 @@ mark{background:#FFF0B8;color:inherit;border-radius:3px;padding:0 1px;font-weigh
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
 const POLL_SEC = 60;
-const BUILD = 'v7.0';
+const BUILD = 'v7.1';
 const IDLE_MIN = 15;   // 미사용 자동 로그아웃 (분)
 const BEAT_MIN = 10;   // 접속 상태 갱신 주기 (분)
 const ONLINE_MIN = 15; // 이 시간 안에 활동했으면 접속 중으로 표시
@@ -1091,7 +1220,21 @@ const LS=(()=>{const K='hrCheck.v4';let mem=null;
  set(d){mem=d;if(!can)return;try{localStorage.setItem(K,JSON.stringify(d))}catch(e){}},on:can}})();
 
 let DB=LS.get()||fresh();
+/* v7.1 팀원 계정 일괄 생성 — 같은 이름이 없을 때만 한 번 추가 (초기 비번 1111, 첫 로그인 때 변경) */
+const SEED_USERS=['진혁진','고우현','원서연','정진기','김경홍','정도영','라훌란잔'];
+function seedUsers(){if(!Array.isArray(DB.users))return;let n=0;
+ SEED_USERS.forEach(nm=>{if(DB.users.some(u=>String(u.name||'').trim()===nm))return;
+  const id=nm;if(DB.users.some(u=>String(u.id||'')===id))return;
+  if((DB.utomb||{})[id])return;
+  DB.users.push({id,pw:'1111',name:nm,role:'user',mustPw:true,seed:'v7.1',mt:Date.now()});n++});
+ if(n){DB.updatedAt=Date.now()}}
 function normalize(){
+ if(!DB.as||typeof DB.as!=='object')DB.as={};
+ try{seedUsers()}catch(e){}
+ if(!Array.isArray(DB.as.tickets))DB.as.tickets=[];
+ if(!Array.isArray(DB.as.visits))DB.as.visits=[];
+ if(!DB.as.tomb||typeof DB.as.tomb!=='object')DB.as.tomb={};
+ if(!DB.contacts||typeof DB.contacts!=='object')DB.contacts={};
  if(!DB.history)DB.history=[]; if(!DB.cycle)DB.cycle={p:6,r:12}; if(!DB.tomb)DB.tomb={};
  if(!DB.utomb)DB.utomb={};
  if(!Array.isArray(DB.works))DB.works=[];
@@ -1162,7 +1305,7 @@ const SECK='hrSec.v1';
 let SEC='school';
 try{SEC=localStorage.getItem(SECK)==='priv'?'priv':'school'}catch(e){}
 const secOf=s=>(s&&s.sec==='priv')?'priv':'school';
-const LIST=()=>DB.schools.filter(s=>secOf(s)===SEC);
+const LIST=()=>DB.schools;   /* v7.1: 학교·민간 통합 */
 const U=()=>SEC==='priv'?'현장':'학교';
 const UN=()=>SEC==='priv'?'곳':'개교';
 const UGA=()=>SEC==='priv'?'현장이':'학교가';
@@ -1401,7 +1544,7 @@ async function doLogin(){
  beat(true);touchLogin(true);maybeNews();
  if(u.role==='admin')askNoti();
  if(hasNew())setTimeout(()=>ts('앱이 업데이트되었습니다 · 오른쪽 위 메뉴에서 확인하세요'),1400);
- rdActs();rdLoginBar();ts((ME.name||ME.id)+'님, 반갑습니다');
+ rdActs();rdLoginBar();setTab(TAB);ts((ME.name||ME.id)+'님, 반갑습니다');
  if(u.mustPw)setTimeout(()=>openPw(true),600)}
 /* ============== 비밀번호 변경 (로그인 전) ============== */
 let cUser=null;
@@ -1675,16 +1818,18 @@ function mItem(fn,ic,name,desc,opt){opt=opt||{};
    <span class="mic">${sv(ic)}</span>
    <span><b>${name}</b>${desc?`<i>${desc}</i>`:''}</span>
    ${opt.dot?'<span class="dot"></span>':'<span class="ar">›</span>'}</button>`}
-function openMenu(){
+function openMenu(){setTab('more')}
+function menuHtml(){
  const admin=ME&&ME.role==='admin';
- const pend=(DB.users||[]).filter(u=>u.status==='pending').length;
- document.getElementById('mnBd').innerHTML=`
+ return `
   <div class="mgrp">보기</div>
   <div class="mlist">
    ${mItem('openMan()','man','매뉴얼','앱 사용법 안내')}
    ${mItem('openWhat()','up','업데이트 내역 보기','업데이트 내용 확인',{dot:hasNew()})}
    ${mItem('openLog()','log','변경 이력','변경 내역 확인')}
    ${mItem('openLogins()','usr','접속 현황','접속 중 · 로그인 기록')}
+   ${mItem("openAl('t')",'log','AS 요청 건 이력','접수 · 진행 · 완료')}
+   ${mItem("openAl('v')",'log','AS 처리 결과 이력','방문 · 조치 · 부품')}
    ${mItem('openTips()','bell','한국로보틱스 건의 (익명)','바꿨으면 하는 점을 알려 주세요')}
    ${canTip()?mItem('openTipSum()','log','한국로보틱스 건의사항 종합','받은 건의 확인'+(tipNew()?' · 새 건의 '+tipNew()+'건':''),{dot:!!tipNew()}):''}
   </div>
@@ -1693,6 +1838,7 @@ function openMenu(){
    ${mItem('openDump()','dn','현장 자료 내보내기','일일점검 · 점검 자료를 zip 으로')}
    ${mItem('exCSV()','csv','엑셀(CSV) 내보내기','현황 · 특별점검 · 지난 기록')}
    ${mItem('openUsers()','usr','계정 관리','계정 추가 · 권한 · 비밀번호 초기화')}
+   ${mItem('openCt()','usr','현장 연락처','학교별 전화번호 · 홈에서 바로 통화')}
    ${mItem('exJSON()','dn','백업 저장','전체 데이터를 파일로')}
    ${mItem("document.getElementById('imp').click()",'upl','백업 불러오기','파일로 전체 복원')}
    ${mItem('openDel()','trash',U()+' 삭제','여러 '+UREUL()+' 선택해 삭제',{d:1})}
@@ -1702,8 +1848,7 @@ function openMenu(){
    ${mItem('openPw(false)','usr','비밀번호 변경','내 비밀번호를 직접 바꿉니다')}
    ${mItem('logout()','out','로그아웃',(ME?(ME.name||ME.id):''))}
   </div>
-  <div style="height:16px"></div>`;
- op('ovMn')}
+  <div style="height:16px"></div>`}
 function rdActs(){
  const admin=ME&&ME.role==='admin';
  const pend=(DB.users||[]).filter(u=>u.status==='pending').length;
@@ -1795,7 +1940,7 @@ function addSchool(){
  const rg=pickedRg();
  if(!rg||rg==='__custom')return ts('지역을 선택하세요');
  const ns=Object.assign({id:'s'+Date.now()+Math.random().toString(36).slice(2,5),
-  order:LIST().reduce((a,s)=>Math.max(a,s.order),0)+1,sec:SEC,name:n,region:rg},blank(),{mt:Date.now()});
+  order:LIST().reduce((a,s)=>Math.max(a,s.order),0)+1,sec:((document.getElementById('nSec')||{}).value||'school'),name:n,region:rg},blank(),{mt:Date.now()});
  if(ALIAS[n])ns.alias=ALIAS[n];
  Y(ns); DB.schools.push(ns); LOG(ns.id,U()+' 등록 ('+rg+')');
  document.getElementById('nName').value='';resetRg();save();chips();rd();ts(n+' 추가 완료 ('+rg+')')}
@@ -3176,12 +3321,11 @@ async function delUser(id){
 
 /* ============== 업데이트 내역 ============== */
 const CHANGES=[
- {v:'v7.0',d:'2026-08-31',t:'로그인이 간단해졌습니다',n:[
-  '<b>아이디 또는 이름</b> 어느 쪽을 넣어도 로그인됩니다. 비밀번호는 기존 그대로입니다.',
-  '<b>회원가입 · 승인 절차를 없앴습니다.</b> 계정은 관리자가 만들어 전달합니다.',
-  '<b>로그인 정보 저장</b>을 켜면 링크로 들어와도 다시 로그인하지 않습니다.',
-  '메뉴 → <b>비밀번호 변경</b>에서 본인이 직접 바꿉니다. 처음 받은 초기 비밀번호는 첫 로그인 때 바꾸도록 안내합니다.',
-  '로고를 새 이미지로 바꿨습니다.']},
+ {v:'v7.1',d:'2026-08-31',t:'홈 · AS · 간편 로그인',n:[
+  '<b>하단 탭 4개</b> — 홈 · 현장 · 점검·일지 · 더보기',
+  '<b>홈</b> — AS 현황 · 오늘 방문 · 이번 주 점검',
+  '<b>AS 요청 접수 · 처리 결과 등록</b>',
+  '<b>로그인</b> — 이름만 입력']},
  {v:'v5.1',d:'2026-08-03',t:'새로 바뀐 점',n:[
   '<b>민간 현장</b>을 함께 관리합니다 — 상단 학교 · 민간을 눌러 바꿉니다 (삼성 · 현대차 · 피자로봇 등).',
   '점검 항목의 <b>카메라 버튼 → ＋ 자료 올리기</b> 로 카메라 촬영과 내 파일 중에 골라 올립니다.',
@@ -3448,6 +3592,231 @@ if(ME && RESTORED){const u0=findUser(ME.id);
 else if(ME && Date.now()-readAct() > IDLE_MIN*60*1000){
  try{sessionStorage.removeItem(UKEY)}catch(e){} ME=null}
 if(!ME)showLock(); else {document.getElementById('lock').classList.add('off');secSkin();maybeNews();markAct();setTimeout(()=>{touchLogin(false);beat(true)},300)}
+
+/* ============== v7.1 탭 · 홈 · AS ============== */
+const TABK='hrTab.v1';let TAB='home';
+try{TAB=localStorage.getItem(TABK)||'home'}catch(e){}
+if(!/^(home|site|chk|more)$/.test(TAB))TAB='home';
+function setTab(t){TAB=t;document.body.setAttribute('data-tab',t);
+ try{localStorage.setItem(TABK,t)}catch(e){}
+ ['Home','Site','Chk','More'].forEach(k=>{const b=document.getElementById('tb'+k);if(b)b.classList.toggle('on',k.toLowerCase()===t)});
+ if(t==='home')rdHome(); if(t==='chk')rdChk(); if(t==='more')rdMore();
+ window.scrollTo({top:0})}
+const AS=()=>DB.as;
+const asId=p=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const nowD=()=>iso(new Date()),nowT=()=>{const d=new Date();return p2s(d.getHours())+':'+p2s(d.getMinutes())};
+const fmtDT=(d,t)=>{if(!d)return'-';const m=d.slice(5).replace('-','/');return t?m+' '+t:m};
+const URG={u:'긴급',n:'일반',r:'예약'};
+const URGN=u=>URG[u]||'일반';
+const sName=id=>{const x=S(id);return x?x.name:'(삭제된 현장)'};
+const tkOpen=()=>AS().tickets.filter(t=>t.st!=='done');
+const urgRank={u:0,n:1,r:2};
+function asSave(msg){DB.updatedAt=Date.now();LS.set(DB);queuePush();rdHome();if(msg)ts(msg)}
+function telOf(sid){const c=DB.contacts[sid];return c&&c.tel?String(c.tel).replace(/[^0-9+]/g,''):''}
+function telBtn(sid){const t=telOf(sid);
+ const ic='<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>';
+ return t?`<a class="tel" href="tel:${t}" onclick="event.stopPropagation()" aria-label="전화">${ic}</a>`:`<span class="tel off">${ic}</span>`}
+function siteOpts(sel,cur){const L=DB.schools.slice().sort((a,b)=>(a.order||0)-(b.order||0));
+ sel.innerHTML='<option value="">현장 선택</option>'+L.map(x=>`<option value="${x.id}" ${x.id===cur?'selected':''}>${esc(x.name)}${x.sec==='priv'?' (민간)':''}</option>`).join('')}
+
+/* ---- KPI + 홈 ---- */
+function rdKpi(){const el=document.getElementById('asKpi');if(!el)return;
+ const ym=nowD().slice(0,7);
+ const done=AS().visits.filter(v=>(v.d||'').slice(0,7)===ym).length;
+ const open=tkOpen();const urg=open.filter(t=>t.urg==='u').length;
+ el.innerHTML=`<button class="k" onclick="openAl('v')"><div class="t">이번 달 AS 처리</div><div class="v">${done}</div></button>
+  <button class="k" onclick="openAl('t')"><div class="t">미처리 요청</div><div class="v">${open.length}</div></button>
+  <button class="k ${urg?'bad':'gray'}" onclick="openAl('t','u')"><div class="t">긴급</div><div class="v">${urg}</div></button>`;
+ const tb=document.getElementById('tbHome');if(tb)tb.classList.toggle('dot',urg>0)}
+function tkRow(t,opts){opts=opts||{};const s=S(t.sid);
+ const done=t.st==='done';
+ return `<div class="hrow ${t.urg==='u'&&!done?'urg':''}" onclick="editAq('${t.id}')">
+  <div class="l1"><b>${esc(sName(t.sid))}</b>${done?'<span class="tgu done">완료</span>':t.urg==='u'?'<span class="tgu u">긴급</span>':t.urg==='r'?'<span class="tgu r">예약</span>':''}</div>
+  <div class="l2">${esc(t.txt||'')}</div>
+  <div class="l3"><span>${t.who?'요청자 '+esc(t.who)+' · ':''}접수 ${esc(t.by||'-')} · ${fmtDT(t.d,t.t)}</span>${telBtn(t.sid)}
+   ${done?'':`<button class="sb ${t.urg==='u'?'p':''}" onclick="event.stopPropagation();openAr('${t.id}')">결과 등록</button>`}</div></div>`}
+function vsRow(v){const kinds=(v.kind||[]).join(' · ');const tk=v.tk?AS().tickets.find(t=>t.id===v.tk):null;
+ return `<div class="hrow" onclick="editAr('${v.id}')">
+  <div class="l1"><b>${esc(sName(v.sid))}</b>${kinds?`<span class="tgu k">${esc(kinds)}</span>`:''}<span class="tgu done">완료</span></div>
+  <div class="l2">${esc(v.txt||'')}${v.parts?'\n부품: '+esc(v.parts):''}</div>
+  <div class="l3"><span>${tk?'접수 '+esc(tk.by||'-')+' / ':''}처리 ${esc(v.by||'-')}${tk&&tk.who?' / 요청자 '+esc(tk.who):''} · ${fmtDT(v.d,v.t)}</span>${telBtn(v.sid)}</div></div>`}
+function weekChk(){ /* 이번 주(월~일) 안에 도래하는 정기점검 · 재교육 */
+ const out=[];const t0=new Date();t0.setHours(0,0,0,0);const dow=(t0.getDay()+6)%7;
+ const mon=new Date(t0);mon.setDate(t0.getDate()-dow);const sun=new Date(mon);sun.setDate(mon.getDate()+6);
+ const cyc=DB.cycle||{p:6,r:12};
+ DB.schools.forEach(s=>{const y=Y(s);
+  [['p1','p2','p',cyc.p],['e1','e2','r',cyc.r]].forEach(([a,b,c,mo])=>{
+   const last=y[b+'Date']||y[a+'Date'];if(!last)return;
+   const d=new Date(last);d.setMonth(d.getMonth()+(mo||6));
+   if(d>=mon&&d<=sun)out.push({s,name:c==='p'?'정기점검':'재교육',d})})});
+ return out.sort((a,b)=>a.d-b.d)}
+function rdHome(){const el=document.getElementById('tabHome');if(!el)return;rdKpi();
+ const open=tkOpen().sort((a,b)=>(urgRank[a.urg]??1)-(urgRank[b.urg]??1)||String(a.d+a.t).localeCompare(String(b.d+b.t)));
+ const today=nowD();
+ const tv=AS().visits.filter(v=>v.d===today).sort((a,b)=>String(a.t).localeCompare(String(b.t)));
+ const wk=weekChk();
+ const rec=AS().visits.slice().sort((a,b)=>String(b.d+b.t).localeCompare(String(a.d+a.t))).slice(0,3);
+ const dn=['일','월','화','수','목','금','토'];
+ const dd=new Date();
+ el.innerHTML=`
+  <div class="hsec"><b>오늘 방문</b><span>${dd.getMonth()+1}/${dd.getDate()} (${dn[dd.getDay()]}) · ${tv.length}건</span></div>
+  <div class="hcard">${tv.length?tv.map(v=>`<div class="hrow" onclick="editAr('${v.id}')"><div class="l1"><span class="tgu k">${esc(v.t||'--:--')}</span><b>${esc(sName(v.sid))}</b><span class="tgu k">${esc((v.kind||[])[0]||'방문')}</span>${telBtn(v.sid)}</div></div>`).join('')
+   :'<div class="hempty">오늘 등록된 방문이 없습니다</div>'}</div>
+  <div class="hsec"><b>미처리 AS 요청</b><a onclick="openAl('t')">요청 건 이력 ›</a></div>
+  <div class="hcard">${open.length?open.slice(0,5).map(t=>tkRow(t)).join('')+(open.length>5?`<div class="hempty" style="cursor:pointer" onclick="openAl('t')">${open.length-5}건 더 보기</div>`:''):'<div class="hempty">미처리 요청이 없습니다</div>'}</div>
+  <div class="hsec"><b>이번 주 정기점검</b><span>${wk.length}곳</span></div>
+  <div class="hcard">${wk.length?wk.slice(0,6).map(w=>`<div class="hrow" onclick="setTab('site');document.getElementById('q').value='${esc(w.s.name)}';rd()"><div class="l1"><b>${esc(w.s.name)}</b><span class="tgu k">${dn[w.d.getDay()]} · ${w.name}</span>${telBtn(w.s.id)}</div></div>`).join('')
+   :'<div class="hempty">이번 주 예정된 점검이 없습니다</div>'}</div>
+  <div class="hsec"><b>최근 처리 결과</b><a onclick="openAl('v')">처리 결과 이력 ›</a></div>
+  <div class="hcard">${rec.length?rec.map(vsRow).join(''):'<div class="hempty">등록된 처리 결과가 없습니다</div>'}</div>
+  <div style="height:8px"></div>`}
+
+/* ---- 점검·일지 탭 ---- */
+function rdChk(){const el=document.getElementById('tabChk');if(!el)return;
+ const ws=(DB.works||[]).slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))||(b.mt||0)-(a.mt||0)).slice(0,8);
+ const iss=DB.schools.filter(s=>Y(s).issue).length;
+ const sp=DB.schools.filter(s=>Y(s).specials.length).length;
+ el.innerHTML=`
+  <div class="hsec"><b>바로 가기</b></div>
+  <div class="hcard">
+   <div class="hrow" onclick="openSum()"><div class="l1"><b>${U()} 전체 요약</b><span class="tgu k">${DB.schools.length}곳</span></div></div>
+   <div class="hrow" onclick="openIssues()"><div class="l1"><b>미해결 이슈</b>${iss?`<span class="tgu u">${iss}건</span>`:'<span class="tgu k">없음</span>'}</div></div>
+   <div class="hrow" onclick="setTab('site')"><div class="l1"><b>${U()}별 점검 · 교육 체크</b><span class="tgu k">현장 탭</span></div></div>
+  </div>
+  <div class="hsec"><b>최근 업무일지</b><span>${(DB.works||[]).length}건</span></div>
+  <div class="hcard">${ws.length?ws.map(w=>`<div class="hrow" onclick="editWork('${w.id}')"><div class="l1"><span class="tgu k">${esc((w.date||'').slice(5).replace('-','/'))}</span><b>${esc(sName(w.sid))}</b>${w.sign?'<span class="tgu done">서명</span>':'<span class="tgu r">미서명</span>'}<span class="tgu k">${esc(w.by||'')}</span></div></div>`).join('')
+   :'<div class="hempty">작성된 업무일지가 없습니다. 현장 탭의 학교 카드에서 작성합니다.</div>'}</div>
+  <div class="hsec"><b>특별점검</b><span>실시 ${sp}곳</span></div>
+  <div class="hcard"><div class="hrow" onclick="setTab('site')"><div class="l1"><b>현장별 특별점검 기록 보기</b><span class="tgu k">현장 탭</span></div></div></div>`}
+function rdMore(){const el=document.getElementById('tabMore');if(!el)return;
+ el.innerHTML='<div style="padding:0 16px">'+menuHtml()+'</div>'}
+
+/* ---- AS 요청 접수 ---- */
+let aqEdit=null,aqUrgV='n';
+function pickUrg(u){aqUrgV=u;document.querySelectorAll('#aqUrg button').forEach(b=>b.classList.toggle('on',b.classList.contains(u)))}
+function openAq(){if(!ME)return ts('로그인 후 사용할 수 있습니다');aqEdit=null;
+ document.getElementById('aqTt').textContent='AS 요청 접수';
+ siteOpts(document.getElementById('aqSite'),'');
+ document.getElementById('aqD').value=nowD();document.getElementById('aqT').value=nowT();
+ document.getElementById('aqBy').value=ME.name||ME.id;
+ document.getElementById('aqWho').value='';document.getElementById('aqTxt').value='';
+ document.getElementById('aqErr').textContent='';document.getElementById('aqDel').style.display='none';
+ pickUrg('n');op('ovAq')}
+function editAq(id){const t=AS().tickets.find(x=>x.id===id);if(!t)return;openAq();aqEdit=t;
+ document.getElementById('aqTt').textContent='AS 요청'+(t.st==='done'?' (완료)':'');
+ siteOpts(document.getElementById('aqSite'),t.sid);
+ document.getElementById('aqD').value=t.d||'';document.getElementById('aqT').value=t.t||'';
+ document.getElementById('aqBy').value=t.by||'';document.getElementById('aqWho').value=t.who||'';
+ document.getElementById('aqTxt').value=t.txt||'';pickUrg(t.urg||'n');
+ document.getElementById('aqDel').style.display=isAdmin()||(ME&&ME.name===t.by)?'':'none'}
+function saveAq(){const err=document.getElementById('aqErr');
+ const sid=document.getElementById('aqSite').value,d=document.getElementById('aqD').value,t=document.getElementById('aqT').value;
+ const who=document.getElementById('aqWho').value.trim(),txt=document.getElementById('aqTxt').value.trim();
+ if(!sid)return err.textContent='현장을 선택해 주세요';
+ if(!d)return err.textContent='접수 일시를 입력해 주세요';
+ if(!txt)return err.textContent='요청 내용을 입력해 주세요';
+ if(aqEdit){Object.assign(aqEdit,{sid,d,t,who,txt,urg:aqUrgV,mt:Date.now()});LOG(sid,'AS 요청 수정: '+txt.slice(0,30))}
+ else{AS().tickets.push({id:asId('t'),sid,d,t,who,txt,urg:aqUrgV,by:ME.name||ME.id,st:'open',at:Date.now(),mt:Date.now()});
+  LOG(sid,'AS 요청 접수'+(aqUrgV==='u'?' [긴급]':'')+': '+txt.slice(0,30))}
+ cl('ovAq');asSave(aqEdit?'수정했습니다':'접수했습니다')}
+async function delAq(){if(!aqEdit)return;
+ if(!await confirmBox('요청 삭제','이 AS 요청을 삭제할까요?',{yes:'삭제',danger:1}))return;
+ AS().tomb[aqEdit.id]=Date.now();AS().tickets=AS().tickets.filter(x=>x!==aqEdit);
+ AS().visits.forEach(v=>{if(v.tk===aqEdit.id)delete v.tk});
+ LOG(aqEdit.sid,'AS 요청 삭제');aqEdit=null;cl('ovAq');asSave('삭제했습니다')}
+
+/* ---- 처리 결과 등록 ---- */
+let arEdit=null,arKinds=[];
+function pickKind(b,k){const i=arKinds.indexOf(k);if(i<0)arKinds.push(k);else arKinds.splice(i,1);b.classList.toggle('on',i<0)}
+function arTkOpts(sid,cur){const sel=document.getElementById('arTk');
+ const L=AS().tickets.filter(t=>t.sid===sid&&(t.st!=='done'||t.id===cur)).sort((a,b)=>String(b.d+b.t).localeCompare(String(a.d+a.t)));
+ sel.innerHTML='<option value="">연동 안 함</option>'+L.map(t=>`<option value="${t.id}" ${t.id===cur?'selected':''}>${fmtDT(t.d,t.t)} · ${URGN(t.urg)} · ${esc((t.txt||'').slice(0,28))}</option>`).join('');
+ arTkInfo()}
+function arTkInfo(){const id=document.getElementById('arTk').value,el=document.getElementById('arTkInfo');
+ const t=id?AS().tickets.find(x=>x.id===id):null;
+ el.style.display=t?'':'none';if(t)el.textContent='요청자 '+(t.who||'-')+' · 접수 '+(t.by||'-')+'\n'+(t.txt||'')}
+document.addEventListener('change',e=>{if(e.target&&e.target.id==='arTk')arTkInfo()});
+function arSiteChg(){arTkOpts(document.getElementById('arSite').value,'')}
+function openAr(tkId){if(!ME)return ts('로그인 후 사용할 수 있습니다');arEdit=null;arKinds=[];
+ const tk=tkId?AS().tickets.find(t=>t.id===tkId):null;
+ document.getElementById('arTt').textContent='처리 결과 등록';
+ siteOpts(document.getElementById('arSite'),tk?tk.sid:'');
+ arTkOpts(tk?tk.sid:'',tk?tk.id:'');
+ document.getElementById('arD').value=nowD();document.getElementById('arT').value=nowT();
+ document.getElementById('arBy').value=ME.name||ME.id;
+ document.querySelectorAll('#arKind button').forEach(b=>b.classList.remove('on'));
+ document.getElementById('arTxt').value='';document.getElementById('arParts').value='';
+ document.getElementById('arErr').textContent='';document.getElementById('arDel').style.display='none';
+ op('ovAr')}
+function editAr(id){const v=AS().visits.find(x=>x.id===id);if(!v)return;openAr('');arEdit=v;arKinds=(v.kind||[]).slice();
+ document.getElementById('arTt').textContent='처리 결과';
+ siteOpts(document.getElementById('arSite'),v.sid);arTkOpts(v.sid,v.tk||'');
+ document.getElementById('arD').value=v.d||'';document.getElementById('arT').value=v.t||'';
+ document.getElementById('arBy').value=v.by||'';
+ document.querySelectorAll('#arKind button').forEach(b=>b.classList.toggle('on',arKinds.indexOf(b.textContent)>=0));
+ document.getElementById('arTxt').value=v.txt||'';document.getElementById('arParts').value=v.parts||'';
+ document.getElementById('arDel').style.display=isAdmin()||(ME&&ME.name===v.by)?'':'none'}
+function saveAr(){const err=document.getElementById('arErr');
+ const sid=document.getElementById('arSite').value,tk=document.getElementById('arTk').value;
+ const d=document.getElementById('arD').value,t=document.getElementById('arT').value;
+ const txt=document.getElementById('arTxt').value.trim(),parts=document.getElementById('arParts').value.trim();
+ if(!sid)return err.textContent='현장을 선택해 주세요';
+ if(!d)return err.textContent='방문 일시를 입력해 주세요';
+ if(!arKinds.length)return err.textContent='구분을 하나 이상 선택해 주세요';
+ if(!txt)return err.textContent='조치 내용을 입력해 주세요';
+ const prevTk=arEdit?arEdit.tk:'';
+ if(arEdit){Object.assign(arEdit,{sid,tk,d,t,kind:arKinds.slice(),txt,parts,mt:Date.now()});LOG(sid,'AS 처리 결과 수정: '+txt.slice(0,30))}
+ else{AS().visits.push({id:asId('v'),sid,tk,d,t,kind:arKinds.slice(),txt,parts,by:ME.name||ME.id,at:Date.now(),mt:Date.now()});
+  LOG(sid,'AS 처리 결과 등록 ['+arKinds.join('·')+']: '+txt.slice(0,30))}
+ /* 연동 요청 상태 갱신 */
+ if(prevTk&&prevTk!==tk){const o=AS().tickets.find(x=>x.id===prevTk);if(o&&!AS().visits.some(v=>v.tk===prevTk)){o.st='open';o.mt=Date.now()}}
+ if(tk){const o=AS().tickets.find(x=>x.id===tk);if(o){o.st='done';o.doneAt=Date.now();o.mt=Date.now()}}
+ /* 정기점검 구분이면 점검 기록에도 반영 (날짜만, 체크는 현장 탭에서) */
+ cl('ovAr');asSave(arEdit?'수정했습니다':'저장했습니다')}
+async function delAr(){if(!arEdit)return;
+ if(!await confirmBox('처리 결과 삭제','이 처리 결과를 삭제할까요?',{yes:'삭제',danger:1}))return;
+ const tk=arEdit.tk;AS().tomb[arEdit.id]=Date.now();AS().visits=AS().visits.filter(x=>x!==arEdit);
+ if(tk){const o=AS().tickets.find(x=>x.id===tk);if(o&&!AS().visits.some(v=>v.tk===tk)){o.st='open';o.mt=Date.now()}}
+ LOG(arEdit.sid,'AS 처리 결과 삭제');arEdit=null;cl('ovAr');asSave('삭제했습니다')}
+
+/* ---- 이력 ---- */
+let alKind='t',alF='open';
+function openAl(kind,f){alKind=kind||'t';alF=f||(kind==='v'?'all':'open');rdAl();op('ovAl')}
+function alSet(f){alF=f;rdAl()}
+function rdAl(){const tt=document.getElementById('alTt'),bd=document.getElementById('alBd');
+ if(alKind==='t'){tt.textContent='AS 요청 건 이력';
+  let L=AS().tickets.slice();
+  if(alF==='open')L=L.filter(t=>t.st!=='done');else if(alF==='done')L=L.filter(t=>t.st==='done');else if(alF==='u')L=L.filter(t=>t.urg==='u'&&t.st!=='done');
+  L.sort((a,b)=>String(b.d+b.t).localeCompare(String(a.d+a.t)));
+  document.getElementById('alCnt').textContent=L.length+'건';
+  bd.innerHTML=`<div class="asfilt">${[['open','미처리'],['u','긴급'],['done','완료'],['all','전체']].map(([k,n])=>`<button class="${alF===k?'on':''}" onclick="alSet('${k}')">${n}</button>`).join('')}</div>
+   <div class="hcard" style="margin:0">${L.length?L.map(t=>tkRow(t)).join(''):'<div class="hempty">해당하는 요청이 없습니다</div>'}</div><div style="height:14px"></div>`}
+ else{tt.textContent='AS 처리 결과 이력';
+  let L=AS().visits.slice();
+  if(alF!=='all')L=L.filter(v=>(v.kind||[]).indexOf(alF)>=0);
+  L.sort((a,b)=>String(b.d+b.t).localeCompare(String(a.d+a.t)));
+  document.getElementById('alCnt').textContent=L.length+'건';
+  bd.innerHTML=`<div class="asfilt">${[['all','전체'],['정기점검','정기점검'],['고장수리','고장수리'],['부품교체','부품교체'],['SW업데이트','SW업데이트']].map(([k,n])=>`<button class="${alF===k?'on':''}" onclick="alSet('${k}')">${n}</button>`).join('')}</div>
+   <div class="hcard" style="margin:0">${L.length?L.map(vsRow).join(''):'<div class="hempty">해당하는 처리 결과가 없습니다</div>'}</div><div style="height:14px"></div>`}}
+
+/* ---- 현장 연락처 ---- */
+function openCt(){rdCt();op('ovCt')}
+function rdCt(){const adm=isAdmin();
+ const L=DB.schools.slice().sort((a,b)=>(a.order||0)-(b.order||0));
+ document.getElementById('ctBd').innerHTML=`<div class="fhint" style="margin:0 0 10px">${adm?'번호를 넣으면 홈과 이력의 전화 아이콘으로 바로 통화됩니다. 대표번호 하나만 넣어도 됩니다.':'번호는 관리자가 등록합니다. 전화 아이콘을 누르면 바로 통화됩니다.'}</div>
+  ${L.map(x=>{const c=DB.contacts[x.id]||{};return `<div class="box"><div style="display:flex;align-items:center;gap:8px">
+   <span class="d" style="flex:1">${esc(x.name)}</span>${telBtn(x.id)}</div>
+   <div class="two" style="margin-top:9px">
+    <div><label class="fl">전화번호</label><input class="inp" value="${esc(c.tel||'')}" ${adm?'':'readonly'} inputmode="tel" placeholder="02-000-0000" onchange="setCt('${x.id}','tel',this.value)"></div>
+    <div><label class="fl">담당자</label><input class="inp" value="${esc(c.who||'')}" ${adm?'':'readonly'} placeholder="예) 이00 영양사" onchange="setCt('${x.id}','who',this.value)"></div></div></div>`}).join('')}
+  <div style="height:10px"></div>`}
+function setCt(sid,k,v){if(!isAdmin())return ts('관리자만 수정할 수 있습니다');
+ DB.contacts[sid]=DB.contacts[sid]||{};DB.contacts[sid][k]=String(v).trim();DB.contacts[sid].mt=Date.now();
+ DB.updatedAt=Date.now();LS.set(DB);queuePush();rdCt();rdHome();ts('저장했습니다')}
+
+/* rd() 뒤에 홈도 다시 그림 */
+const rd0=rd;rd=function(){rd0();try{rdHome();if(TAB==='chk')rdChk()}catch(e){}};
+setTab(TAB);
 function rdVer(){const e=document.getElementById('ver');if(!e)return;
  e.textContent=BUILD+' · 시트코드 '+(SHEETVER?('v'+SHEETVER):'확인 중')+' · 동기화 '+(SYNC_URL?'설정됨':'미설정')}
 rdVer();
