@@ -3294,7 +3294,7 @@ function openLogins(){
 /* ============== 변경 이력 ============== */
 function fmtT(t){const d=new Date(t);
  return p2s(d.getMonth()+1)+'.'+p2s(d.getDate())+' '+p2s(d.getHours())+':'+p2s(d.getMinutes())}
-function openLog(){rdLog();op('ovL')}
+function openLog(q){rdLog();if(q){const e=document.getElementById('lgQ');if(e){e.value=q;rdLog()}}op('ovL')}
 function rdLog(){
  const q=(document.getElementById('lgQ')?document.getElementById('lgQ').value:'').trim();
  let a=(DB.logs||[]).slice().sort((x,y)=>y.t-x.t);
@@ -3312,7 +3312,7 @@ function rdLog(){
     <span class="lgm">${g.n?`<b>${esc(g.n)}</b> `:''}${esc(g.m)}${g.y?`<i>${g.y}</i>`:''}</span></div>`}).join('');
  document.getElementById('lgBd').innerHTML=
   `<div class="srch" style="margin-bottom:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-     <input type="text" id="lgQ" placeholder="이름 · 학교 · 내용 검색" value="${esc(q)}" oninput="rdLog()" autocomplete="off"></div>
+     <input type="text" id="lgQ" placeholder="이름 · 현장 · 내용 검색" value="${esc(q)}" oninput="rdLog()" autocomplete="off"></div>
    ${show.length?rows:'<div class="blank">기록이 없습니다.</div>'}
    ${a.length>300?`<div style="text-align:center;font-size:11.5px;color:var(--ink3);font-weight:700;padding:14px 0">최근 300건만 표시 · 전체 ${a.length}건</div>`:''}
    <div style="height:12px"></div>`;
@@ -4010,6 +4010,7 @@ function rdHs(){const adm=isAdmin();
   <div style="display:flex;gap:8px;margin-bottom:8px"><input class="inp" type="text" placeholder="현장명 · 지역 · 초성 검색" value="${esc(window.__hsq||'')}" oninput="window.__hsq=this.value;rdHs();const e=document.querySelector('#hsBd input');e.focus();e.setSelectionRange(e.value.length,e.value.length)"></div>
   <div class="asfilt">${[['order','설치순'],['date','설치일 최신'],['name','가나다']].map(([k,n])=>`<button class="${hsSort===k?'on':''}" onclick="hsSort='${k}';rdHs()">${n}</button>`).join('')}</div>
   ${L.length?L.map(x=>{const nt=AS().tickets.filter(t=>t.sid===x.id).length,nv=AS().visits.filter(v=>v.sid===x.id).length,nw=ws.filter(w=>w.sid===x.id).length;
+   const lg=(DB.logs||[]).filter(g=>g.s===x.id).sort((a,b)=>b.t-a.t)[0];
    return `<div class="box">
     <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
       <span class="tgu k">${x.order||'-'}번</span><span class="d">${esc(x.name)}</span>
@@ -4022,7 +4023,8 @@ function rdHs(){const adm=isAdmin();
       <div><label class="fl">로봇대수</label><input class="inp" value="${esc(x.robotN||'')}" ${adm?'':'readonly'} placeholder="예) 1대" onchange="setHs('robotN','${x.id}',this.value)"></div></div>
     <div class="fhint" style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap">
       <span>AS 요청 <b>${nt}</b></span><span>처리 <b>${nv}</b></span><span>일지 <b>${nw}</b></span>
-      <span style="margin-left:auto;color:var(--blue);cursor:pointer" onclick="cl('ovHs');openSh();rdSh('${x.id}')">AS 이력 ›</span></div>
+      <span style="margin-left:auto;${adm?'color:var(--blue);cursor:pointer':''}" ${adm?`onclick="cl('ovHs');openLog('${esc(x.name)}')"`:''}>${lg?'<b>'+esc(lg.u||'-')+'</b> '+fmtT(lg.t).slice(0,5)+(adm?' · 전체 이력 ›':''):(adm?'전체 이력 ›':'')}</span>
+      <span style="color:var(--blue);cursor:pointer" onclick="cl('ovHs');openSh();rdSh('${x.id}')">AS 이력 ›</span></div>
    </div>`}).join(''):'<div class="hempty">검색 결과가 없습니다</div>'}
   <div style="height:10px"></div>`}
 /* ---- 현장 연락처 ---- */
