@@ -1207,6 +1207,16 @@ body:not([data-tab=home]) .hbtns{display:none}
 <div class="tst" id="tst"></div>
 
 <script>
+/* 오류가 나면 화면에 원인을 띄웁니다 (원인 파악용) */
+window.addEventListener('error',function(e){try{
+ var m=(e.message||'')+' @'+((e.filename||'').split('/').pop())+':'+(e.lineno||'');
+ var el=document.getElementById('sTxt');if(el){el.textContent='오류: '+m;el.style.color='#B42318'}
+ var d=document.getElementById('errBox');if(!d){d=document.createElement('div');d.id='errBox';
+  d.style.cssText='position:fixed;left:12px;right:12px;bottom:80px;z-index:9999;background:#FCEBEB;color:#791F1F;border:1px solid #F7C1C1;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;word-break:break-all';
+  document.body.appendChild(d)}
+ d.textContent='앱 오류: '+m+' — 이 문구를 캡처해서 알려주세요';
+ var lk=document.getElementById('lock');if(lk&&!window.ME)lk.classList.remove('off');
+}catch(x){}});
 /* ============== 설정 ============== */
 const SYNC_URL = 'https://script.google.com/macros/s/AKfycbxJD-zoF59DqllmZJlLCVO-dWbApHF1M-EeRTUCYbjVEw6d_wKsYED6LkKpOpFHYAA8ow/exec';
 const SYNC_KEY = 'hr-school-care-2026';
@@ -3648,7 +3658,7 @@ if(ME && RESTORED){const u0=findUser(ME.id);
  else {ME.name=u0.name||u0.id;ME.role=u0.role||'user';lastAct=Date.now();try{localStorage.setItem(AKEY,String(lastAct))}catch(e){}}}
 else if(ME && Date.now()-readAct() > IDLE_MIN*60*1000){
  try{sessionStorage.removeItem(UKEY)}catch(e){} ME=null}
-if(!ME)showLock(); else {document.getElementById('lock').classList.add('off');secSkin();maybeNews();markAct();setTimeout(()=>{touchLogin(false);beat(true)},300)}
+try{if(!ME)showLock(); else {document.getElementById('lock').classList.add('off');secSkin();maybeNews();markAct();setTimeout(()=>{touchLogin(false);beat(true)},300)}}catch(e){console.error(e);try{showLock()}catch(x){}}
 
 /* ============== v7.1 탭 · 홈 · AS ============== */
 const TABK='hrTab.v1';let TAB='home';
@@ -3727,7 +3737,7 @@ function weekChk(){ /* 이번 주(월~일) 안에 도래하는 정기점검 · �
    if(d>=mon&&d<=sun)out.push({s,name:c==='p'?'정기점검':'재교육',d})})});
  return out.sort((a,b)=>a.d-b.d)}
 function rdHome(){const el=document.getElementById('tabHome');if(!el)return;rdKpi();
- const open=tkOpen().sort((a,b)=>(urgRank[a.urg]??1)-(urgRank[b.urg]??1)||String(a.d+a.t).localeCompare(String(b.d+b.t)));
+ const open=tkOpen().sort((a,b)=>((a.urg in urgRank?urgRank[a.urg]:1)-(b.urg in urgRank?urgRank[b.urg]:1))||String(a.d+a.t).localeCompare(String(b.d+b.t)));
  const today=nowD();
  const tv=AS().visits.filter(v=>v.d===today).sort((a,b)=>String(a.t).localeCompare(String(b.t)));
  const wk=weekChk();
@@ -3969,12 +3979,15 @@ const setYear0=setYear;setYear=function(v){yearAuto=(String(v)===Y0());return se
 function chkYear(){if(!yearAuto)return;if(YEAR!==Y0()){fillYears();setYear0(Y0());ts(Y0()+'년으로 바뀌었습니다')}}
 setInterval(chkYear,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)chkYear()});
 /* rd() 뒤에 홈도 다시 그림 */
-const rd0=rd;rd=function(){rd0();try{rdHome();if(TAB==='chk')rdChk()}catch(e){}};
+const rd0=rd;rd=function(){try{rd0()}catch(e){console.error(e)}try{rdHome()}catch(e){console.error(e)}try{if(TAB==='chk')rdChk()}catch(e){console.error(e)}};
 setTab(TAB);
 function rdVer(){const e=document.getElementById('ver');if(!e)return;
  e.textContent=BUILD+' · 시트코드 '+(SHEETVER?('v'+SHEETVER):'확인 중')+' · 동기화 '+(SYNC_URL?'설정됨':'미설정')}
-rdVer();
-fillYears();chips();rd();startSync();
+try{rdVer()}catch(e){console.error(e)}
+try{fillYears()}catch(e){console.error(e)}
+try{chips()}catch(e){console.error(e)}
+try{rd()}catch(e){console.error(e)}
+try{startSync()}catch(e){console.error(e)}
 
 /* ===== 새 버전 자동 감지 ===== */
 /* ============== 앱 내 확인창 ============== */
