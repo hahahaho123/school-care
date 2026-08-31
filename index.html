@@ -953,12 +953,12 @@ body:not([data-tab=home]) .hbtns{display:none}
     <img class="llogo" id="lLogo" src="" alt="한국로보틱스">
     <div class="lt">HR 현장 통합 관리</div><div class="ls">(주)한국로보틱스</div>
   </div>
-  <div class="flrow"><label class="fl">아이디 또는 이름</label><span class="flx">로그인 간편화 · 이름 또는 아이디만 입력</span></div>
-  <input class="inp" type="text" id="lName" placeholder="예) 안성용"
+  <div class="flrow"><label class="fl">아이디 또는 이름</label></div>
+  <input class="inp" type="text" id="lName" placeholder="예) 안성용 또는 성용"
     autocomplete="off" autocapitalize="off" spellcheck="false">
   <label class="fl" style="margin-top:13px">비밀번호</label>
   <input class="inp" type="password" id="lPw" autocomplete="off" placeholder="초기 비밀번호 1111">
-  <div class="fhint">이름 입력 후 초기 비밀번호 1111 입력해주세요.<br>회원가입 진행했던 분들은 기존 비밀번호 입력해주세요.</div>
+  <div class="fhint">첫 사용인 경우, 이름 입력 후 초기 비밀번호 1111 사용해주세요.<br>회원가입 진행했던 분들은 기존 비밀번호 입력해주세요.</div>
   <label class="lsave"><input type="checkbox" id="lKeep" checked> 로그인 정보 저장 <span class="iwh" style="font-weight:600;color:var(--ink3)">다음부터 바로 입장</span></label>
   <div class="lerr" id="lErr"></div>
   <div class="lnote" id="lNote"></div>
@@ -1078,7 +1078,7 @@ body:not([data-tab=home]) .hbtns{display:none}
     <div class="lnote on" style="margin:0 0 14px"><b id="cWho"></b>새 비밀번호를 정해 주세요. 저장하면 다음 로그인부터 새 비밀번호를 사용합니다.</div>
     <label class="fl">새 비밀번호</label>
     <input class="inp" type="password" id="cNew" autocomplete="off">
-    <div class="fhint">숫자 또는 영문 4글자 이상</div>
+    <div class="fhint">비밀번호는 개수 및 영문 제한이 없으니 편하게 설정해주세요.</div>
     <label class="fl" style="margin-top:12px">새 비밀번호 확인</label>
     <input class="inp" type="password" id="cNew2" autocomplete="off">
     <div class="lerr" id="cErr2"></div>
@@ -1128,13 +1128,14 @@ body:not([data-tab=home]) .hbtns{display:none}
 <div class="ov" id="ovPw" onclick="if(event.target===this)cl('ovPw')"><div class="sheet" style="max-width:420px">
   <div class="shd"><h3>비밀번호 변경</h3><button class="cls" onclick="cl('ovPw')">✕</button></div>
   <div class="sbd">
-    <div class="lnote on" id="pwNote" style="margin:0 0 14px;display:none"><b>처음 로그인하셨습니다</b>관리자가 발급한 초기 비밀번호는 바로 바꿔서 사용해 주세요.</div>
+    <div class="lnote on" id="pwNote" style="margin:0 0 14px;display:none"><b>비밀번호가 1111로 설정되어 있습니다</b>비밀번호를 변경해주세요.</div>
     <label class="fl">현재 비밀번호</label><input class="inp" type="password" id="pwCur" autocomplete="off">
     <label class="fl" style="margin-top:12px">새 비밀번호</label><input class="inp" type="password" id="pwNew" autocomplete="off">
-    <div class="fhint">숫자 또는 영문 4글자 이상</div>
+    <div class="fhint">비밀번호는 개수 및 영문 제한이 없으니 편하게 설정해주세요.</div>
     <label class="fl" style="margin-top:12px">새 비밀번호 확인</label><input class="inp" type="password" id="pwNew2" autocomplete="off">
     <div class="lerr" id="pwErr"></div>
-    <div style="height:14px"></div><button class="b" onclick="changePw()">변경</button>
+    <div style="height:14px"></div><button class="b" onclick="changePw()">저장</button>
+    <button class="llink" id="pwSkip" style="display:none" onclick="cl('ovPw');ts('비밀번호를 유지합니다')">변경하지 않기</button>
     <div style="height:8px"></div></div></div></div>
 
 <div class="ov" id="ovU" onclick="if(event.target===this)cl('ovU')"><div class="sheet">
@@ -1275,7 +1276,9 @@ const LS=(()=>{const K='hrCheck.v4';let mem=null;
 
 let DB=LS.get()||fresh();
 /* v7.1 팀원 계정 일괄 생성 — 같은 이름이 없을 때만 한 번 추가 (초기 비번 1111, 첫 로그인 때 변경) */
-const SEED_USERS=['진혁진','고우현','원서연','정진기','김경홍','정도영','라훌란잔'];
+const SEED_USERS=['진혁진','고우현','원서연','정진기','김경홍','정도영','라훌란잔','우종민'];
+/* 성을 뺀 이름 규칙에 안 맞는 별칭 */
+const NAME_ALIAS={'라훌':'라훌란잔'};
 function seedUsers(){if(!Array.isArray(DB.users))return;let n=0;
  const NM=u=>String(u.name||'').replace(/\s+/g,'').trim();
  /* 기존 가입 계정과 이름이 겹치는 시드 계정은 제거 (기존 계정 · 비밀번호 우선) */
@@ -1510,7 +1513,18 @@ function findUser(id){
      || us.find(u=>L(u)===id+DOMAIN)             /* 도메인 붙여서 */
      || us.find(u=>L(u).split('@')[0]===local)   /* 아이디 앞부분만 일치 */
      || us.find(u=>N(u)&&N(u)===id)              /* 이름 일치 */
+     || us.find(u=>String(u.alias||'').split(/[,\s]+/).some(a=>a&&a.toLowerCase()===id))  /* 계정 별칭 */
+     || shortName(id)                              /* 성 뺀 이름 (희수 → 서희수) */
      || null}
+function shortOf(u){const n=String(u.name||'').replace(/\s+/g,'');const al=String(u.alias||'').trim();
+ const auto=Object.keys(NAME_ALIAS).find(k=>NAME_ALIAS[k]===n)||(n.length>=3?n.slice(1):'');
+ const dup=auto&&(DB.users||[]).filter(x=>{const m=String(x.name||'').replace(/\s+/g,'');return m.length===n.length&&m.endsWith(auto)}).length>1;
+ return [al,dup?'':auto].filter(Boolean).join(', ')||'-'}
+function shortName(q){q=String(q||'').replace(/\s+/g,'');if(!/^[가-힣]{2,}$/.test(q))return null;
+ const N=u=>String(u.name||'').replace(/\s+/g,'');
+ if(NAME_ALIAS[q]){const a=(DB.users||[]).find(u=>N(u)===NAME_ALIAS[q]);if(a)return a}
+ const c=(DB.users||[]).filter(u=>{const n=N(u);return n.length===q.length+1&&n.endsWith(q)});
+ return c.length===1?c[0]:null}
 let rTarget='';
 function showReset(){rTarget='';
  ['rId','rCode','rPw','rPw2'].forEach(k=>document.getElementById(k).value='');
@@ -1606,7 +1620,8 @@ async function doLogin(){
  beat(true);touchLogin(true);maybeNews();
  if(u.role==='admin')askNoti();
  if(hasNew())setTimeout(()=>ts('앱이 업데이트되었습니다 · 오른쪽 위 메뉴에서 확인하세요'),1400);
- rdActs();rdLoginBar();setTab(TAB);ts((ME.name||ME.id)+'님, 반갑습니다')}
+ rdActs();rdLoginBar();setTab(TAB);ts((ME.name||ME.id)+'님, 반갑습니다');
+ if(String(u.pw)==='1111')setTimeout(()=>openPw(true),700)}
 /* ============== 비밀번호 변경 (로그인 전) ============== */
 let cUser=null;
 function showPwc(){cUser=null;
@@ -1635,7 +1650,7 @@ async function checkPwc(){
 function savePwc(){
  const err=document.getElementById('cErr2');if(!cUser)return;
  const nw=document.getElementById('cNew').value,nw2=document.getElementById('cNew2').value;
- if(nw.length<4)return err.textContent='새 비밀번호는 숫자 또는 영문 4글자 이상 입력해 주세요';
+ if(!nw)return err.textContent='새 비밀번호를 입력해 주세요';
  if(nw!==nw2)return err.textContent='새 비밀번호가 서로 다릅니다';
  if(nw===String(cUser.pw))return err.textContent='현재 비밀번호와 다르게 정해 주세요';
  cUser.pw=nw;delete cUser.mustPw;cUser.mt=Date.now();
@@ -1651,13 +1666,15 @@ function openPw(first){if(!ME)return;
  ['pwCur','pwNew','pwNew2'].forEach(k=>document.getElementById(k).value='');
  document.getElementById('pwErr').textContent='';
  document.getElementById('pwNote').style.display=first?'':'none';
+ document.getElementById('pwSkip').style.display=first?'':'none';
+ if(first)document.getElementById('pwCur').value='1111';
  cl('ovMn');op('ovPw');setTimeout(()=>document.getElementById('pwCur').focus(),150)}
 function changePw(){if(!ME)return;
  const err=document.getElementById('pwErr');
  const u=findUser(ME.id);if(!u)return err.textContent='계정을 찾을 수 없습니다';
  const cur=document.getElementById('pwCur').value,nw=document.getElementById('pwNew').value,nw2=document.getElementById('pwNew2').value;
  if(String(u.pw)!==String(cur))return err.textContent='현재 비밀번호가 올바르지 않습니다';
- if(nw.length<4)return err.textContent='새 비밀번호는 숫자 또는 영문 4글자 이상 입력해 주세요';
+ if(!nw)return err.textContent='새 비밀번호를 입력해 주세요';
  if(nw!==nw2)return err.textContent='새 비밀번호가 서로 다릅니다';
  if(nw===cur)return err.textContent='현재 비밀번호와 다르게 정해 주세요';
  u.pw=nw;delete u.mustPw;u.mt=Date.now();
@@ -3327,10 +3344,13 @@ function rdUsers(){
       ${ME&&ME.id===u.id?'<span class="tg" style="background:var(--okbg);color:var(--ok)">접속 중</span>':''}
       ${u.id!=='admin'?`<button class="act" style="margin-left:auto;padding:5px 10px;font-size:11.5px" onclick="delUser('${esc(u.id)}')">삭제</button>`:''}
     </div>
-    <div class="two" style="margin-top:10px">
+    <div class="fhint" style="margin-top:6px">간편 로그인: <b>${esc(shortOf(u))}</b> · 비밀번호는 아래 값 그대로</div>
+    <div class="two" style="margin-top:8px">
       <div><label class="fl">이름</label><input class="inp" value="${esc(u.name||'')}" onchange="editUser('${esc(u.id)}','name',this.value)"></div>
       <div><label class="fl">비밀번호 <span class="iwh">현재 값 · 바꾸면 초기화</span></label><input class="inp" value="${esc(u.pw||'')}" onchange="editUser('${esc(u.id)}','pw',this.value)"></div>
     </div>
+    <div style="margin-top:10px"><label class="fl">별칭 <span class="iwh">이 이름으로도 로그인 가능 · 쉼표로 여러 개</span></label>
+      <input class="inp" value="${esc(u.alias||'')}" placeholder="예) 라훌" onchange="editUser('${esc(u.id)}','alias',this.value)"></div>
     ${u.id!=='admin'?`<div style="margin-top:10px"><label class="fl">권한</label>
       <select class="inp" onchange="editUser('${esc(u.id)}','role',this.value)">
         <option value="user" ${u.role!=='admin'?'selected':''}>일반</option>
@@ -3364,6 +3384,8 @@ function editUser(id,k,v){const u=findUser(id);if(!u)return;
  v=String(v).trim();
  if(k==='pw'&&!v)return ts('비밀번호는 비울 수 없습니다');
  if(k==='pw')u.mustPw=true;
+ if(k==='alias'&&v){const bad=v.split(/[,\s]+/).filter(Boolean).find(a=>(DB.users||[]).some(x=>x.id!==u.id&&(String(x.name||'')===a||String(x.alias||'').split(/[,\s]+/).includes(a))));
+  if(bad)return ts('"'+bad+'" 은 다른 계정에서 이미 쓰는 이름입니다')}
  if(k==='name'&&v&&(DB.users||[]).some(x=>x.id!==u.id&&String(x.name||'').trim()===v))return ts('같은 이름의 계정이 이미 있습니다');
  u[k]=v;u.mt=Date.now();
  if(ME&&ME.id===u.id){ME.name=u.name||u.id;ME.role=u.role;
